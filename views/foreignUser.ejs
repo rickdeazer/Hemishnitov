@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="theme-color" content="rgb(37, 4, 43)" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MMUN - <%= user.username || "Profile" %></title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="stylesheet" href="/homepage.css" />
+  <link rel="stylesheet" href="/userProfile.css" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Kranky&family=Lora:ital,wght@0,400..700;1,400..700&family=Offside&family=Oleo+Script:wght@400;700&family=Rubik+Wet+Paint&family=Stack+Sans+Notch:wght@200..700&family=Trade+Winds&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+#endItems {
+  display: flex;
+  min-width: 40%;
+  align-items: start;
+  border-left: solid 4px rgba(251, 251, 251, 0.062);
+  border-radius: 7px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+}
+.normalScroll {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  color: deepskyblue;
+}
+/* .app {
+  background: linear-gradient(rgb(37, 4, 43),green,black,red,cyan);} */
+#viewers {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: start;
+  padding-left: 3px;
+  border-radius: 5%;
+  gap: 6px;
+  height: stretch;
+  border-left: solid 2px rgb(6, 170, 9);
+}
+#popUp {
+  background: linear-gradient(170deg,green,transparent,transparent,rgba(156, 2, 2, 0.596));
+  border: solid 2px white;
+  padding: 5px;
+  border-radius: 10px;
+  font-family: 'calibri';
+  font-size: large;
+  text-align: center;
+  z-index: 100;
+  display: none;
+  position: fixed;
+  top: 20%;
+  width: 60%;
+  animation: backG 3s ease infinite;
+  transition: all 3s ease;
+}
+@keyframes backG {
+  0%{}  
+  30%{background-color: rgb(106, 6, 6);}
+  60%{background-color: rgb(6, 93, 6);}
+  100%{background-color: transparent;}
+}
+#views {
+  font-size: 13px;
+  color: rgb(17, 149, 4);
+  text-align: start;
+  display: flex;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-style: italic;
+  flex-direction: column;
+}
+#viewersCount {
+  color: bisque;
+  font-style: normal;
+  font-weight: bold;
+}
+#followers {
+  align-items: start;
+  text-align: start;
+  font-size: 13px;
+  color: rgb(6, 170, 9);
+  width: 90%;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-style: italic;
+}
+#followersCount {
+  color: bisque;
+  font-weight: bold;
+  font-style: normal;
+}
+#actionBtns {
+  width: 80px;
+  padding: 0 2px;
+  position: relative;
+  justify-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.interestFollow {
+  width: stretch;
+  height: 30px;
+  margin-top: 4px;
+  background: linear-gradient(50deg, rgb(2, 93, 2), rgb(49, 2, 66));
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-family: "Arial";
+  cursor: pointer;
+  font-size: 11px;
+  color: whitesmoke;
+  border: 0 1px solid;
+  border-color: white;
+  align-self: center;
+  justify-self: end;
+  transition: all 0.3s;
+  letter-spacing: 0px;
+}
+ #socialMedia{
+        width: 98%;
+        height: fit-content;
+        display: flex;
+        border-radius: 15px;
+        padding: 5px;
+        margin: 0;
+        border: none;
+        place-content: space-between;
+        background: linear-gradient(rgba(0, 128, 0, 0.307),rgba(0, 0, 0, 0));
+        margin: 5px;
+        z-index: 100000;
+      }
+.interestFollow a {
+  color: white;
+  text-decoration: none;
+}
+#exit {
+  width: 30px;
+  height: 30px;
+  margin: 5px 0 3px 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: 0 0 10px rgb(0, 191, 255);
+  border-radius: 45%;
+  color: gray;
+  bottom: 40px;
+  right: 45.9%;
+  cursor: pointer;
+  z-index: 31;
+}
+.following {
+  background: red;
+  color: white;
+}
+
+.interested {
+  background: red;
+  color: white;
+}
+      #postsSection{
+        padding: 0;
+        min-height: 20vh;
+        margin: 5px 5px 0 5px;
+        display: flex;
+        width: 100%;
+        border: none;
+        outline: none;
+        border-bottom: double 3px rgba(5, 160, 187, 0.375);
+      }
+      .POSTS-CONTENT {
+        border: none;
+        width: 100%;
+        border-radius: 10px;
+        background-color: rgba(135, 30, 4, 0.427);
+      }
+      #postsSection h2{
+        align-items: center;
+        color: rgba(255, 255, 255, 0);
+        background: linear-gradient(90deg,red,green,rgb(43, 43, 238));
+        background-clip: text;
+        border-bottom: dotted 2px rgba(255, 0, 187, 0.582);
+        border-radius: 4px;
+        margin: 5px;
+      }
+      #showTonner {
+        min-width: 40%;
+        height: 30px;
+        background: radial-gradient(ellipse at bottom right, rgb(0, 0, 0),rgb(3, 45, 75));
+        border: solid 1px red;
+        position: fixed;
+        top: 300px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        justify-self: center;
+        place-content: space-between;
+        color: white;
+        padding: 5px;
+        z-index: 120;
+      }
+      #showTonner h3{
+        width: 100%;
+        text-align: center;
+        text-shadow:  0 0 5px black;
+        color: rgb(255, 0, 0);
+      }
+      #showTonner span{
+        color: white;
+        width: inherit;
+        height: inherit;
+      }
+      #showTonner span::after {
+        content: " 🔒";
+      }
+
+      .Sociality{
+        width: 98%;
+        height: max-content;
+        padding-bottom: 10px;
+        margin-top: 10px;
+        border: solid 1px rgba(0, 128, 0, 0.4);
+        border-radius: 15px;
+        background: linear-gradient(90deg, rgba(36, 88, 45, 0.212),black);
+      }
+      .Sociality h3{
+        text-align: center;
+        text-decoration-line: underline;
+        text-decoration-style:solid;
+        font-family: calibri;
+        color: rgba(255, 255, 255, 0);
+        background: linear-gradient(90deg,rgb(255, 0, 217),red,rgb(9, 237, 9),blue);
+        margin-top: 10px;
+        background-clip: text;
+        width: max-content;
+        height: 30px;
+        justify-self: center;
+      }
+      .Sociality .SocialData{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: start;
+        justify-content: center;
+        padding-left: 5px;
+        padding-top: 10px;
+        width: 98%;
+        justify-self: center;
+      }
+      .Sociality .SocialData div{
+        display: flex;
+        width: 100%;
+        place-content: space-between;
+        outline: groove 1px rgba(9, 99, 24, 0.299);
+        border: none;
+      }
+      .socialItem {
+        height: 55px;
+        border-radius: 10px;
+        padding: 10px;
+        background: linear-gradient(90deg,black,rgba(0, 139, 0, 0.182));
+        align-items: center;
+        border: none;
+
+      }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <main class="content">
+<section class="profile-card"><div id="cardContainer">
+          <h1 class="blogTitle <%= user.blogTitle? "" : "hidden"%>"><marquee loop="1" onclick="blogChanger()" direction = "left" ><%= user.blogTitle%></marquee></h1>
+          <div class="info"> 
+            <div class="editable-photo">
+              <img
+                class="profile-photo"
+                src="<% if (user.profileLink) {%><%= user.profileLink%><%} else{%>/mediafiles/roseFlower.jpg<%}%>"
+                alt="profile"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                class="photo-input"
+                hidden=""
+              />
+            </div>
+
+            <div id="infos">
+              <div class="change" id="profName"><%=user.username%></div>
+              <input
+                disabled
+                id="course"
+                type="text"
+                class="change"
+                value="<%= user.course%>"
+              />
+              <input
+                disabled
+                id="year"
+                type="text"
+                class="change"
+                value="<%=user.year%>"
+              />
+            </div>
+
+            <div id="endItems">
+              <div id="viewers">
+                <span id="views"
+                  >Visits<span id="viewersCount"><%= user.viewsCount || 0 %></span></span
+                >
+                <span id="followers"
+                  >Disciples <span id="followersCount"><br>0</span
+                ></span>
+              </div>
+
+              <div id="actionBtns">
+                <button class="interestFollow" id="intestBtn">Interest</button>
+                <button class="interestFollow" id="followBtn">Disciple</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </section>
+
+      <div class="slogan">
+        <span class="material-symbols-outlined" onclick="exit()">arrow_back</span>
+        <span ><%= user.slogan || "A Modern Mind"%></span>
+        <a href="/interests"><span class="material-symbols-outlined"></span></a>
+      </div>
+      <audio id="click" src="/Assets/audio/click.MP3"></audio>
+      <audio id="unClick" src="/Assets/audio/unclick.MP3"></audio>
+      <section class="gallery">
+        <div class="item">
+          <img src="<% if(links[0]){ %><%= links[0] %><% } else { %>/mediafiles/darkgirl.jpg<% } %>" />
+        </div>
+        <div class="item">
+          <img src="<% if(links[1]){ %><%= links[1] %><% } else { %>/mediafiles/africanGirl.jpg<% } %>" alt="pic 2" />
+        </div>
+        <div class="item">
+          <img src="<% if(links[2]){ %><%= links[2] %><% } else { %>/mediafiles/darkishImagegirl.jpg<% } %>" alt="pic 3" />
+        </div>
+      </section>
+
+  <div id="popUp">Wait for <%= user.username%> to respond to your interest, in order to chat and call.</div>
+    </main>
+
+    <div class="middles">
+      <p class="desc-title">About Me</p>
+      <div class="desc-box" id="aboutMe">
+        <% if (user.aboutMe) { %>
+          <%= user.aboutMe %>
+        <% } else { %>
+          A heart that believes in magic, connection, and the little sparks that make life beautiful. I wander through the world with curiosity and an open soul, always drawn to moments that make me smile, laugh, or feel deeply. I’m a dreamer at heart — cherishing sunsets, long conversations, and the quiet warmth of shared moments. Love, in all its forms, inspires me to be kind, patient, and endlessly hopeful. I thrive on genuine connections, sweet surprises, and the joy of discovering beauty in the ordinary. Life feels like a story waiting to be written, and I embrace it with a tender heart, a little bit of courage, and a lot of hope that every day brings a chance to love and be loved. 💖🌹
+        <% } %>
+      </div>
+    </div>
+
+    <div class="Sociality">
+      <h3>MY SOCIALITY NOVEL</h3>
+      <div class="SocialData">
+        <div class="socialItem" id="socialItem1"><h4>Tribe</h4><h5><%= user.tribe || "Not set" %></h5></div>
+        <div class="socialItem" id="socialItem2"><h4>Relationship</h4><h5><%= user.relationship || "In a relationship" %></h5></div>
+        <div class="socialItem" id="socialItem3"><h4>Locality</h4><h5><%= user.locality || "Not set" %></h5></div>
+        <div class="socialItem" id="socialItem4"><h4>Religion</h4><h5><%= user.religion || "Not Set" %></h5></div>
+      </div>
+    </div>
+
+    <div class="middles">
+      <p class="desc-title">About You</p>
+      <div class="desc-box" id="aboutYou">
+        <% if (user.aboutYou) { %>
+          <%= user.aboutYou %>
+        <% } else { %>
+          You should be someone who can make me laugh even on the dullest days, someone who loves deep conversations as much as spontaneous adventures. You’re thoughtful, kind, and confident without being arrogant — a heart that’s big enough to care and gentle enough to listen. You should enjoy little moments — like holding hands, sharing secrets, or just staring at the stars together. A sense of humor is essential, and bonus points if you can tease me just enough to keep me on my toes. You should be passionate about something — anything that makes your eyes light up — and be excited to explore life with a little curiosity and a lot of heart. Basically, you’re someone who can be my partner-in-crime, my safe space, and maybe even the reason I believe in magic. 💖✨
+        <% } %>
+      </div>
+    </div>
+<div class="thisProfileLink">
+  <div id="socialMedia">
+    <!-- Instagram -->
+    <div class="socials">
+      <span><%= user.instagramHandle || "|noHandle|" %>
+      </span>
+      <a <% if((user.instagramLink || "")=="missing"){%>style="color: red;"<%}%>  <% if(user.instagramLink && user.instagramLink.trim() != "missing"){%>href="<%= user.instagramLink%>"<%} else{%>onclick="showTonner(<% if(user.instagramLink == 'missing'){%>'no instagram link'<%} else {%>'instagram'<%} %>)"<%} %>>Instagram</a>
+    </div>
+    <!-- WhatsApp -->
+<div class="socials">
+  <span><%= user.whatsappHandle || '|noHandle|' %></span>
+
+  <a <% if((user.whatsappNumber || "")=="missing"){%>style="color: red;"<%}%>
+    <% if (user.whatsappPublic && user.whatsappNumber && (user.whatsappNumber || '').trim() !== "missing") { %>
+      href="https://wa.me/<%= (user.whatsappNumber || '').trim().replace(/[^0-9]/g, '') %>?text=<%= encodeURIComponent(user.whatsappDefaultMsg || 'Hello, am here from MMUN, after being thrilled by your modern blog') %>"
+    <% } else { %>
+      onclick="showTonner('<%= (user.whatsappNumber || '').trim() === 'missing' ? 'no whatsapp number' : 'whatsapp' %>')"
+    <% } %>
+  >WhatsApp</a>
+</div>
+
+    <!-- Facebook -->
+    <div class="socials">
+      <span
+          ><%=user.facebookHandle || '|noHandle|' %>
+      </span>
+      <a <% if((user.facebookLink || "")=="missing"){%>style="color: red;"<%}%> <% if (user.facebookPublic && user.facebookLink != "missing") {%>  href="<%= user.facebookLink || '#' %>" <% } else {%>onclick="showTonner(<% if(user.facebookLink == 'missing'){%>'no facebook link'<%} else {%>'facebook'<%} %>)"<%}%>>Facebook</a>
+    </div>
+  </div>
+
+  <span onclick="shareProfile('<%= user.username%>')"> Share this modern blog</span>
+</div>
+
+    <section id="postsSection">
+      <h2 style="text-align: center; margin-top: 20px">Posts</h2>
+      <div class="POSTS-CONTENT"></div>
+    </section>
+
+    <div><button id="exit" onclick="exit()"></button></div>
+
+    <!-- Comment Drawer -->
+    <div id="commentDrawerP" class="comment-drawer hidden">
+      <div id="commentHeaderP">
+        <span>Comments</span>
+        <button id="closeCommentsP">✕</button>
+      </div>
+      <div id="commentListP"></div>
+      <div id="commentInputContainerP">
+        <input type="text" id="newCommentP" placeholder="Write a comment..." />
+        <button id="sendCommentP">Send</button>
+      </div>
+    </div>
+
+    <div id="overlay"></div>
+    <div id="showTonner">
+      <h3>Private <span id="Handle"></span></h3>
+    </div>
+  </div>
+<script src="/dist/intersectionObserver.js"></script>
+<script>
+const showTonnerDiv = document.getElementById("showTonner");
+const Handle = document.getElementById("Handle");
+const img = document.querySelector(".profile-photo");
+const imgDiv = document.querySelector(".editable-photo");
+const followBtn = document.getElementById("followBtn");
+const interestBtn = document.getElementById("intestBtn");
+const blogTitle = document.querySelector(".blogTitle");
+let username = document.getElementById("profName")
+let foreignUserClicked = profName.innerText;
+let mainUser = JSON.parse(localStorage.getItem("mainUser"));
+let isFollowing = false;
+let followersCount = document.getElementById("followersCount");
+let viewersCount = document.getElementById("viewersCount");
+let state = "false";
+const audioClick = document.getElementById('click');
+const audioUnClick = document.getElementById('unClick');
+function showTonner(value){
+  if(value.slice(0,2) =="no"){
+    showTonnerDiv.innerHTML = value;
+    showTonnerDiv.style.display = 'flex';
+  } else {
+    Handle.innerText = value;
+    showTonnerDiv.style.display = 'flex';
+  }
+  setTimeout(() => {
+    showTonnerDiv.style.display = "none";
+  }, 1000);
+}
+function shareProfile(user) {
+  const profileUrl = `https://moispace.onrender.com/modern/${user}`;
+  const shareTitle = "Modern Minds Unifying Network";
+  const shareText = "This is a modern profile for a user on MMUN";
+
+  // 🚀 1. Priority: MMUN Android App Native Bridge
+  if (window.AndroidInterface && window.AndroidInterface.shareContent) {
+    // We pass the URL as the text so it's clickable in messages
+    window.AndroidInterface.shareContent(shareTitle, profileUrl);
+    return; 
+  }
+
+  // 🌐 2. Fallback: Browser Web Share API (Standard Browsers)
+  if (navigator.share) {
+    navigator.share({
+      title: shareTitle,
+      text: shareText,
+      url: profileUrl
+    }).catch((err) => {
+      if (err.name !== "AbortError") {
+        console.warn("Web Share failed:", err);
+      }
+    });
+  } 
+  // 📋 3. Final Fallback: Manual Copy (Optional)
+  else {
+    if (typeof fallbackCopyLink === 'function') {
+        fallbackCopyLink(profileUrl);
+    }
+  }
+}
+function blogChanger (){
+  blogTitle.innerHTML = `<span class="normalScroll"><%= user.blogTitle || "UNSET TITLE" %></span>`;
+};
+const marquee = document.querySelector("marquee")
+setTimeout(() => {
+  blogChanger()
+}, marquee.scrollWidth * 14);
+let closer = ()=>{
+  [img.className, imgDiv.className] = img.classList.contains('clickedPhoto') 
+          ? ['profile-photo', 'editable-photo'] 
+          : ['clickedPhoto', ''];
+}
+      img.addEventListener('click', () => {
+        if (state == "true"){
+          state = "neutral";
+          img.style.transform = "rotateY(-180deg)"
+        }else if(state == "false"){
+          state = "true";
+          closer()
+        } else{
+          state = "false";
+          closer()
+          setTimeout(() => {
+            img.style.transform = "rotateY(0)"
+          }, 500);
+        }
+      }); 
+
+let interestState = false;
+let interestValue = '';
+async function getStatus() {
+  const res = await fetch("/getStatus", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      mainUser: mainUser,
+      foreignUser: foreignUserClicked,
+    }),
+  });
+  const data = await res.json();
+  interestState = data.state;
+  interestValue = data.valueState;
+}
+
+  const popUp = document.getElementById('popUp');
+  const checker = ()=>{
+    if(interestValue == 'interested'){
+      updateInterest('Message','black','linear-gradient(60deg,green,yellow)')
+    } else if(interestValue == 'pending'){
+      updateInterest('Pending','white','linear-gradient(60deg,red,darkBlue)')
+    } else if(interestValue == 'declined') {
+      updateInterest('Declined!','white','linear-gradient(60deg, black,red)',true)
+    }
+  };
+interestBtn.addEventListener("click", async (interestValue) => {
+  if (interestState) {
+    if(interestBtn.innerText == 'Pending'){
+      popUp.style.display = 'block';
+      setTimeout(() => {
+      popUp.style.display = 'none';
+    }, 2500);
+    checker();
+    } else if(interestBtn.innerText == 'Message'){
+      localStorage.setItem(
+          "chatInfo2",
+          JSON.stringify({ username: `<%=user.username%>`, profileLink: `<%=user.profileLink%>`, slogan: `<%=user.slogan%>` }),
+        );
+        window.location.href = "/chatspage";
+    }
+    return;
+  }
+  interestState = true;
+  interestValue = 'pending';
+  updateInterest('Pending','white','linear-gradient(60deg, red,darkBlue)',true);
+
+  try {
+    const foreignUser = foreignUserClicked.trim();
+    await fetch("/sendInterest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mainUser: mainUser,
+        foreignUser: foreignUser,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to send interest:", error);
+    interestState = false;
+    updateInterest('Interest','white','red',false);
+  }
+});
+
+function updateInterest(value = 'Interest', color = '', background = '', enBoolean = false) {
+    interestBtn.style.background = background;
+    interestBtn.style.color = color;
+    interestBtn.innerHTML = value;
+    interestBtn.disabled = enBoolean;
+}
+
+(async () => {
+  await getStatus();
+  checker()
+})();
+
+function exit(){
+  let editBeacon = localStorage.getItem('editAuthBeacon') || null;
+  if(editBeacon){
+    window.location.href = "/home";
+    localStorage.removeItem("editAuthBeacon");
+  } else {
+    window.history.back()
+  }
+  
+}
+async function getFollowStatus() {
+  const res = await fetch("/getFollowStatus", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: mainUser,
+      to: foreignUserClicked,
+    }),
+  });
+
+  const data = await res.json();
+  isFollowing = data.isFollowing;
+  updateFollowButton();
+}
+
+function updateFollowButton() {
+  if (isFollowing) {
+    followBtn.style.background = "linear-gradient(60deg,black,purple)";
+    followBtn.style.color = "white";
+    followBtn.innerText = "Undisciple";
+  } else {
+    followBtn.style.background = "";
+    followBtn.style.color = "";
+    followBtn.innerText = "Disciple";
+  }
+}
+
+followBtn.addEventListener("click", async () => {
+  isFollowing = !isFollowing;
+  updateFollowButton();
+
+  const res = await fetch("/toggleFollow", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: mainUser,
+      to: foreignUserClicked,
+    }),
+  });
+  const data = await res.json();
+  followersCount.innerHTML = `<br>${data.followersCount}`;
+});
+
+(async () => {
+  await getFollowStatus();
+})();
+
+async function incrementView() {
+  const res = await fetch("/viewProfile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      viewedUser: foreignUserClicked,
+      whoViewed: mainUser,
+    }),
+  });
+
+  const data = await res.json();
+  viewersCount.innerText = data.viewsCount;
+}
+incrementView();
+
+async function getFollowStatus() {
+  const res = await fetch("/getFollowStatus", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: mainUser,
+      to: foreignUserClicked,
+    }),
+  });
+
+  const data = await res.json();
+  isFollowing = data.isFollowing;
+  updateFollowButton();
+  followersCount.innerHTML = `<br> ${data.followersCount}`;
+}
+
+
+// 1. Required DOM references
+const postsContainer = document.querySelector(".POSTS-CONTENT");
+const postsSection   = document.getElementById("postsSection");
+
+// 2. Simple timeAgo function (you need this)
+function timeAgo(date) {
+  const now = new Date();
+  const past = new Date(date);
+  const diff = now - past;
+
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours   = Math.floor(minutes / 60);
+  const days    = Math.floor(hours / 24);
+  const weeks   = Math.floor(days / 7);
+
+  if (seconds < 60) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  if (hours   < 24) return `${hours}h ago`;
+  if (days    < 7)  return `${days}d ago`;
+  if (weeks   < 5)  return `${weeks}w ago`;
+  return `${Math.floor(days / 30)}m ago`;
+}
+
+// 3. Media viewer functions (required by onclick handlers)
+
+function attachLikeListeners() {
+  document.querySelectorAll(".like-btn").forEach((btn) => {
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+  });
+
+ document.querySelectorAll(".like-btn").forEach((btn) => {
+    btn.addEventListener("click", async function (e) {
+      e.preventDefault();
+      const postId = this.dataset.postId;
+      const countEl = this.querySelector(".pLikesCount");
+      const svg = this.querySelector("svg");
+      const currentUser = JSON.parse(localStorage.getItem("mainUser"));
+      const likedImg = btn.querySelector(".truelikedImg");
+      const falseImg = btn.querySelector(".falselikedImg");
+
+      if (!currentUser) {
+        alert("Please log in to like posts");
+        return;
+      }
+
+      const wasLiked = this.classList.contains("liked");
+      const nowLiked = !wasLiked;
+
+      
+      let newCount = parseInt(countEl.textContent) + (nowLiked ? +1 : -1);
+      countEl.textContent = newCount;
+      
+      try {
+        const response = await fetch(`/posts/${postId}/like`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: currentUser }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        countEl.textContent = data.likesCount;
+      } catch (err) {
+        console.error("Like failed:", err);
+
+        countEl.textContent =
+          parseInt(countEl.textContent) + (wasLiked ? +1 : -1);
+
+        console.log("Couldn't update like. Please try again.");
+      };
+      if(likedImg.classList.contains("hidden")){
+        audioClick.play();
+      }else{
+        audioUnClick.play()
+      }
+      likedImg.classList.toggle("hidden");
+      falseImg.classList.toggle("hidden");
+    });
+  });
+};
+
+function attachShareListeners() {
+  document.querySelectorAll(".share-btn").forEach((button) => {
+    button.addEventListener("click", async function (e) {
+      e.preventDefault();
+
+      const postUrl = this.dataset.postUrl;
+      const postId = this.dataset.postId;
+
+      // 1. Try modern Web Share API (works great on mobile + many desktop browsers now)
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Check out this post!",
+            text: "Someone shared something interesting on the platform...",
+            url: postUrl,
+          });
+          console.log("Post shared successfully via Web Share API");
+          // Optional: you could animate button or show toast "Shared!"
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            // user cancelled is normal
+            console.warn("Web Share failed:", err);
+            fallbackCopyLink(postUrl);
+          }
+        }
+      }
+      // 2. Fallback: copy link to clipboard
+      else {
+        fallbackCopyLink(postUrl);
+      }
+    });
+  });
+};
+
+function attachMoreMenuListeners() {
+  // Close menu when clicking anywhere else
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".more-wrapper")) {
+      document.querySelectorAll(".more-menu").forEach((menu) => {
+        menu.style.display = "none";
+      });
+    }
+  });
+
+  // Toggle menu on ••• click
+  document.querySelectorAll(".more-btn").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+
+      // Close all other menus first
+      document.querySelectorAll(".more-menu").forEach((m) => {
+        if (m !== this.nextElementSibling) {
+          m.style.display = "none";
+        }
+      });
+
+      const menu = this.nextElementSibling;
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+
+      // Position better (optional improvement)
+      const rect = this.getBoundingClientRect();
+      menu.style.right = "0";
+      menu.style.top = "30px";
+    });
+  });
+
+  // Save post click handler (fake save)
+  document.querySelectorAll(".save-post-btn").forEach((item) => {
+    item.addEventListener("click", function (e) {
+      e.stopPropagation();
+
+      const postId = this.closest(".more-menu").dataset.postId;
+
+      // Hide menu
+      this.closest(".more-menu").style.display = "none";
+
+      // Show toast
+      showSaveToast();
+    });
+  });
+}
+
+function attachCommentLikeListeners() {
+  document.querySelectorAll(".like-comment-btn").forEach((btn) => {
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+  });
+
+  document.querySelectorAll(".like-comment-btn").forEach((btn) => {
+    btn.addEventListener("click", async function () {
+      const commentId = this.dataset.commentId;
+      const countEl = this.querySelector(".like-count");
+      const svg = this.querySelector("svg");
+      const currentUser = JSON.parse(localStorage.getItem("mainUser"));
+
+      if (!currentUser) {
+        alert("Login to like comments");
+        return;
+      }
+
+      const wasLiked = this.classList.contains("liked");
+      const nowLiked = !wasLiked;
+
+      this.classList.toggle("liked", nowLiked);
+      this.style.color = nowLiked ? "#ef4444" : "#64748b";
+      svg.setAttribute("fill", nowLiked ? "currentColor" : "none");
+
+      let newCount = parseInt(countEl.textContent) + (nowLiked ? 1 : -1);
+      countEl.textContent = newCount;
+
+      try {
+        const res = await fetch(`/comments/${commentId}/like`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: currentUser }),
+        });
+
+        if (!res.ok) throw new Error("Failed");
+
+        const data = await res.json();
+
+        this.classList.toggle("liked", data.liked);
+        this.style.color = data.liked ? "#ef4444" : "#64748b";
+        svg.setAttribute("fill", data.liked ? "currentColor" : "none");
+        countEl.textContent = data.likesCount;
+      } catch (err) {
+        console.error(err);
+        this.classList.toggle("liked", wasLiked);
+        this.style.color = wasLiked ? "#ef4444" : "#64748b";
+        svg.setAttribute("fill", wasLiked ? "currentColor" : "none");
+        countEl.textContent =
+          parseInt(countEl.textContent) + (wasLiked ? 1 : -1);
+      }
+    });
+  });
+}
+
+async function renderPosts() {
+  try {
+    const res = await fetch("/posts/data/false");
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+    const posts = await res.json();
+
+    posts.sort((a, b) => {
+      const dateA = new Date(a.date || a.createdAt || 0);
+      const dateB = new Date(b.date || b.createdAt || 0);
+      return dateB - dateA;
+    });
+
+    for (const postData of posts) {
+      const post = document.createElement("div");
+      post.classList.add("POST-ITEM");
+      const postId = postData._id;
+      post.dataset.postId = postId;
+
+      let commentCount = 0;
+      try {
+        const commentsRes = await fetch("/obtain/commentsP", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ postId: postId }),
+        });
+
+        if (commentsRes.ok) {
+          const data = await commentsRes.json();
+          const commentsArray =
+            data.commentsData || data.comments || data.data || [];
+          commentCount = Array.isArray(commentsArray)
+            ? commentsArray.length
+            : 0;
+        }
+      } catch (err) {
+        console.warn(`Failed to load comments count for post ${postId}`, err);
+      }
+
+      let mediaArray = [];
+      if (Array.isArray(postData.mediaLinks))
+        mediaArray = postData.mediaLinks.filter(Boolean);
+      else if (
+        typeof postData.mediaLinks === "string" &&
+        postData.mediaLinks.trim()
+      )
+        mediaArray = [postData.mediaLinks.trim()];
+      else if (Array.isArray(postData.mediaLink))
+        mediaArray = postData.mediaLink.filter(Boolean);
+      else if (
+        typeof postData.mediaLink === "string" &&
+        postData.mediaLink.trim()
+      )
+        mediaArray = [postData.mediaLink.trim()];
+
+      let mediaHTML = "";
+      const mediaCount = mediaArray.length;
+      if (mediaCount > 0) {
+        const visibleMedia = mediaArray.slice(0, 4);
+        const extra = mediaCount - 4;
+        let isOneMedia= false;
+        if (mediaArray.length==1){
+          isOneMedia= true;
+        };
+
+        const bgStyle = mediaCount > 2
+          ? `style="background-image: url('${mediaArray[mediaArray.length - 1]}'); background-size: cover; background-position: center;"`
+          : "";
+
+      mediaHTML = `
+          <div ${bgStyle} class="fb-media media-${Math.min(mediaCount, 4)}">
+            ${visibleMedia  
+              .map((src, index) => {
+                const isLast = index === 3 && extra > 0;
+                const isVideo = src.match(/\.(mp4|webm|ogg)$/i)? 'video-1' : 'video-n';
+                return`
+                  <div class="media-box ${isOneMedia? `borderNone ${isVideo}`  :""} ${isLast ? "dark" : ""}">
+                    ${(src.match(/\.(mp4|webm|ogg)$/i))? `<div id="loaderC" class="loads">
+                <div class="loadB"></div>
+              </div> <video class='${isOneMedia? "oneMedia": "notOneMedia"}' src="${src}" playsinline preload="metadata" loop data-index="${index}" onclick="${isOneMedia}? pauserPlayer(this) : openMediaViewer(this,${isOneMedia})" style="width:100%; height:100%; object-fit:cover;"></video>`
+                        : `<img src="${src}" data-index="${index}" data-full="true" alt="Post media ${index + 1}" onclick="openMediaViewer(this)" loading="lazy"/>`
+                    }
+                    ${isLast ? `<div class="media-overlay">+${extra}</div>` : ""}
+                  </div>
+                `;
+              })
+              .join("")}
+          </div>
+        `;
+      };
+      const likesCount = postData.likes ?? postData.likesCount ?? 0;
+      let isLiked = false;
+      let hypeText =  "LIKE";
+      if(postData.likedBy.includes(mainUser)){
+        isLiked = true;
+        hypeText = "LIKES";
+      }
+
+      post.innerHTML = `
+        <div class="POST-HEADER" onclick="visitUser('${postData.fromName}',this)"
+             style="display:flex;align-items:center;padding:10px 15px;">
+          <img class="profileImg" src="${postData.fromPic || "/default-avatar.png"}" alt="${postData.fromName || "User"}">
+          <div>
+            <strong>${postData.fromName || "Unknown"}</strong><br>
+            <small style="color:#aaa;">${postData.date || postData.createdAt ? timeAgo(postData.date || postData.createdAt) : "Just now"}</small>
+          </div>
+        </div>
+    
+        <div class="POST-DESCRIPTION">
+          <p class="desc-text ${postData.description? "" : "hidden"}">${postData.description || ""}</p>
+          <span class="see-more">See more</span>
+        </div>
+    
+        <div class="POST-MEDIA">
+          ${mediaHTML}
+          <div class="media-viewer hidden">
+            <span class="nav left" onclick="navigateMedia(-1)">❮</span>
+            <img class="viewer-img" alt="Full screen media" />
+            <span class="nav right" onclick="navigateMedia(1)">❯</span>
+            <span class="close-viewer" onclick="closeMediaViewer()">✕</span>
+          </div>
+        </div>
+    
+        <div class="POST-ACTIONS";">
+                  <button onClick="" class="like-btn ${isLiked ? "liked" : ""}"
+                          data-post-id="${postId}"
+                          data-liked="${isLiked}"
+                          style="display:flex; align-items:center; gap:5px;">
+                          
+                          <img class="truelikedImg ${isLiked ? "" : "hidden"}" src="/Assets/liked.png"/>
+                          
+                          <img class="falselikedImg ${isLiked ? "hidden" : ""}" src="/Assets/unliked.png"/>
+                          </svg> 
+
+                      <span class="hypeText">${hypeText}</span><span class="pLikesCount" style="padding-right: 3px">${likesCount}</span>
+                  </button>
+    
+          <button class="comment-btn" style="display:flex;align-items:center;gap:5px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Insights <span class="comment-count">${commentCount}</span>
+          </button>
+
+          <button class="share-btn" data-post-id="${postId}" data-post-url="${window.location.origin}/post/${postId}" title="Share this post" style="display:flex;align-items:center;gap:5px;border:none;background:none;cursor:pointer;padding:5px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span>Share</span>
+          </button>
+    
+          <div class="more-wrapper" style="position: relative;">
+            <button class="more-btn" data-post-id="${postId}" style="font-size:18px;background:none;border:none;color:#aaa;cursor:pointer;padding:0 8px;">•••</button>
+            <div class="more-menu" data-post-id="${postId}">
+              <div class="more-menu-item save-post-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                </svg>
+                Save post
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      observeThis(post);
+      postsContainer.appendChild(post);
+      attachLikeListeners(post);
+      attachShareListeners(post);
+      attachMoreMenuListeners(post);
+    }
+  } catch (err) {
+    console.error("Failed to load posts:", err);
+    postsContainer.innerHTML = `<div style="color:#ff4444;padding:20px;text-align:center;">
+          Failed to load posts. Please try again later.
+      </div>`;
+  }
+}
+renderPosts();
+
+
+
+/* Very bad uproach. to be updated later on sooner _________================================================================================================================================================================================================================================================================================================================_______________________ */
+
+
+postsContainer.addEventListener("click", (e) => {
+  const btn = e.target.closest(".comment-btn");
+  if (!btn) return;
+
+  const post = btn.closest(".POST-ITEM");
+
+  commentDrawerP.dataset.activePostId = post.dataset.postId;
+  renderComments(post);
+
+  commentDrawerP.classList.add("show");
+  overlay.style.display = "block";
+  document.body.style.overflow = "hidden";
+});
+const closePostComments = ()=>{
+  commentDrawerP.classList.remove("show");
+  overlay.style.display = "none";
+  document.body.style.overflow = "auto";
+}
+closeCommentsP.addEventListener("click", () => {
+ closePostComments();
+});
+commentHeaderP.addEventListener("click",()=>{
+  closePostComments();
+})
+
+
+
+function renderComments(post) {
+  const postId = post.dataset.postId;
+
+  commentListP.innerHTML = "";
+
+  fetch("/obtain/commentsP", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ postId }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      let comments = data.commentsData;
+
+          comments.forEach((c) => {
+        const div = document.createElement("div");
+        div.classList.add("comment-item");
+        div.style.cssText = `
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 12px;
+          padding: 8px 12px;
+        `;
+
+        const isLiked = !!c.hasLiked;
+
+        div.innerHTML = `
+          <div class="comment-pic" style="
+            width: 36px; height: 36px; border-radius: 50%;
+            background: #3b82f6; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 16px;
+          ">
+            ${c.from[0].toUpperCase()}
+          </div>
+
+          <div style="flex: 1;">
+            <strong>${c.from}</strong>
+            <div style="margin-top: 2px;">${c.comment}</div>
+            <small style="color: #888; font-size: 12px;">
+              ${new Date(c.time).toLocaleString([], { hour: "2-digit", minute: "2-digit", day: "numeric", month: "short" })}
+            </small>
+          </div>
+
+          <button class="like-comment-btn ${isLiked ? "liked" : ""}"
+                  data-comment-id="${c._id}"
+                  style="background:none; border:none; cursor:pointer; padding:6px; display:flex; align-items:center; gap:6px; color: ${isLiked ? "#ef4444" : "#64748b"}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="${isLiked ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2">
+              <path d="M7 11v9m-4-9v9h4m4-9v9m-4-9h4m-4 0v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4m-4 5h4"/>
+            </svg>
+            <span class="like-count">${c.likesCount || 0}</span>
+          </button>
+        `;
+
+        commentListP.appendChild(div);
+      });
+      
+      attachCommentLikeListeners();
+    });
+}
+
+sendCommentP.addEventListener("click", async () => {
+  const text = newCommentP.value.trim();
+  if (!text) return;
+
+  const activePostId = commentDrawerP.dataset.activePostId;
+  const postOwner = document.querySelector(
+    `.POST-ITEM[data-post-id="${activePostId}"] .POST-HEADER strong`
+  ).textContent;
+  const mainUser = JSON.parse(localStorage.getItem("mainUser"));
+
+  try {
+    const res = await fetch("/post/commentsP", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postId: activePostId,
+        from: mainUser,
+        to: postOwner,
+        comment: text,
+        time: new Date(),
+      }),
+    });
+    if (!res.ok) throw new Error("Failed to post comment");
+
+    newCommentP.value = "";
+    renderComments(
+      document.querySelector(`.POST-ITEM[data-post-id="${activePostId}"]`)
+    );
+    commentListP.scrollTop = commentListP.scrollHeight;
+  } catch (err) {
+    console.error(err);
+    alert("Error posting comment.");
+  }
+});
+</script>
+</body>
+</html>

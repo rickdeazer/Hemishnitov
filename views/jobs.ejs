@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="rgb(27, 70, 43)" />
+  <title>MMUN Opportunities</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Trade+Winds&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+ <style>
+  :root {
+    --bg-primary: #0f001a;
+    --bg-card: rgba(35, 15, 65, 0.82);
+    --bg-header: rgba(20, 5, 40, 0.9);
+    --text-primary: #f1e6ff;
+    --text-heading: #e0c3ff;
+    --text-muted: #d1a8ff;
+    --accent-purple: #9333ea;
+    --accent-purple-glow: #a855f7;
+    --accent-green: #10b981;
+    --accent-pink: #ec4899;
+    --border-glow: rgba(168, 85, 247, 0.55);
+    --shadow-glow: 0 0 20px rgba(168, 85, 247, 0.45);
+  }
+
+  .light-mode {
+    --bg-primary: #f8f5ff;
+    --bg-card: rgba(255, 255, 255, 0.92);
+    --bg-header: rgba(240, 235, 255, 0.95);
+    --text-primary: #1a0033;
+    --text-heading: #4c1d95;
+    --text-muted: #6b21a8;
+    --accent-purple: #7c3aed;
+    --accent-purple-glow: #a78bfa;
+    --accent-green: #059669;
+    --accent-pink: #db2777;
+    --border-glow: rgba(124, 58, 237, 0.4);
+    --shadow-glow: 0 0 16px rgba(124, 58, 237, 0.25);
+  }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: all 0.4s ease;
+  }
+  .main{
+    padding: 5px;
+  }
+  .imgSvg {
+  height: 25px;
+  width: 25px;
+  object-fit: contain;
+}
+  #HEADER {
+    background-color: var(--bg-header);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    border-bottom: solid var(--border-light-white);
+    padding-bottom: 3px;
+  }
+
+  #HEADER-TOP-DIV {
+    display: flex;
+    place-content: space-evenly;
+    align-items: center;
+    gap: 5px;
+    height: 3.5rem;
+  }
+
+  #APP-DETAILS {
+    display: flex;
+    flex-direction: row;
+    height: 95%;
+    width: 100px;
+    justify-content: center;
+    align-self: flex-start;
+    place-content: space-around;
+  }
+
+  #HEADER-LOGO {
+    background: url("/mediafiles/MMUNlogo_production.png");
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    align-self: center;
+    background-repeat: no-repeat;
+    scale: 0.7;
+  }
+
+  #HEADER-APPNAME {
+    font-size: 1rem;
+    align-self: center;
+    color: var(--accent-magenta);
+    font-family: 'Trade Winds';
+    padding-right: 5px;
+    padding-bottom: 8px;
+  }
+
+  #HEADER-APPNAME h2 {
+    text-align: center;
+    margin: 0;
+    padding-top: 10px;
+    font-size: small;
+  }
+
+  #HEADER-BTNS {
+    height: inherit;
+    width: 100px;
+    display: flex;
+    align-self: center;
+    gap: 10px;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .HEADER-BTNS {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 30px;
+    border-radius: 30px;
+    outline: none;
+    border: solid 1px rgb(194, 167, 186);
+    color: white;
+    font-size: 1.2rem;
+    background:linear-gradient(30deg,var(--accent-purple)),var(--accent-purple-glow)
+  }
+
+  .HEADER-BTNS:hover {
+    border: solid 1px white;
+    box-shadow: 0 0 3px white;
+    transition: transform 0.5s ease;
+    transform: rotate(2deg);
+    scale: 0.9;
+  }
+
+  #USER-DETAILS {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    width: 120px;
+    gap: 10px;
+    justify-content: end;
+  }
+
+  #HEADER-USERNAME {
+    font-family: 'Lora';
+    font-size: 0.7em;
+    padding-top: 3px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  #HEADER-PROFILEPIC {
+    background: radial-gradient(rgb(1, 39, 1), rgb(207, 98, 173));
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    margin-right: 5px;
+    overflow: hidden;
+    background-size: cover;
+    opacity: 0.8;
+    background-position: center;
+  }
+  .tab-bar {
+    background: rgba(40,20,70,0.65);
+    backdrop-filter: blur(10px);
+    border: solid 1px rgba(255, 255, 255, 0.648);
+    border-radius: 30px;
+    width: 80%;
+    margin: 0;
+    overflow: hidden;
+    place-content: space-between;
+  }
+
+  .light-mode .tab-bar {
+    background: rgba(200,180,255,0.25);
+    border: 1px solid rgba(124,58,237,0.35);
+  }
+
+  .post-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(147,51,234,0.4);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 5px !important;
+    margin-top: 5px;
+  }
+
+
+  .post-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(147,51,234,0.3);
+  }
+
+  .action-btn {
+    padding: 10px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .save-btn {
+    padding: 7px 10px;
+    border-radius: 9999px;
+    font-weight: 500;
+    background: rgba(147,51,234,0.25);
+    border: 1px solid var(--accent-purple-glow);
+    color: var(--text-muted);
+    transition: all 0.3s;
+  }
+  .applied-status {
+    background: rgba(16, 185, 129, 0.25);
+    border: 1px solid var(--accent-green);
+    color: var(--accent-green);
+  }
+
+  .light-mode .applied-status {
+    background: rgba(16, 185, 129, 0.15);
+  }
+  .searchInput {
+    padding: 0 5px;
+    width: 55%;
+    font-size: x-small;
+  }
+  .selection{
+    font-size: x-small;
+    border-radius: 10px;
+  }
+  .deadline-warning {
+    color: #f59e0b;
+    font-weight: 600;
+  }
+
+  .sub-tab {
+    padding: 10px 10px;
+    border-radius: 9999px;
+    font-weight: 500;
+    background: rgba(147,51,234,0.2);
+    color: var(--text-muted);
+    transition: all 0.3s;
+  }
+
+  .sub-tab-active {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-glow));
+    color: white;
+    box-shadow: var(--shadow-glow);
+  }
+
+  .tab-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 5px 5px 0 5px;
+    gap: 8px;
+    place-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 63px;
+  }
+    .topItems {
+    display: flex;
+    align-items: center;
+    place-content: space-between;
+    justify-content: center;
+  }
+  .bottomItems{
+    display: flex;
+    place-content: space-between;
+    height: 25px;
+    gap: 5px;
+    margin: 5px 0;
+    font-size: x-small;
+    margin-top: 1px;
+  }
+  .tab {
+    padding: 4px 10px;
+    font-size: x-small;
+    color: white;
+    border: solid 1px rgba(128, 128, 128, 0.433);
+    background-color: #8c059623;
+  }
+    .tab-active {
+    background: radial-gradient(circle at center center, rgb(78, 1, 97), rgba(242, 242, 242, 0.46));
+    color: white;
+    font-weight: bold;
+    border: solid 1px white;
+    box-shadow: var(--shadow-glow);
+  }
+  #fab {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-glow));
+    color: white;
+    font-size: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 2px;
+    box-shadow: var(--shadow-glow);
+    border: solid 1px rgba(255, 255, 255, 0.725);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  #fab:hover {
+    transform: scale(1.12);
+  }
+
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .popup-content {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glow);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 90%;
+    width: 420px;
+    box-shadow: var(--shadow-glow);
+    color: var(--text-primary);
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--accent-purple-glow);
+    color: var(--text-primary);
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    outline: none;
+    box-shadow: 0 0 12px var(--accent-purple-glow);
+  }
+
+  .form-btn {
+    padding: 12px 28px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--accent-green), #059669);
+    color: white;
+    border: none;
+    font-weight: 600;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+  .font-x-small{
+    font-size: x-small;
+  }
+  #feedBackMVP {
+  width: 300px;
+  min-height: 300px;
+  background-color: rgb(1, 5, 40);
+  color: white;
+  border-radius: 10px;
+  position: absolute;
+  display: block;
+  align-self: center;
+  justify-self: center;
+  top: 30%; 
+  padding: 10px 15px;
+  border: solid 1px cyan;
+}
+#feedBackMVP h3 {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #10b98130;
+  border-radius: 5px;
+  font-weight: bold;
+  display: flex;
+  padding-left: 10px;
+  align-items: center;
+  text-align: center;
+  border: solid 1px rgb(13, 63, 33);
+}
+#feedBackMVP h3 span {
+  color: #eccd05;
+  font-size: 1.3rem;
+  align-self: center;
+  margin-left: auto;  
+  font-weight: light;
+  font-family: 'Offside', cursive;
+  padding-right: 15px;
+}
+#feedBackMVP h3 span:hover {
+  color: #f43f5e;
+  cursor: pointer;
+  scale: 1.2;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+#feedBackMVP #x {
+  background-color: #191717;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: dashed 1px rgb(128, 130, 128);
+  padding: 10px;
+}
+#feedBackMVP h4 {
+  text-decoration: underline;
+  padding: 2px;
+}
+#feedBackMVP #options {
+  width: max-content;
+  margin-top: 15px;
+  height: auto;
+  background: radial-gradient(circle at center right, rgb(0, 107, 128), rgba(0, 0, 0, 0.562), green);
+  border: solid 1px rgba(3, 165, 165, 0.497);
+  background-size: 200% 100%;
+  background-position: 200% 100%;
+  animation: backposition 5s ease infinite;
+  border-radius: 10px;
+  padding: 3px;
+  align-items: center;
+  justify-self: center;
+}
+#feedBackMVP #options:hover {
+  background-color: #fe0101;
+  color: white;
+  scale: 1.05;
+}
+@keyframes backposition {
+  0% { background-position: 200% 100%; }
+  100% { background-position: 0% 100%; }
+}
+#whatToDo {
+  background-color: #191717;
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 10px;
+}
+#whatToDo::-webkit-scrollbar {
+  width: 6px;
+}
+#whatToDo::-webkit-scrollbar-thumb {
+  background-color: #10b981;
+  border-radius: 3px;
+}
+#whatToDo::-webkit-scrollbar-thumb:hover {
+  background-color: #34d399;
+}
+#whatToDo button {
+  background-color: #10b981;
+  color: white;
+  border: solid 1px rgb(255, 255, 255);
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+#whatToDo button#voteToComeFalse {
+  background-color: darkred;
+}
+#whatToDo button#voteToComeTrue {
+  background-color: darkgreen;
+}
+</style>
+</head>
+<body>
+
+  <section id="HEADER">
+      <div id="HEADER-TOP-DIV">
+        <div id="APP-DETAILS">
+          <div id="HEADER-LOGO"></div>
+          <div id="HEADER-APPNAME"><h2>MMUN</h2></div>
+        </div>
+
+        <div id="HEADER-BTNS">
+            <button onclick="document.documentElement.classList.toggle('light-mode')" 
+        style="position:fixed; bottom:20px; right:20px; z-index:999; padding:10px; border-radius:50%; background:#9333ea; color:white; border:none;">
+  🌙
+</button>
+          <button onclick="setAndroidHeaderColor('#1B5A1B'); window.location.href='/home'" class="HEADER-BTNS">
+            <img class="imgSvg" src="/Assets/home_24GREEN.svg" alt="">
+          </button>
+          <button onclick="setAndroidHeaderColor('#651E5E'); window.location.href='/notics'" class="HEADER-BTNS">
+            <img class="imgSvg" src="/Assets/notifications_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg" alt="">
+          </button>
+        </div>
+
+        <div id="USER-DETAILS">
+          <div id="HEADER-USERNAME"><h3><%= user.username %></h3></div>
+          <a href="/userProfile">
+            <div id="HEADER-PROFILEPIC" 
+              <% if (user.profileLink) { %>
+                style="background: url('<%= user.profileLink %>'); background-size: cover; background-position: center;"
+              <% } else { %>
+                style="background: #ccc;"
+              <% } %>>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  <!-- Tabs + + button beside them -->
+  <div class="topItems">
+    <div class="tab-container">
+      <div class="tab-bar inline-flex p-2 gap-2">
+        <button class="tab rounded-full transition-all tab-active" onclick="showTab('jobs')">JOBS</button>
+        <button class="tab rounded-full transition-all" onclick="showTab('marketplace')">MABS</button>
+        <button class="tab rounded-full transition-all" onclick="showTab('my-applications')">Applications</button>
+      </div>
+      <button id="fab">+</button>
+    </div>
+  </div>
+
+  <!-- Choice Popup -->
+  <div id="choicePopup" class="popup-overlay">
+    <div class="popup-content text-center">
+      <h2 class="text-2xl font-bold mb-6">What would you like to post?</h2>
+      <button onclick="showJobForm()" class="action-btn bg-gradient-to-r from-green-600 to-emerald-600 text-white mb-4 w-full">Post a Job</button>
+      <button onclick="showItemForm()" class="action-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white w-full">Sell an Item</button>
+    </div>
+  </div>
+
+  <!-- Job Form Popup -->
+  <div id="jobFormPopup" class="popup-overlay">
+    <div class="popup-content">
+      <h2 class="text-2xl font-bold mb-6">Post a New Job</h2>
+      <form id="jobForm">
+        <input type="text" class="form-input" placeholder="Job Title" required>
+        <textarea class="form-textarea" rows="4" placeholder="Description & requirements" required></textarea>
+        <input type="text" class="form-input" placeholder="Company / Location">
+        <input type="text" class="form-input" placeholder="Stipend / Salary (e.g. KSh 32,000/month)">
+        <input type="date" class="form-input" placeholder="Application Deadline">
+        <button type="submit" class="form-btn w-full">Post Job</button>
+      </form>
+      <button onclick="closePopups()" class="mt-4 text-purple-300 hover:text-white">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Item Form Popup -->
+  <div id="itemFormPopup" class="popup-overlay">
+    <div class="popup-content">
+      <h2 class="text-2xl font-bold mb-6">Sell an Item</h2>
+      <form id="itemForm">
+        <input type="text" class="form-input" placeholder="Item Title" required>
+        <textarea class="form-textarea" rows="4" placeholder="Description & condition" required></textarea>
+        <input type="text" class="form-input" placeholder="Price (e.g. KSh 95,000)">
+        <input type="text" class="form-input" placeholder="Location (e.g. Nairobi CBD)">
+        <button type="submit" class="form-btn w-full">Post Item</button>
+      </form>
+      <button onclick="closePopups()" class="mt-4 text-purple-300 hover:text-white">Cancel</button>
+    </div>
+  </div>
+
+  <main class="main">
+
+    <!-- JOBS -->
+    <section id="jobs" class="tab-content">
+      <div class="bottomItems">
+        <input type="text" placeholder="Search jobs, companies" class="searchInput bg-slate-900/50 border border-purple-800/40 rounded-full focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-600/30">
+        <select class="px-3 w-25 bg-slate-900/50 border border-purple-800/40 selection">
+          <option>All Types</option>
+          <option>Internship</option>
+          <option>Part-time</option>
+          <option>Full-time</option>
+          <option>Freelance</option>
+        </select>
+      </div>
+
+      <!-- Job 1 -->
+      <div class="post-card">
+        <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg" alt="Developers working together" class="post-image">
+        <div class="p-6 flex items-center gap-4 border-b border-purple-900/30">
+          <div class="w-14 h-14 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl"></div>
+          <div>
+            <h3 class="font-bold text-xl">Stratech Kenya</h3>
+            <p class="text-purple-300/80 text-sm">Nairobi • 3 days ago</p>
+          </div>
+        </div>
+        <div class="p-2">
+          <h2 class="text-2xl font-bold mb-3">Mobile App Developer Internship</h2>
+          <div class="flex flex-wrap items-center gap-4 mb-4 text-sm">
+            <span class="px-3 py-1 bg-purple-900/40 text-purple-300 rounded-full">Internship</span>
+            <span class="px-3 py-1 bg-indigo-900/40 text-indigo-300 rounded-full">Mobile</span>
+            <span class="px-3 py-1 bg-cyan-900/40 text-cyan-300 rounded-full">Remote OK</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            6-month paid internship → strong chance of full-time. Flutter, Firebase, Riverpod. KSh 32,000/month stipend + real app launch experience.
+          </p>
+          <div class="flex flex-wrap justify-between items-center mb-4 text-sm">
+            <span><strong>Applicants:</strong> 142</span>
+            <span><strong>Deadline:</strong> <span class="deadline-warning">Feb 5, 2026</span></span>
+          </div>
+          <div class="flex gap-4">
+            <button class="action-btn bg-gradient-to-r from-green-600 to-emerald-600 text-white ">Apply Now</button>
+            <button class="save-btn" onclick="alert('Job saved to My Applications!')">Save Job</button>
+          </div>
+        </div>
+      </div>
+      <iframe
+  width="100%"
+  style="border: solid 1px purple; border-radius: 20px;"
+  height="315"
+  src="https://www.youtube.com/embed/IcrbM1l_BoI?list=RDIcrbM1l_BoI&start_radio=1
+"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen>
+</iframe>
+
+      <!-- Job 2 -->
+      <div class="post-card">
+        <img src="https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg" alt="Content creator making videos" class="post-image">
+        <div class="p-6 flex items-center gap-4 border-b border-purple-900/30">
+          <div class="w-14 h-14 bg-gradient-to-br from-pink-600 to-rose-700 rounded-xl"></div>
+          <div>
+            <h3 class="font-bold text-xl">CampusVibe Media</h3>
+            <p class="text-purple-300/80 text-sm">Nairobi • 1 week ago</p>
+          </div>
+        </div>
+        <div class="p-2">
+          <h2 class="text-2xl font-bold mb-3">Social Media Content Creator (Part-time)</h2>
+          <div class="flex flex-wrap items-center gap-4 mb-4 text-sm">
+            <span class="px-3 py-1 bg-pink-900/40 text-pink-300 rounded-full">Part-time</span>
+            <span class="px-3 py-1 bg-rose-900/40 text-rose-300 rounded-full">Content Creation</span>
+            <span class="px-3 py-1 bg-purple-900/40 text-purple-300 rounded-full">On-campus preferred</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Create reels & posts for student brands. 15–20 hrs/week. KSh 800–1200 per deliverable. Canva/TikTok/Reels experience needed.
+          </p>
+          <div class="flex flex-wrap justify-between items-center mb-4 text-sm">
+            <span><strong>Applicants:</strong> 87</span>
+            <span><strong>Deadline:</strong> <span class="deadline-warning">Jan 31, 2026</span></span>
+          </div>
+          <div class="flex gap-4">
+            <button class="action-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white">Apply Now</button>
+            <button class="save-btn" onclick="alert('Job saved to My Applications!')">Save Job</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKETPLACE -->
+    <section id="marketplace" class="tab-content hidden">
+      <div class="flex flex-row sm:flex-row gap-4 bottomItems">
+        <input type="text" placeholder="Search products, services..." class="bg-slate-900/50 border border-purple-800/40 rounded-full focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-600/30 searchInput ">
+        <select class="bg-slate-900/50 border border-purple-800/40 selection">
+          <option>All</option>
+          <option>For Sale</option>
+          <option>Wanted</option>
+          <option>Electronics</option>
+          <option>Books</option>
+        </select>
+      </div>
+      
+
+      <!-- Item 1 - For Sale -->
+      <div class="post-card">
+        <img src="https://images.pexels.com/photos/7974/pexels-photo.jpg" alt="MacBook Air laptop silver" class="post-image">
+        <div class="p-6 flex items-center gap-4 border-b border-purple-900/30">
+          <div class="w-14 h-14 bg-gradient-to-br from-cyan-600 to-teal-700 rounded-xl"></div>
+          <div>
+            <h3 class="font-bold text-xl">Kiptoo_tech</h3>
+            <p class="text-purple-300/80 text-sm">Trades: 38 • Verified</p>
+          </div>
+        </div>
+        <div class="p-2">
+          <h2 class="text-2xl font-bold mb-4">MacBook Air M1 2020 – 16GB/512GB</h2>
+          <p class="text-gray-300 mb-6">
+            Excellent condition, battery 92%, full box + charger. Looking for KSh 95,000 – slightly negotiable.
+          </p>
+          <div class="flex flex-wrap gap-3 mb-8">
+            <span class="px-4 py-1.5 bg-cyan-900/40 text-cyan-300 rounded-full text-sm">For Sale</span>
+            <span class="px-4 py-1.5 bg-teal-900/40 text-teal-300 rounded-full text-sm">Electronics</span>
+            <span class="px-4 py-1.5 bg-purple-900/40 text-purple-300 rounded-full text-sm">Nairobi CBD</span>
+          </div>
+          <div class="flex gap-4">
+            <button class="action-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white">Contact Seller</button>
+            <button class="save-btn" onclick="alert('Item added to Interested Items!')">Interest</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 - Wanted -->
+      <div class="post-card">
+        <img src="https://images.pexels.com/photos/3769981/pexels-photo-3769981.jpeg" alt="Student working on laptop" class="post-image">
+        <div class="p-6 flex items-center gap-4 border-b border-purple-900/30">
+          <div class="w-14 h-14 bg-gradient-to-br from-amber-600 to-orange-700 rounded-xl"></div>
+          <div>
+            <h3 class="font-bold text-xl">Aisha254</h3>
+            <p class="text-purple-300/80 text-sm">Trades: 14 • Active</p>
+          </div>
+        </div>
+        <div class="p-2">
+          <h2 class="text-2xl font-bold mb-4">Wanted: Good Second-hand Laptop (max KSh 45k)</h2>
+          <p class="text-gray-300 mb-6">
+            Need something decent for schoolwork (at least i5 8th gen, 8GB RAM). Can pick up anywhere in Nairobi.
+          </p>
+          <div class="flex flex-wrap gap-3 mb-8">
+            <span class="px-4 py-1.5 bg-amber-900/40 text-amber-300 rounded-full text-sm">Wanted</span>
+            <span class="px-4 py-1.5 bg-orange-900/40 text-orange-300 rounded-full text-sm">Laptop</span>
+            <span class="px-4 py-1.5 bg-red-900/40 text-red-300 rounded-full text-sm">Urgent</span>
+          </div>
+          <div class="flex gap-4">
+            <button class="action-btn bg-gradient-to-r from-amber-600 to-orange-600 text-white">Make Offer</button>
+            <button class="save-btn" onclick="alert('Item added to Interested Items!')">Interest</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MY APPLICATIONS -->
+    <section id="my-applications" class="tab-content hidden space-y-8">
+      <div class="flex justify-center gap-4 mt-2 topItems">
+        <button id="subtab-jobs" class="sub-tab font-x-small sub-tab-active" onclick="toggleSubTab('sub-jobs')">Applied Jobs</button>
+        <button id="subtab-items" class="sub-tab font-x-small" onclick="toggleSubTab('sub-items')">Interested Items</button>
+      </div>
+
+      <!-- Applied Jobs Sub-section -->
+      <div id="sub-jobs" class="sub-section">
+        <h3 class="text-xl font-semibold mb-4 text-purple-400">Applied Jobs</h3>
+
+        <div class="post-card">
+          <div class="p-5 flex items-center gap-4 border-b border-purple-900/30">
+            <div class="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl"></div>
+            <div>
+              <h4 class="font-bold">Mobile App Developer Internship</h4>
+              <p class="text-purple-300/80 text-sm">Stratech Kenya • Applied 2 days ago</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap justify-between items-center mb-4 text-sm">
+              <span class="px-4 py-1.5 applied-status rounded-full">Applied</span>
+              <span><strong>Applicants so far:</strong> 156</span>
+              <span><strong>Deadline:</strong> <span class="deadline-warning">Feb 5, 2026</span></span>
+            </div>
+            <p class="text-gray-300 text-sm">
+              Status: <strong class="text-green-400">Under Review</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="p-5 flex items-center gap-4 border-b border-purple-900/30">
+            <div class="w-12 h-12 bg-gradient-to-br from-pink-600 to-rose-700 rounded-xl"></div>
+            <div>
+              <h4 class="font-bold">Social Media Content Creator (Part-time)</h4>
+              <p class="text-purple-300/80 text-sm">CampusVibe Media • Applied 5 days ago</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap justify-between items-center mb-4 text-sm">
+              <span class="px-4 py-1.5 applied-status rounded-full">Applied</span>
+              <span><strong>Applicants so far:</strong> 98</span>
+              <span><strong>Deadline:</strong> <span class="deadline-warning">Jan 31, 2026</span></span>
+            </div>
+            <p class="text-gray-300 text-sm">
+              Status: <strong class="text-yellow-400">Pending</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interested Items Sub-section -->
+      <div id="sub-items" class="sub-section hidden">
+        <h3 class="text-xl font-semibold mb-4 text-purple-400">Interested Items</h3>
+
+        <div class="post-card">
+          <div class="p-5 flex items-center gap-4 border-b border-purple-900/30">
+            <div class="w-12 h-12 bg-gradient-to-br from-cyan-600 to-teal-700 rounded-xl"></div>
+            <div>
+              <h4 class="font-bold">MacBook Air M1 2020 – 16GB/512GB</h4>
+              <p class="text-purple-300/80 text-sm">Kiptoo_tech • KSh 95,000</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap justify-between items-center mb-4 text-sm">
+              <span class="px-4 py-1.5 bg-blue-900/40 text-blue-300 rounded-full">Watching</span>
+              <span><strong>Seller trades:</strong> 38</span>
+            </div>
+            <button class="action-btn bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm px-6 py-2">Message Seller</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  <div id="feedBackMVP">
+      <h3>NOTE! <span onclick="document.querySelector('#feedBackMVP').style.display='none'">x</span></h3>
+      <div id="x">
+        <h4>MMUN is currently an MVP</h4>
+      <h5>This means some features like this one have been disabled to avoid overwhelming or confusing our users.</h5>
+      </div>
+      <div >
+        <button id="options" onclick="document.getElementById('whatToDo').style.display = 'block'">What was this feature meant to do?</button>
+        <div id="whatToDo" style="display: none">
+          <p> This feature will allow you to enroll for jobs or attachements easily via MMUN. Here, you will be able to see jobs posted by various companies or the government and apply for the jobs.</p>
+          <p>This feature will also enable you to buy products sold by companies which are specifically targeting students as their consumers. It will also enable you to market your products to other students.</p>
+          <p>We decided to disable this feature for now to avoid overwhelming our users with too many features at once, and to focus on perfecting the core experience of MMUN.</p>
+          <div>
+            <button onclick="document.getElementById('whatToDo').style.display = 'none'">Got it!</button>
+            <button class="voteBtn" id="voteToComeTrue" onclick=" 
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');alert('Thankyou for your opinion.'); 
+              sendfeedback('true', 'jobs');
+            ">Bring this feature</button>
+           <button class="voteBtn" id="voteToComeFalse" 
+            onclick="
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');
+              alert('Thanks for your opinion'); 
+              sendfeedback('false', 'jobs'); 
+            ">
+            Don't bring this feature
+      </button>
+      <button class="voteBtn" id="voteToComeNeutral" 
+            onclick="
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');
+              alert('Thanks for the opinion'); sendfeedback('improve', 'jobs'); 
+            ">
+            Improve current features</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="/dist/androidHeader.js"></script>
+  <script>
+    function showTab(sectionId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(sectionId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+      event.target.classList.add('tab-active');
+    }
+
+    function toggleSubTab(subId) {
+      document.querySelectorAll('.sub-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById(subId).classList.remove('hidden');
+
+      document.querySelectorAll('.sub-tab').forEach(btn => btn.classList.remove('sub-tab-active'));
+      if (subId === 'sub-jobs') document.getElementById('subtab-jobs').classList.add('sub-tab-active');
+      if (subId === 'sub-items') document.getElementById('subtab-items').classList.add('sub-tab-active');
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('light-mode');
+      const icon = document.getElementById('theme-icon');
+      icon.textContent = document.documentElement.classList.contains('light-mode') 
+        ? 'light_mode' 
+        : 'dark_mode';
+    });
+
+    // Popup functions
+    function showChoicePopup() {
+      document.getElementById('choicePopup').style.display = 'flex';
+      setTimeout(() => {
+        if (document.getElementById('choicePopup').style.display === 'flex') {
+          document.getElementById('choicePopup').style.display = 'none';
+        }
+      }, 5000);
+    }
+
+    function showJobForm() {
+      document.getElementById('choicePopup').style.display = 'none';
+      document.getElementById('jobFormPopup').style.display = 'flex';
+    }
+
+    function showItemForm() {
+      document.getElementById('choicePopup').style.display = 'none';
+      document.getElementById('itemFormPopup').style.display = 'flex';
+    }
+
+    function closePopups() {
+      document.getElementById('choicePopup').style.display = 'none';
+      document.getElementById('jobFormPopup').style.display = 'none';
+      document.getElementById('itemFormPopup').style.display = 'none';
+    }
+
+    document.getElementById('fab').addEventListener('click', showChoicePopup);
+
+    document.getElementById('jobForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Job posted successfully!');
+      closePopups();
+    });
+
+    document.getElementById('itemForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Item posted successfully!');
+      closePopups();
+    });
+
+    [document.getElementById('choicePopup'), document.getElementById('jobFormPopup'), document.getElementById('itemFormPopup')].forEach(popup => {
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup) closePopups();
+      });
+    });
+
+    document.querySelector('.tab').click();
+    toggleSubTab('sub-jobs');
+    function sendfeedback(vote,page) {
+        fetch('/feedback/page/vote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ voteData: {vote: vote, page: page} })
+        }).then(res=>res.json()).then((data)=>{
+          const box = document.querySelector('#x');
+          console.log(box);
+          box.innerHTML = data.response
+        })}
+  </script>
+
+</body>
+</html>

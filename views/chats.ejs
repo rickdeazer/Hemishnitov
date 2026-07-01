@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="rgb(7, 14, 14)">
+    <title><%= user.username%>'s Chats</title>
+    <link rel="stylesheet" href="chats.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+</head>
+<body>
+    <div id="CHATS-PAGE" data-current-user="<%= user.username %>">
+
+        <!--Header Starts Here-->
+        <section id="HEADER">
+            <!--Header Top Div Begins Here-->
+            <div id="HEADER-TOP-DIV">
+                <div id="APP-DETAILS">
+                    <div id="HEADER-LOGO"></div>
+                    <div id="HEADER-APPNAME"><h2>MMUN</h2></div>
+                </div>
+
+                <div id="HEADER-BTNS">
+                    <button onclick="setAndroidHeaderColor('#1B5A1B'); window.location.href='/home'" id="CHATSH-BTN" class="HEADER-BTNS"><span class="material-symbols-outlined">home</span></button>
+                    <button  onclick="setAndroidHeaderColor('#1D4484'); window.location.href='/interests'"
+                     id="INTERESTSH-BTN" class="HEADER-BTNS"><span class="material-symbols-outlined">
+heart_check
+</span></button>
+                </div>
+
+                <div id="USER-DETAILS">
+                    <div id="HEADER-USERNAME"><h3><%=user.username %></h3></div><a href="/userProfile">
+                    <div id="HEADER-PROFILEPIC"  <% if (user.profileLink) {%>style="background: url(<%=user.profileLink%>); background-size: cover;"<%
+                      
+                    }%>></div></a>
+                </div>
+            </div>
+
+            <!--Header Middle Div Begins Here-->
+            <div id="HEADER-MIDDLE-DIV"><h3>Made for Moi University</h3></div>
+
+            <!--Header Bottom Div Begins Here-->
+            <div id="HEADER-BOTTOM-DIV">
+                <h4>Campus hearts, real connections</h4>
+            </div>
+        </section>
+
+        <section id="mainSection">
+            <div id="mainSection-HEADER">
+              <input type="text" placeholder="Search contacts..." id="CONTACTS-SEARCH" />
+              <span class="material-symbols-outlined" id="searchBtn">search</span>
+            </div>
+          
+            <div id="tab-contents">
+              <div id="tab-chats" class="tab-content active">
+                <div class="noticBanner hidden">
+                  <h3>
+                    Hi <%=user.username%>, your chats contacts will appear here once you
+                    accept new interests or send interests and they get accepted. You'll
+                    be able to chat, voiceCall and videoCall with your persons of
+                    interest.
+                  </h3>
+                </div>
+                <div id="CONTACTS-BODY">
+                  <div id="loader" class="loads">
+                    <div id="loadB" class="unload"></div>
+                  </div>
+                  <!-- Your real chat items will be loaded here by JS -->
+                </div>
+              </div>
+          
+              <div id="tab-updates" class="tab-content">
+                <div class="updates-placeholder">
+                  <h3 style="text-align: center; color: #aaa; margin: 60px 20px 20px">
+                    MMUN is currently an MVP thus some features like this one have willingly been disabled to avoid overwhelming our users.
+                  </h3>
+          
+                  <!--Status example -->
+                  <div class="status-item" style="display: none;">
+                    <div class="status-avatar"></div>
+                    <div class="status-info">
+                      <div class="status-name">User</div>
+                      <div class="status-time">Today, 18:45</div>
+                    </div>
+                  </div>
+          
+                </div>
+              </div>
+       
+              <div id="tab-communities" class="tab-content">
+                  <div id="communities-header">
+                      <h2>MMUN is currently an MVP. To avoid overwhelming our users with many new features, the MMUN team has decided to disable some features like this one</h2>
+                  </div>
+                  
+                  <div id="groups-list" style="display: none;">
+                      <div id="groups-loader" class="loads">
+                          <div id="loadB" class="unload"></div>
+                      </div>
+                      <!-- groups appear here -->
+                  </div>
+              
+                  <div id="create-group-modal" class="modal hidden">
+                    <div class="modal-content">
+                      <h3>Create New Group</h3>
+                      
+                      <div class="group-icon-picker">
+                        <div id="icon-preview" class="icon-preview">
+                          <span class="placeholder-icon material-symbols-outlined">group</span>
+                          <img id="preview-img" class="hidden" alt="Group icon preview"/>
+                        </div>
+                        
+                        <label for="group-icon-file" class="btn-upload">
+                          <span class="material-symbols-outlined">photo_camera</span>
+                          Choose picture
+                        </label>
+                        <input type="file" id="group-icon-file" accept="image/*" hidden/>
+                        
+                      </div>
+                  
+                      <input type="text" id="group-name-input" placeholder="Community name" required autofocus/>
+                      
+                      <div class="modal-buttons">
+                        <button id="create-group-cancel">Cancel</button>
+                        <button id="create-group-submit">Create</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              
+                       
+              <div id="tab-calls" class="tab-content">
+                <div class="calls-placeholder">
+                  <h3 style="text-align: center; color: #aaa; margin: 60px 20px 20px">
+                    Recent calls will appear here. The MMUN team has disabled this feature in the meanwhile to avoid overwhelming our users with many new features since MMUN is currently and MVP.
+                  </h3>
+          
+                  <div class="call-item" style="display: none;">
+                    <div class="call-avatar"></div>
+                    <div class="call-info">
+                      <div class="call-name">User (Video)</div>
+                      <div class="call-time">Today • 14 min</div>
+                    </div>
+                    <span class="call-type material-symbols-outlined">videocam</span>
+                  </div>
+          
+                  <div class="call-item missed" style="display: none;">
+                    <div class="call-avatar" style="background: #ff4444"></div>
+                    <div class="call-info">
+                      <div class="call-name">User</div>
+                      <div class="call-time">Yesterday • Missed</div>
+                    </div>
+                    <span class="call-type material-symbols-outlined">call_missed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="CHAT-VIEW">
+            <div id="CHAT-VIEW-HEADER">
+              <button id="CHAT-BACK-BTN" class="chat-icon-btn" type="button">
+                <span class="material-symbols-outlined">arrow_back</span>
+              </button>
+              <div id="CHAT-VIEW-IDENTITY">
+                <div id="CHAT-VIEW-PROFILEPIC"></div>
+                <div id="CHAT-VIEW-TEXTS">
+                  <h3 id="CHAT-VIEW-USERNAME"></h3>
+                  <p id="CHAT-VIEW-SLOGAN"></p>
+                </div>
+              </div>
+              <div id="CHAT-VIEW-ACTIONS">
+                <button id="VOICE-CALL" class="chat-icon-btn" type="button">
+                  <span class="material-symbols-outlined">call</span>
+                </button>
+                <button id="VIDEO-CALL" class="chat-icon-btn" type="button">
+                  <span class="material-symbols-outlined">videocam</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="CHAT-SCROLL-REGION">
+              <div id="chatBody" class="CHAT-BODY"></div>
+            </div>
+
+            <div id="BOTTOMBAR">
+              <button id="FILE-ICON" type="button">+</button>
+              <div id="mediaPopup" class="media-popup">
+                <button class="media-btn" id="PIC-BTN" type="button">Pic</button>
+                <input type="file" id="imageInput" accept="image/*" hidden />
+              </div>
+
+              <div id="MESSAGE-DIV">
+                <textarea
+                  id="MESSAGE-INPUT"
+                  name="MESSAGE-DIV"
+                  placeholder="Send a message..."
+                ></textarea>
+                <button id="SEND-BTN" type="button">
+                  <span class="material-symbols-outlined">send</span>
+                </button>
+              </div>
+
+              <div class="admin-lock hidden">
+                @Admin Control: You cannot reply to this chat
+              </div>
+            </div>
+          </section>
+
+          <div id="CALL-OVERLAY">
+            <div class="call-shell">
+              <p id="CALL-TITLE">Voice call</p>
+              <p id="CALL-STATUS">Connecting...</p>
+              <audio id="remoteAudio" autoplay></audio>
+              <video id="remoteVideo" autoplay playsinline class="hidden"></video>
+              <video id="localVideo" autoplay playsinline muted class="hidden"></video>
+              <div id="CALL-CONTROLS">
+                <button id="toggleCam" class="call-control hidden" type="button">Cam</button>
+                <button id="toggleMic" class="call-control" type="button">Mic</button>
+                <button id="hangup" class="call-control hangup" type="button">End</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="incomingCallPopup">
+            <div class="popup-box">
+              <p id="incomingCallText">Incoming call</p>
+              <div class="popup-buttons">
+                <button id="acceptCallBtn" class="accept-btn" type="button">Accept</button>
+                <button id="declineCallBtn" class="decline-btn" type="button">Decline</button>
+              </div>
+            </div>
+          </div>
+
+          <button id="fab-new-group" class="fab" title="New community">
+            <span class="material-symbols-outlined">add</span>
+        </button>
+        
+          <nav id="BOTTOM-NAV">
+            <button class="nav-item active" data-tab="chats">
+              <span class="material-symbols-outlined">chat</span>
+              <span class="nav-label">Chats</span>
+              <span class="nav-badge hidden">3</span>
+            </button>
+          
+            <button class="nav-item" data-tab="updates">
+              <span class="material-symbols-outlined">update</span>
+              <span class="nav-label">Updates</span>
+            </button>
+          
+            <button class="nav-item" data-tab="communities">
+              <span class="material-symbols-outlined">group</span>
+              <span class="nav-label">Conference</span>
+            </button>
+          
+            <button class="nav-item" data-tab="calls">
+              <span class="material-symbols-outlined">call</span>
+              <span class="nav-label">Calls</span>
+            </button>
+          </nav>
+          
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script  src="/dist/chats.js"></script>
+    <script src="/dist/androidNotification.js"></script>
+    <script src="/dist/androidHeader.js"></script>
+</body>
+</html>

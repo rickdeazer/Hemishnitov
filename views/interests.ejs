@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="theme-color" content="rgb(77, 4, 4)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="interests.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+</head>
+<body>
+    <div id="CHATS-PAGE">
+
+        <!--Header Starts Here-->
+        <section id="HEADER">
+            <!--Header Top Div Begins Here-->
+            <div id="HEADER-TOP-DIV">
+                <div id="APP-DETAILS">
+                    <div id="HEADER-LOGO"></div>
+                    <div id="HEADER-APPNAME"><h2>MMUN</h2></div>
+                </div>
+
+                <div id="HEADER-BTNS">
+                    <button onclick="setAndroidHeaderColor('#1B5A1B'); window.location.href='/home';" id="CHATSH-BTN" class="HEADER-BTNS"><span class="material-symbols-outlined">home</span></button>
+                    <button onclick="setAndroidHeaderColor('#651E5E'); window.location.href='/chats'" id="INTERESTSH-BTN" class="HEADER-BTNS"><span class="material-symbols-outlined" id="chat_bubble">chat_bubble</span></button>
+                </div>
+
+                <div id="USER-DETAILS">
+                    <div id="HEADER-USERNAME"><h3><%= user.username%></h3></div><a href="/userProfile">
+                    <div id="HEADER-PROFILEPIC"  <% if (user.profileLink) {%>style="background: url(<%=user.profileLink%>); background-size: cover;"<%
+                      
+                    }%>></div></a>
+                </div>
+            </div>
+
+            <!--Header Middle Div Begins Here-->
+            <div id="HEADER-MIDDLE-DIV"><div id="headerLine" style="width:100%; height: 1px; background:linear-gradient(45deg, rgb(215, 149, 27), greenyellow); margin-bottom: 3px; border-radius: 50%;"></div><h3>Made for Moi University</h3></div>
+
+            <!--Header Bottom Div Begins Here-->
+            <div id="HEADER-BOTTOM-DIV">
+                <h4>Campus hearts, real connections</h4>
+            </div>
+        </section>
+
+        <!--Main section Begins Here-->
+        <section id="mainSection">
+            <div id="mainSection-HEADER">
+                <button type="button" action="sent" class="MAIN-BUTTONS receivedBtnSelected" id="receivedBtn">Received</button>
+                <button type="button" action="Received" class="MAIN-BUTTONS" id="sentBtn">Sent</button>
+            </div> 
+    <div id="CONTACT-BODIES">
+            <div id="CONTACTS-BODY1" class=""><div id="loader" class="loads">
+    <div id="loadB" class="unload"></div>
+    </div></div>
+
+            <div id="CONTACTS-BODY2" class="HIDE-BODY" ><div id="loader" class="loads">
+    <div id="loadB" class="unload"></div>
+    </div></div>
+        </div>
+
+        </section>
+
+    </div>
+</body>
+<script src="socket.io/socket.io.js"></script>
+<script src="/dist/interests.js"></script>
+<script src="/dist/androidNotification.js"></script>
+<script src="/dist/androidHeader.js"></script>
+</html>

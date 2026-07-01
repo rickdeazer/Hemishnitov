@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="google-site-verification" content="j2PeLR-jOJ8tFFsrBhozNNQxXLaUe1EEU3MSM8gwXzI" />
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="rgb(2, 91, 11)" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up — MMUN</title>
+    <link rel="stylesheet" href="signup.css" />
+    <style>
+      /* ── Blinking cursor on all inputs/selects ── */
+      .SIGNUP-INPUTS, .SIGNUP-INPUTS-LABELS select, select.SIGNUP-INPUTS-LABELS {
+        caret-color: rgb(2, 91, 11);
+      }
+      .SIGNUP-INPUTS::placeholder { opacity: 0.5; }
+
+      /* Multi-select chip container */
+      .chip-container {
+        display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+      }
+      .chip {
+        background: #e8f5e9; color: rgb(2,91,11); border: 1px solid rgb(2,91,11);
+        border-radius: 20px; padding: 4px 12px; font-size: 13px; cursor: pointer;
+        user-select: none; transition: background 0.2s, color 0.2s;
+      }
+      .chip.selected { background: rgb(2,91,11); color: #fff; }
+
+      /* "Other" text input for dept workers */
+      .other-input-wrap { margin-top: 10px; display: none; }
+      .other-input-wrap.visible { display: block; }
+      .other-input-wrap input {
+        width: 100%; padding: 10px 14px; border: 1px solid #ccc;
+        border-radius: 8px; font-size: 14px; caret-color: rgb(2,91,11);
+        outline: none;
+      }
+      .other-input-wrap input:focus { border-color: rgb(2,91,11); }
+
+      /* Experience input */
+      .exp-wrap { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+      .exp-wrap input[type=number] {
+        width: 90px; padding: 10px; border: 1px solid #ccc;
+        border-radius: 8px; font-size: 15px; caret-color: rgb(2,91,11);
+        outline: none; text-align: center;
+      }
+      .exp-wrap input[type=number]:focus { border-color: rgb(2,91,11); }
+      .exp-wrap span { font-size: 14px; color: #555; }
+
+      /* Gender cards */
+      .gender-cards { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+      .gender-card {
+        flex: 1; min-width: 90px; border: 1.5px solid #ddd; border-radius: 12px;
+        padding: 16px 10px; text-align: center; cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        font-size: 14px; color: #444;
+      }
+      .gender-card .gender-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+      .gender-card.selected {
+        border-color: rgb(2,91,11); background: #e8f5e9; color: rgb(2,91,11); font-weight: 600;
+      }
+
+      /* Profile picture upload button */
+      .upload-pic-btn {
+        display: flex; align-items: center; gap: 10px;
+        background: rgb(2,91,11); color: #fff; border: none;
+        border-radius: 10px; padding: 12px 22px; font-size: 15px;
+        cursor: pointer; margin-top: 14px; width: fit-content;
+        transition: background 0.2s;
+      }
+      .upload-pic-btn:hover { background: rgb(1,70,8); }
+      .upload-pic-btn svg { width: 20px; height: 20px; fill: #fff; }
+      #profilePic { display: none; }
+
+      /* Consent popup overlay */
+      #consent-overlay {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.55); z-index: 9999;
+        align-items: center; justify-content: center;
+        padding: 16px;
+      }
+      #consent-overlay.open { display: flex; }
+      .consent-box {
+        background: #fff; border-radius: 18px; padding: 28px 24px;
+        max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      }
+      .consent-box h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 6px; }
+      .consent-box p { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 18px; }
+      .consent-check-row {
+        display: flex; align-items: flex-start; gap: 10px;
+        background: #f5f5f5; border-radius: 10px; padding: 12px 14px;
+        margin-bottom: 12px;
+      }
+      .consent-check-row input[type=checkbox] {
+        width: 18px; height: 18px; margin-top: 2px; accent-color: rgb(2,91,11);
+        flex-shrink: 0; cursor: pointer;
+      }
+      .consent-check-row label { font-size: 14px; color: #333; line-height: 1.5; cursor: pointer; }
+      .consent-check-row label a { color: rgb(2,91,11); text-decoration: underline; }
+      .consent-submit-btn {
+        width: 100%; padding: 14px; background: rgb(2,91,11); color: #fff;
+        border: none; border-radius: 10px; font-size: 16px; font-weight: 600;
+        cursor: pointer; margin-top: 8px; transition: background 0.2s; opacity: 0.45;
+        pointer-events: none;
+      }
+      .consent-submit-btn.ready { opacity: 1; pointer-events: all; }
+      .consent-submit-btn.ready:hover { background: rgb(1,70,8); }
+      .consent-cancel { display: block; text-align: center; margin-top: 12px;
+        font-size: 13px; color: #888; cursor: pointer; }
+      .consent-cancel:hover { color: #333; }
+
+      /* Blinking cursor pulse on labels */
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      .blink-caret::after {
+        content: '|'; margin-left: 2px; animation: blink 1s infinite;
+        color: rgb(2,91,11); font-weight: 300;
+      }
+
+      .field-error { color: #e53935; font-size: 12px; margin-top: 4px; display: none; }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+
+  <body>
+    <div id="SIGNUP-PAGE">
+      <!-- HEADER -->
+      <header id="HEADER">
+        <div id="HAPPNAMELOGO">
+          <img id="headerLogo" src="mediafiles/MMUNlogo_production.png" alt="MMUN Logo" />
+          <h1 id="HAPPNAME">MMUN</h1>
+        </div>
+        <img onclick="showNav()" id="Menu" src="/Assets/menu_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Menu">
+        <nav id="HPAGELINKS">
+          <a class="HPAGELINKS-ITEMS" href="/login">Login</a>
+          <a class="HPAGELINKS-ITEMS" href="#">Contacts</a>
+          <a class="HPAGELINKS-ITEMS" href="/privacyPolicy">Policy</a>
+          <a class="HPAGELINKS-ITEMS" href="#">About</a>
+        </nav>
+      </header>
+
+      <!-- TOP SECTION -->
+      <section id="TOP-WRAPPER">
+        <h3 id="TOPDIV-TEXT">A Modern Mind</h3>
+      </section>
+
+      <section id="BOTTOM-WRAPPER">
+        <p id="HEADER-BOTTOMDIV">
+          Our platform is built for social connection — a place to meet new people,
+          share ideas and grow together through meaningful interactions.
+        </p>
+
+        <!-- SIGNUP FORM -->
+        <form id="SIGNUP-FORM" action="/signup" method="POST" enctype="multipart/form-data">
+          <div id="SIGNUP-FORM-WRAPPER">
+
+            <div id="loader" class="loads">
+              <div id="loadA" class="unload"></div>
+              <h2 id="SIGNUP-TEXT">Create Account</h2>
+              <div id="loadB" class="unload"></div>
+            </div>
+
+            <h4 id="ERROR-TEXT">
+              <% errors.forEach((error)=>{%><%= error %><br /><%}) %>
+            </h4>
+
+            <div class="tips-carousel">
+              <div class="tip-item" style="--order: 1;">
+                <strong>Important:</strong> Some records (username, phone, institution) <strong>cannot be edited</strong> once saved. Choose wisely!
+              </div>
+              <div class="tip-item" style="--order: 2;">
+                Unlike typical social apps, <strong>MMUN</strong> lets you <strong>directly connect</strong> with students from <strong>other campuses</strong> nationwide.
+              </div>
+              <div class="tip-item" style="--order: 3;">
+                Chat, make in-app voice/video calls, follow people, and share your moments with friends from UoN, KU, Moi, JKUAT, Strathmore &amp; more.
+              </div>
+              <div class="tip-item" style="--order: 4;">
+                Build real connections — find classmates, study partners or future collaborators anywhere in Kenya. Welcome to MMUN!
+              </div>
+            </div>
+
+            <div id="INPUTS-WRAPPER">
+
+              <!-- Progress indicator -->
+              <div id="STEP-PROGRESS" style="text-align:center; margin-bottom:20px;">
+                <div id="progressLabel" style="font-size:15px; font-weight:500; color:#333; margin-bottom:8px;">Basic info</div>
+                <div id="progressText" style="font-size:13px; color:#666; margin-bottom:6px;">
+                  <span id="progressPercent"></span> complete
+                </div>
+                <div id="progressBar" style="height:8px; background:#e0e0e0; border-radius:4px; overflow:hidden;">
+                  <div id="progressFill" style="height:100%; width:8.33%; background:rgb(2, 91, 11); transition:width 0.4s ease;"></div>
+                </div>
+              </div>
+
+              <!-- STEP 1: Username -->
+              <div class="SIGNUP-INPUTS-DIVS step-1">
+                <label for="usernameS" class="SIGNUP-INPUTS-LABELS blink-caret">Choose a unique username</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">No spaces allowed. Use letters, numbers, _ or - only. (4–12 characters)</small>
+                <input class="SIGNUP-INPUTS" type="text" name="usernameS" id="usernameS" placeholder="e.g. Mmun_user" autocomplete="off" />
+                <small id="usernameError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 2: Phone -->
+              <div class="SIGNUP-INPUTS-DIVS step-2 hidden">
+                <label class="SIGNUP-INPUTS-LABELS blink-caret" for="phoneS">Enter your phone number</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">Must be a valid Kenyan number starting with 07 or 01 (10 digits total)</small>
+                <input class="SIGNUP-INPUTS" type="tel" id="phoneS" name="phoneS" placeholder="e.g. 0712345678" autocomplete="off" />
+                <small id="phoneError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 3: Password -->
+              <div class="SIGNUP-INPUTS-DIVS step-3 hidden">
+                <label class="SIGNUP-INPUTS-LABELS blink-caret" for="passwordS">Create a password</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">Between 6 and 12 characters. Make it strong!</small>
+                <div class="flexEyeandInput">
+                  <input class="SIGNUP-INPUTS" type="password" id="passwordS" name="passwordS" placeholder="Enter your password..." autocomplete="new-password" />
+                  <button type="button" class="viewPasswordBtn" onclick="const i=document.querySelector('input#passwordS');i.type=i.type==='password'?'text':'password';this.innerHTML=i.type==='password'?'👁️':'🔒'">👁️</button>
+                </div>
+                <div id="passwordStrength" style="margin-top:8px; font-size:13px; color:#aaa;">
+                  <span id="strengthText">Password strength: None</span>
+                  <div id="strengthBar" style="height:4px; width:0%; background:#ccc; margin-top:4px; border-radius:2px;"></div>
+                </div>
+                <small id="passwordError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 4: Confirm Password -->
+              <div class="SIGNUP-INPUTS-DIVS step-4 hidden">
+                <label class="SIGNUP-INPUTS-LABELS blink-caret" for="passwordCS">Enter confirmation password</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">Type your password again exactly as you entered it above</small>
+                <div class="flexEyeandInput">
+                  <input class="SIGNUP-INPUTS" type="password" id="passwordCS" name="passwordCS" placeholder="Re-enter your password here..." autocomplete="new-password" />
+                  <button type="button" class="viewPasswordBtn" onclick="const i=document.querySelector('input#passwordCS');i.type=i.type==='password'?'text':'password';this.innerHTML=i.type==='password'?'👁️':'🔒'">👁️</button>
+                </div>
+                <small id="confirmError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 5: Role -->
+              <div class="SIGNUP-INPUTS-DIVS step-5 hidden">
+                <label class="SIGNUP-INPUTS-LABELS" for="Role">What is your role on campus?</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">This helps us personalise your experience on MMUN</small>
+                <select name="Role" id="Role" class="SIGNUP-INPUTS-LABELS" onchange="handleRoleChange()">
+                  <option value="" disabled selected>-- Select your role --</option>
+                  <option value="Student">Student</option>
+                  <option value="Lecturer">Lecturer</option>
+                  <option value="Department Worker">Department Worker</option>
+                </select>
+                <small id="roleError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 6: Course (Students only) / Dept Worker departments / Lecturer fields -->
+              <div class="SIGNUP-INPUTS-DIVS step-6 hidden">
+
+                <!-- STUDENT: Course select -->
+                <div id="student-course-wrap">
+                  <label class="SIGNUP-INPUTS-LABELS" for="CourseS">Select your course of study</label>
+                  <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">Choose the course you are currently enrolled in</small>
+                  <select class="SIGNUP-INPUTS-LABELS" name="course" id="CourseS">
+                    <option value="" selected disabled>-- Select your course --</option>
+                    <option value="Accounting">Accounting</option>
+                    <option value="Actuarial Science">Actuarial Science</option>
+                    <option value="Agribusiness Management">Agribusiness Management</option>
+                    <option value="Agricultural Biotechnology">Agricultural Biotechnology</option>
+                    <option value="Agricultural Economics and Resource Management">Agricultural Economics and Resource Management</option>
+                    <option value="Animal Health and Production">Animal Health and Production</option>
+                    <option value="Animal Science">Animal Science</option>
+                    <option value="Anthropology">Anthropology</option>
+                    <option value="Bachelor of Arts">Bachelor of Arts</option>
+                    <option value="Bachelor of Business Management (BBM)">Bachelor of Business Management (BBM)</option>
+                    <option value="Bachelor of Education (Arts)">Bachelor of Education (Arts)</option>
+                    <option value="Bachelor of Education (Science)">Bachelor of Education (Science)</option>
+                    <option value="Bachelor of Laws (LLB)">Bachelor of Laws (LLB)</option>
+                    <option value="Biochemistry">Biochemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Biomedical Sciences">Biomedical Sciences</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Business Information Technology">Business Information Technology</option>
+                    <option value="Chemical Engineering">Chemical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Clinical Medicine">Clinical Medicine</option>
+                    <option value="Communication and Journalism">Communication and Journalism</option>
+                    <option value="Communication and Public Relations">Communication and Public Relations</option>
+                    <option value="Community Development">Community Development</option>
+                    <option value="Computer Engineering">Computer Engineering</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Criminology and Criminal Justice">Criminology and Criminal Justice</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Education Arts">Education Arts</option>
+                    <option value="Education Science">Education Science</option>
+                    <option value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
+                    <option value="Environmental Health">Environmental Health</option>
+                    <option value="Environmental Science">Environmental Science</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Food Science and Nutrition">Food Science and Nutrition</option>
+                    <option value="Geography">Geography</option>
+                    <option value="History">History</option>
+                    <option value="Human Resource Management">Human Resource Management</option>
+                    <option value="Industrial Chemistry">Industrial Chemistry</option>
+                    <option value="Information Sciences">Information Sciences</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="International Relations">International Relations</option>
+                    <option value="Journalism and Mass Communication">Journalism and Mass Communication</option>
+                    <option value="Kiswahili">Kiswahili</option>
+                    <option value="Law">Law</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Medicine and Surgery (MBChB)">Medicine and Surgery (MBChB)</option>
+                    <option value="Microbiology">Microbiology</option>
+                    <option value="Music">Music</option>
+                    <option value="Nursing">Nursing</option>
+                    <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
+                    <option value="Peace and Conflict Studies">Peace and Conflict Studies</option>
+                    <option value="Pharmacy">Pharmacy</option>
+                    <option value="Philosophy">Philosophy</option>
+                    <option value="Physical Education">Physical Education</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Physiotherapy">Physiotherapy</option>
+                    <option value="Political Science and Public Administration">Political Science and Public Administration</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Public Health">Public Health</option>
+                    <option value="Religious Studies">Religious Studies</option>
+                    <option value="Social Work">Social Work</option>
+                    <option value="Sociology">Sociology</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="Sports Science">Sports Science</option>
+                    <option value="Statistics">Statistics</option>
+                    <option value="Technology Education">Technology Education</option>
+                    <option value="Theatre Arts">Theatre Arts</option>
+                    <option value="Tourism Management">Tourism Management</option>
+                    <option value="Wildlife Management">Wildlife Management</option>
+                    <option value="Other">Other (specify below)</option>
+                  </select>
+                  <div class="other-input-wrap" id="course-other-wrap">
+                    <input type="text" id="courseOtherInput" placeholder="Type your course name here..." />
+                  </div>
+                  <small id="courseError" class="field-error"></small>
+                </div>
+
+                <!-- DEPARTMENT WORKER: Department select -->
+                <div id="deptworker-wrap" class="hidden">
+                  <label class="SIGNUP-INPUTS-LABELS">Select your department(s)</label>
+                  <small style="color:#777;font-size:12px;display:block;margin-bottom:8px;">Choose all departments that apply to your work role</small>
+                  <select id="deptworkerSelect" class="SIGNUP-INPUTS-LABELS" onchange="addDeptWorkerChip(this.value); this.value='';">
+                    <option value="" disabled selected>-- Pick a department --</option>
+                    <option value="Admissions Office">Admissions Office</option>
+                    <option value="Alumni Relations">Alumni Relations</option>
+                    <option value="Bursary and Finance Office">Bursary and Finance Office</option>
+                    <option value="Campus Security">Campus Security</option>
+                    <option value="Career Services">Career Services</option>
+                    <option value="Catering and Hospitality">Catering and Hospitality</option>
+                    <option value="Counselling and Student Welfare">Counselling and Student Welfare</option>
+                    <option value="Dean of Students Office">Dean of Students Office</option>
+                    <option value="Disability Services">Disability Services</option>
+                    <option value="E-Learning and ICT Support">E-Learning and ICT Support</option>
+                    <option value="Examinations Office">Examinations Office</option>
+                    <option value="Facilities and Estates Management">Facilities and Estates Management</option>
+                    <option value="Gender and Inclusion Office">Gender and Inclusion Office</option>
+                    <option value="Health Services / Medical Centre">Health Services / Medical Centre</option>
+                    <option value="Housing and Accommodation">Housing and Accommodation</option>
+                    <option value="Human Resources">Human Resources</option>
+                    <option value="International Students Office">International Students Office</option>
+                    <option value="IT Department">IT Department</option>
+                    <option value="Laboratory Services">Laboratory Services</option>
+                    <option value="Legal Affairs">Legal Affairs</option>
+                    <option value="Library and Information Services">Library and Information Services</option>
+                    <option value="Marketing and Communications">Marketing and Communications</option>
+                    <option value="Maintenance and Works">Maintenance and Works</option>
+                    <option value="Office of the Deputy Vice Chancellor (Academic)">Office of the Deputy Vice Chancellor (Academic)</option>
+                    <option value="Office of the Deputy Vice Chancellor (Administration)">Office of the Deputy Vice Chancellor (Administration)</option>
+                    <option value="Office of the Registrar (Academic)">Office of the Registrar (Academic)</option>
+                    <option value="Office of the Registrar (Administration)">Office of the Registrar (Administration)</option>
+                    <option value="Office of the Vice Chancellor">Office of the Vice Chancellor</option>
+                    <option value="Procurement and Supply Chain">Procurement and Supply Chain</option>
+                    <option value="Public Relations">Public Relations</option>
+                    <option value="Quality Assurance Office">Quality Assurance Office</option>
+                    <option value="Records and Archives">Records and Archives</option>
+                    <option value="Research and Innovation">Research and Innovation</option>
+                    <option value="Senate and Academic Affairs">Senate and Academic Affairs</option>
+                    <option value="Sports and Recreation">Sports and Recreation</option>
+                    <option value="Student Affairs">Student Affairs</option>
+                    <option value="Student Finance and Scholarships">Student Finance and Scholarships</option>
+                    <option value="Student Government Liaison">Student Government Liaison</option>
+                    <option value="Transport and Logistics">Transport and Logistics</option>
+                    <option value="Other">Other (specify below)</option>
+                  </select>
+                  <div class="chip-container" id="deptworker-chips"></div>
+                  <div class="other-input-wrap" id="deptworker-other-wrap">
+                    <input type="text" id="deptworkerOtherInput" placeholder="Describe your department here..." />
+                  </div>
+                  <input type="hidden" name="course" id="deptworkerValue" />
+                  <small id="deptworkerError" class="field-error"></small>
+                </div>
+
+                <!-- LECTURER: Subject fields multi-select -->
+                <div id="lecturer-wrap" class="hidden">
+                  <label class="SIGNUP-INPUTS-LABELS">Select the subject(s) / fields you teach</label>
+                  <small style="color:#777;font-size:12px;display:block;margin-bottom:8px;">You can select more than one field. All selected fields will be saved to your profile.</small>
+                  <select id="lecturerSelect" class="SIGNUP-INPUTS-LABELS" onchange="addLecturerChip(this.value); this.value='';">
+                    <option value="" disabled selected>-- Pick a subject or field --</option>
+                    <option value="Accounting">Accounting</option>
+                    <option value="Agricultural Sciences">Agricultural Sciences</option>
+                    <option value="Anatomy">Anatomy</option>
+                    <option value="Architecture">Architecture</option>
+                    <option value="Biochemistry">Biochemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Biomedical Engineering">Biomedical Engineering</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Business Law">Business Law</option>
+                    <option value="Chemical Engineering">Chemical Engineering</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Clinical Medicine">Clinical Medicine</option>
+                    <option value="Communication Studies">Communication Studies</option>
+                    <option value="Community Health">Community Health</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Criminology">Criminology</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Ecology">Ecology</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Education">Education</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Environmental Science">Environmental Science</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Food Science">Food Science</option>
+                    <option value="Forensic Science">Forensic Science</option>
+                    <option value="Gender Studies">Gender Studies</option>
+                    <option value="Geography">Geography</option>
+                    <option value="Geology">Geology</option>
+                    <option value="History">History</option>
+                    <option value="Human Resource Management">Human Resource Management</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="International Relations">International Relations</option>
+                    <option value="Journalism">Journalism</option>
+                    <option value="Kiswahili">Kiswahili</option>
+                    <option value="Languages and Linguistics">Languages and Linguistics</option>
+                    <option value="Law">Law</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Medicine and Surgery">Medicine and Surgery</option>
+                    <option value="Microbiology">Microbiology</option>
+                    <option value="Music">Music</option>
+                    <option value="Nursing">Nursing</option>
+                    <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
+                    <option value="Pathology">Pathology</option>
+                    <option value="Pharmacy">Pharmacy</option>
+                    <option value="Philosophy">Philosophy</option>
+                    <option value="Physical Education">Physical Education</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Physiology">Physiology</option>
+                    <option value="Physiotherapy">Physiotherapy</option>
+                    <option value="Political Science">Political Science</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Public Administration">Public Administration</option>
+                    <option value="Public Health">Public Health</option>
+                    <option value="Religious Studies">Religious Studies</option>
+                    <option value="Social Work">Social Work</option>
+                    <option value="Sociology">Sociology</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="Statistics">Statistics</option>
+                    <option value="Surgery">Surgery</option>
+                    <option value="Theatre Arts">Theatre Arts</option>
+                    <option value="Tourism and Hospitality">Tourism and Hospitality</option>
+                    <option value="Veterinary Medicine">Veterinary Medicine</option>
+                    <option value="Wildlife and Conservation">Wildlife and Conservation</option>
+                    <option value="Zoology">Zoology</option>
+                    <option value="Other">Other (specify below)</option>
+                  </select>
+                  <div class="chip-container" id="lecturer-chips"></div>
+                  <div class="other-input-wrap" id="lecturer-other-wrap">
+                    <input type="text" id="lecturerOtherInput" placeholder="Type your subject or field here..." />
+                  </div>
+                  <input type="hidden" name="course" id="lecturerValue" />
+                  <small id="lecturerError" class="field-error"></small>
+                </div>
+              </div>
+
+              <!-- STEP 7: Academic Year (Students) / Work Experience (Lecturers & Dept Workers) -->
+              <div class="SIGNUP-INPUTS-DIVS step-7 hidden">
+
+                <!-- Student: Year of study -->
+                <div id="student-year-wrap">
+                  <label class="SIGNUP-INPUTS-LABELS" for="Year">What year of study are you in?</label>
+                  <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">Select your current academic year</small>
+                  <select name="Year" id="Year" class="SIGNUP-INPUTS-LABELS">
+                    <option value="" selected disabled>-- Select your year --</option>
+                    <option value="First Year">Year One</option>
+                    <option value="Second Year">Year Two</option>
+                    <option value="Third Year">Year Three</option>
+                    <option value="Forth Year">Year Four</option>
+                    <option value="Fifth Year">Year Five</option>
+                    <option value="Sixth Year">Year Six</option>
+                  </select>
+                  <small id="yearError" class="field-error"></small>
+                </div>
+
+                <!-- Lecturer/Dept Worker: Years of experience -->
+                <div id="experience-wrap" class="hidden">
+                  <label class="SIGNUP-INPUTS-LABELS" for="Year">How many years of work experience do you have?</label>
+                  <small style="color:#777;font-size:12px;display:block;margin-bottom:8px;">You can pick from the list or type in a number directly</small>
+                  <div class="exp-wrap">
+                    <input type="number" id="expNumberInput" min="0" max="60" placeholder="e.g. 5" oninput="syncExpFromNumber(this.value)" />
+                    <span>years, or select:</span>
+                    <select id="expSelect" class="SIGNUP-INPUTS-LABELS" style="flex:1;" onchange="syncExpFromSelect(this.value)">
+                      <option value="" disabled selected>-- Choose --</option>
+                      <option value="Less than 1 year">Less than 1 year</option>
+                      <option value="1 year">1 year</option>
+                      <option value="2 years">2 years</option>
+                      <option value="3 years">3 years</option>
+                      <option value="4 years">4 years</option>
+                      <option value="5 years">5 years</option>
+                      <option value="6 years">6 years</option>
+                      <option value="7 years">7 years</option>
+                      <option value="8 years">8 years</option>
+                      <option value="9 years">9 years</option>
+                      <option value="10 years">10 years</option>
+                      <option value="11 years">11 years</option>
+                      <option value="12 years">12 years</option>
+                      <option value="13 years">13 years</option>
+                      <option value="14 years">14 years</option>
+                      <option value="15 years">15 years</option>
+                      <option value="16 years">16 years</option>
+                      <option value="17 years">17 years</option>
+                      <option value="18 years">18 years</option>
+                      <option value="19 years">19 years</option>
+                      <option value="20 years">20 years</option>
+                      <option value="21–25 years">21–25 years</option>
+                      <option value="26–30 years">26–30 years</option>
+                      <option value="31–35 years">31–35 years</option>
+                      <option value="36–40 years">36–40 years</option>
+                      <option value="More than 40 years">More than 40 years</option>
+                    </select>
+                  </div>
+                  <!-- Hidden field sends "Year" to backend -->
+                  <input type="hidden" name="Year" id="expHiddenValue" />
+                  <small id="expError" class="field-error"></small>
+                </div>
+              </div>
+
+              <!-- STEP 8: Institution -->
+              <div class="SIGNUP-INPUTS-DIVS step-8 hidden">
+                <label class="SIGNUP-INPUTS-LABELS" for="Campus">Which institution are you at?</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">Select your university or college from the list below</small>
+                <select name="Campus" id="Campus" class="SIGNUP-INPUTS-LABELS">
+                  <option value="" selected disabled>-- Select your institution --</option>
+                  <option value="Africa Nazarene University">Africa Nazarene University</option>
+                  <option value="Aga Khan University">Aga Khan University</option>
+                  <option value="Alupe University">Alupe University</option>
+                  <option value="Amref International University">Amref International University</option>
+                  <option value="Catholic University of Eastern Africa">Catholic University of Eastern Africa</option>
+                  <option value="Chuka University">Chuka University</option>
+                  <option value="Co-operative University of Kenya">Co-operative University of Kenya</option>
+                  <option value="Daystar University">Daystar University</option>
+                  <option value="Dedan Kimathi University of Technology">Dedan Kimathi University of Technology</option>
+                  <option value="Egerton University">Egerton University</option>
+                  <option value="Garissa University">Garissa University</option>
+                  <option value="Gretsa University">Gretsa University</option>
+                  <option value="Jaramogi Oginga Odinga University of Science and Technology">Jaramogi Oginga Odinga University of Science and Technology</option>
+                  <option value="Jomo Kenyatta University of Agriculture and Technology">Jomo Kenyatta University of Agriculture and Technology</option>
+                  <option value="Karatina University">Karatina University</option>
+                  <option value="KCA University">KCA University</option>
+                  <option value="Kenya Methodist University">Kenya Methodist University</option>
+                  <option value="Kenyatta University">Kenyatta University</option>
+                  <option value="Kibabii University">Kibabii University</option>
+                  <option value="Kirinyaga University">Kirinyaga University</option>
+                  <option value="Kisii University">Kisii University</option>
+                  <option value="Laikipia University">Laikipia University</option>
+                  <option value="Machakos University">Machakos University</option>
+                  <option value="Maasai Mara University">Maasai Mara University</option>
+                  <option value="Management University of Africa">Management University of Africa</option>
+                  <option value="Maseno University">Maseno University</option>
+                  <option value="Masinde Muliro University of Science and Technology">Masinde Muliro University of Science and Technology</option>
+                  <option value="Meru University of Science and Technology">Meru University of Science and Technology</option>
+                  <option value="Moi University">Moi University</option>
+                  <option value="Mount Kenya University">Mount Kenya University</option>
+                  <option value="Multimedia University of Kenya">Multimedia University of Kenya</option>
+                  <option value="Murang'a University of Technology">Murang'a University of Technology</option>
+                  <option value="Nairobi University">Nairobi University</option>
+                  <option value="Open University of Kenya">Open University of Kenya</option>
+                  <option value="Pwani University">Pwani University</option>
+                  <option value="Riara University">Riara University</option>
+                  <option value="Rongo University">Rongo University</option>
+                  <option value="Scott Christian University">Scott Christian University</option>
+                  <option value="South Eastern Kenya University">South Eastern Kenya University</option>
+                  <option value="St. Paul's University">St. Paul's University</option>
+                  <option value="Strathmore University">Strathmore University</option>
+                  <option value="Technical University of Kenya">Technical University of Kenya</option>
+                  <option value="Technical University of Mombasa">Technical University of Mombasa</option>
+                  <option value="Tom Mboya University">Tom Mboya University</option>
+                  <option value="United States International University-Africa">United States International University-Africa</option>
+                  <option value="University of Eldoret">University of Eldoret</option>
+                  <option value="University of Embu">University of Embu</option>
+                  <option value="University of Kabianga">University of Kabianga</option>
+                  <option value="University of Nairobi">University of Nairobi</option>
+                  <option value="Uzima University">Uzima University</option>
+                  <option value="Zetech University">Zetech University</option>
+                </select>
+                <small id="campusError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 9: Birth Year -->
+              <div class="SIGNUP-INPUTS-DIVS step-9 hidden">
+                <label class="SIGNUP-INPUTS-LABELS" for="birthYear">What year were you born?</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:6px;">We use this to keep MMUN age-appropriate</small>
+                <select name="birthYear" id="birthYear" class="SIGNUP-INPUTS-LABELS" required>
+                  <option value="" selected disabled>-- Select your birth year --</option>
+                </select>
+                <small id="birthyearError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 10: Birth Month -->
+              <div class="SIGNUP-INPUTS-DIVS step-10 hidden">
+                <label class="SIGNUP-INPUTS-LABELS" for="birthMonth">What month were you born?</label>
+                <select name="birthMonth" id="birthMonth" class="SIGNUP-INPUTS-LABELS" required>
+                  <option value="" selected disabled>-- Select your birth month --</option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <small id="birthmonthError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 11: Birth Day -->
+              <div class="SIGNUP-INPUTS-DIVS step-11 hidden">
+                <label class="SIGNUP-INPUTS-LABELS" for="birthDay">What day of the month were you born?</label>
+                <select name="birthDay" id="birthDay" class="SIGNUP-INPUTS-LABELS" required>
+                  <option value="" selected disabled>-- Select your birth day --</option>
+                </select>
+                <small id="birthdayError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 12: Gender -->
+              <div class="SIGNUP-INPUTS-DIVS step-12 hidden">
+                <label class="SIGNUP-INPUTS-LABELS">Select your gender</label>
+                <small style="color:#777;font-size:12px;display:block;margin-bottom:10px;">This helps us personalise your MMUN experience. Default is Female.</small>
+                <input type="hidden" name="gender" id="genderValue" value="Female" />
+                <div class="gender-cards">
+                  <div class="gender-card selected" data-value="Female" onclick="selectGender('Female')">
+                    <span class="gender-icon">♀</span>
+                    Female
+                  </div>
+                  <div class="gender-card" data-value="Male" onclick="selectGender('Male')">
+                    <span class="gender-icon">♂</span>
+                    Male
+                  </div>
+                  <div class="gender-card" data-value="Rather not say" onclick="selectGender('Rather not say')">
+                    <span class="gender-icon">◎</span>
+                    Rather not say
+                  </div>
+                </div>
+                <small id="genderError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 13: Profile Picture -->
+              <div class="SIGNUP-INPUTS-DIVS profile-section step-13 hidden">
+                <label class="SIGNUP-INPUTS-LABELS profile-label">
+                  Upload your profile picture <span style="color:#f44336; font-size:0.9em;">(required)</span>
+                </label>
+                <p style="font-size:13px; color:#666; margin:4px 0 12px 0; line-height:1.5;">
+                  A clear, friendly profile photo helps others connect with you faster. Make sure your face is visible and well-lit!
+                </p>
+                <div class="neon-divider"></div>
+                <div class="profile-pic-wrapper">
+                  <img id="profilePreview" src="/mediafiles/defaultProfile.png" alt="Profile preview" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #ddd;display:block;margin-bottom:12px;" />
+                  <button type="button" class="upload-pic-btn" onclick="document.getElementById('profilePic').click()">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
+                    Upload Profile Picture
+                  </button>
+                  <input class="SIGNUP-INPUTS" id="profilePic" name="profilePic" type="file" accept="image/*" required />
+                  <p id="picFileName" style="font-size:13px;color:#888;margin-top:8px;"></p>
+                </div>
+                <small id="profileError" class="field-error"></small>
+              </div>
+
+              <div id="BUTTONS-WRAPPER" style="display: flex; gap: 16px; justify-content: center; margin-top: 24px;">
+                <button id="BACK-BTN" type="button" class="backBtn"><img src="/Assets/BackSvg.svg" alt="Back"></button>
+                <button id="SUBMIT-BTN" type="button" class="submitBtn unchanged">Next</button>
+              </div>
+
+              <div class="createText">Already have an account? <a href="/login">Login</a></div>
+            </div>
+          </div>
+        </form>
+
+        <div class="floating-container" id="blocked" style="display: none">
+          <div class="floating-text">This site was blocked by cloud-based Terminal</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── CONSENT POPUP ── -->
+    <div id="consent-overlay">
+      <div class="consent-box">
+        <h2>Almost there!</h2>
+        <p>Before we create your MMUN account, please read and agree to our terms. Your privacy matters to us.</p>
+
+        <div class="consent-check-row">
+          <input type="checkbox" id="consent-privacy" onchange="checkConsent()" />
+          <label for="consent-privacy">
+            I have read and agree to the <a href="/privacypolicy" target="_blank">MMUN Privacy Policy</a>. I understand how my data is collected and used.
+          </label>
+        </div>
+
+        <div class="consent-check-row">
+          <input type="checkbox" id="consent-about" onchange="checkConsent()" />
+          <label for="consent-about">
+            I have read <a href="/about" target="_blank">About MMUN</a> and I understand what this platform is and what it is for.
+          </label>
+        </div>
+
+        <button class="consent-submit-btn" id="consent-submit-btn" onclick="submitForm()">
+          Create My Account
+        </button>
+        <span class="consent-cancel" onclick="closeConsent()">Go back and review my information</span>
+      </div>
+    </div>
+
+    <script>
+      // ── Populate birth year dropdown ──
+      const birthYearSel = document.getElementById('birthYear');
+      for (let y = 2010; y >= 1950; y--) {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        if (y === 2006) opt.selected = true;
+        birthYearSel.appendChild(opt);
+      }
+
+      // ── Populate birth day dropdown ──
+      const birthDaySel = document.getElementById('birthDay');
+      for (let d = 1; d <= 31; d++) {
+        const opt = document.createElement('option');
+        opt.value = String(d).padStart(2,'0');
+        opt.textContent = d;
+        birthDaySel.appendChild(opt);
+      }
+
+      // ── Nav menu ──
+      const menu = document.getElementById("Menu");
+      const navigationPane = document.getElementById("HPAGELINKS");
+      function showNav() {
+        if (navigationPane.style.display === '' || navigationPane.style.display === 'none') {
+          navigationPane.style.display = 'flex';
+          menu.style.transform = 'rotate(90deg)';
+          menu.style.scale = "0.5";
+          setTimeout(() => {
+            navigationPane.style.display = 'none';
+            menu.style.transform = 'rotate(0deg)';
+            menu.style.scale = '1';
+          }, 4000);
+        }
+      }
+
+      // ── Username blink placeholder ──
+      setInterval(() => {
+        const u = document.getElementById("usernameS");
+        u.placeholder = (u.placeholder === 'e.g. Mmun_user' || u.placeholder === '') ? '|' : 'e.g. Mmun_user';
+      }, 600);
+
+      // ── Step management ──
+      // Total steps: 13
+      // Steps: 1(username) 2(phone) 3(pw) 4(confirm pw) 5(role) 6(course/dept/lecturer)
+      //        7(year/exp) 8(campus) 9(birthYear) 10(birthMonth) 11(birthDay) 12(gender) 13(profilePic)
+      let currentStep = 1;
+      let currentRole = 'Student'; // default
+
+      const TOTAL_STEPS = 13;
+
+      const nextBtn = document.getElementById("SUBMIT-BTN");
+      const backBtn = document.getElementById("BACK-BTN");
+      const form = document.getElementById("SIGNUP-FORM");
+      const errorDisplay = document.getElementById("ERROR-TEXT");
+
+      function getStepEl(step) {
+        return document.querySelector(`.step-${step}`);
+      }
+
+      function showStep(step) {
+        for (let i = 1; i <= TOTAL_STEPS; i++) {
+          const el = getStepEl(i);
+          if (el) el.classList.add('hidden');
+        }
+        const el = getStepEl(step);
+        if (el) el.classList.remove('hidden');
+
+        // Show/hide role-specific sub-sections within step 6 and 7
+        if (step === 6) {
+          document.getElementById('student-course-wrap').classList.toggle('hidden', currentRole !== 'Student');
+          document.getElementById('deptworker-wrap').classList.toggle('hidden', currentRole !== 'Department Worker');
+          document.getElementById('lecturer-wrap').classList.toggle('hidden', currentRole !== 'Lecturer');
+        }
+        if (step === 7) {
+          document.getElementById('student-year-wrap').classList.toggle('hidden', currentRole !== 'Student');
+          document.getElementById('experience-wrap').classList.toggle('hidden', currentRole === 'Student');
+        }
+
+        nextBtn.textContent = step === TOTAL_STEPS ? 'Create Account' : 'Next';
+        backBtn.style.display = step > 1 ? 'flex' : 'none';
+        updateProgress(step);
+        checkIfStepIsValid();
+      }
+
+      function handleRoleChange() {
+        currentRole = document.getElementById('Role').value;
+        checkIfStepIsValid();
+      }
+
+      // ── Gender ──
+      function selectGender(val) {
+        document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`.gender-card[data-value="${val}"]`).classList.add('selected');
+        document.getElementById('genderValue').value = val;
+        checkIfStepIsValid();
+      }
+
+      // ── Dept Worker chips ──
+      const deptWorkerSelected = new Set();
+      function addDeptWorkerChip(val) {
+        if (!val) return;
+        if (val === 'Other') {
+          document.getElementById('deptworker-other-wrap').classList.add('visible');
+          syncDeptWorkerValue();
+          return;
+        }
+        if (deptWorkerSelected.has(val)) return;
+        deptWorkerSelected.add(val);
+        renderDeptWorkerChips();
+        syncDeptWorkerValue();
+      }
+      function removeDeptWorkerChip(val) {
+        deptWorkerSelected.delete(val);
+        renderDeptWorkerChips();
+        syncDeptWorkerValue();
+      }
+      function renderDeptWorkerChips() {
+        const container = document.getElementById('deptworker-chips');
+        container.innerHTML = '';
+        deptWorkerSelected.forEach(val => {
+          const chip = document.createElement('div');
+          chip.className = 'chip selected';
+          chip.innerHTML = `${val} <span style="margin-left:6px;font-size:11px;cursor:pointer;" onclick="removeDeptWorkerChip('${val.replace(/'/g,"\\'")}')">✕</span>`;
+          container.appendChild(chip);
+        });
+        checkIfStepIsValid();
+      }
+      function syncDeptWorkerValue() {
+        const other = document.getElementById('deptworkerOtherInput').value.trim();
+        const all = [...deptWorkerSelected];
+        if (other) all.push(other);
+        document.getElementById('deptworkerValue').value = all.join(', ');
+        checkIfStepIsValid();
+      }
+      document.getElementById('deptworkerOtherInput').addEventListener('input', syncDeptWorkerValue);
+
+      // ── Lecturer chips ──
+      const lecturerSelected = new Set();
+      function addLecturerChip(val) {
+        if (!val) return;
+        if (val === 'Other') {
+          document.getElementById('lecturer-other-wrap').classList.add('visible');
+          syncLecturerValue();
+          return;
+        }
+        if (lecturerSelected.has(val)) return;
+        lecturerSelected.add(val);
+        renderLecturerChips();
+        syncLecturerValue();
+      }
+      function removeLecturerChip(val) {
+        lecturerSelected.delete(val);
+        renderLecturerChips();
+        syncLecturerValue();
+      }
+      function renderLecturerChips() {
+        const container = document.getElementById('lecturer-chips');
+        container.innerHTML = '';
+        lecturerSelected.forEach(val => {
+          const chip = document.createElement('div');
+          chip.className = 'chip selected';
+          chip.innerHTML = `${val} <span style="margin-left:6px;font-size:11px;cursor:pointer;" onclick="removeLecturerChip('${val.replace(/'/g,"\\'")}')">✕</span>`;
+          container.appendChild(chip);
+        });
+        checkIfStepIsValid();
+      }
+      function syncLecturerValue() {
+        const other = document.getElementById('lecturerOtherInput').value.trim();
+        const all = [...lecturerSelected];
+        if (other) all.push(other);
+        document.getElementById('lecturerValue').value = all.join(', ');
+        checkIfStepIsValid();
+      }
+      document.getElementById('lecturerOtherInput').addEventListener('input', syncLecturerValue);
+
+      // ── Course "Other" ──
+      document.getElementById('CourseS').addEventListener('change', function() {
+        const wrap = document.getElementById('course-other-wrap');
+        wrap.classList.toggle('visible', this.value === 'Other');
+        checkIfStepIsValid();
+      });
+
+      // ── Experience sync ──
+      function syncExpFromNumber(val) {
+        const n = parseInt(val);
+        if (!isNaN(n) && n >= 0) {
+          const label = n === 1 ? '1 year' : `${n} years`;
+          document.getElementById('expHiddenValue').value = label;
+          document.getElementById('expSelect').value = '';
+        }
+        checkIfStepIsValid();
+      }
+      function syncExpFromSelect(val) {
+        document.getElementById('expHiddenValue').value = val;
+        document.getElementById('expNumberInput').value = '';
+        checkIfStepIsValid();
+      }
+
+      // ── Validation ──
+      function isCurrentStepValid() {
+        const s = currentStep;
+        if (s === 1) {
+          const v = document.getElementById("usernameS").value.trim();
+          return v.length >= 4 && v.length <= 12 && /^[a-zA-Z0-9_-]+$/.test(v);
+        }
+        if (s === 2) {
+          const v = document.getElementById("phoneS").value.trim();
+          return /^0(7|1)\d{8}$/.test(v);
+        }
+        if (s === 3) {
+          const pw = document.getElementById("passwordS").value;
+          return pw.length >= 6 && pw.length <= 12;
+        }
+        if (s === 4) {
+          const pw = document.getElementById("passwordS").value;
+          const cf = document.getElementById("passwordCS").value;
+          return cf.length > 0 && pw === cf;
+        }
+        if (s === 5) return !!document.getElementById("Role").value;
+        if (s === 6) {
+          if (currentRole === 'Student') {
+            const v = document.getElementById('CourseS').value;
+            if (v === 'Other') return document.getElementById('courseOtherInput').value.trim().length > 0;
+            return !!v;
+          }
+          if (currentRole === 'Department Worker') {
+            return document.getElementById('deptworkerValue').value.trim().length > 0;
+          }
+          if (currentRole === 'Lecturer') {
+            return document.getElementById('lecturerValue').value.trim().length > 0;
+          }
+        }
+        if (s === 7) {
+          if (currentRole === 'Student') return !!document.getElementById('Year').value;
+          return document.getElementById('expHiddenValue').value.trim().length > 0;
+        }
+        if (s === 8) return !!document.getElementById("Campus").value;
+        if (s === 9) return !!document.getElementById("birthYear").value;
+        if (s === 10) return !!document.getElementById("birthMonth").value;
+        if (s === 11) return !!document.getElementById("birthDay").value;
+        if (s === 12) return !!document.getElementById("genderValue").value;
+        if (s === 13) {
+          const f = document.getElementById("profilePic").files;
+          return f && f.length > 0;
+        }
+        return false;
+      }
+
+      function checkIfStepIsValid() {
+        const valid = isCurrentStepValid();
+        nextBtn.classList.toggle("unchanged", !valid);
+      }
+
+      // ── Inline validation messages ──
+      document.getElementById("usernameS").addEventListener("input", function() {
+        const v = this.value.trim();
+        let msg = "";
+        if (!v) msg = "Username is required";
+        else if (v.length < 4) msg = "Too short — minimum 4 characters";
+        else if (v.length > 12) msg = "Too long — maximum 12 characters";
+        else if (!/^[a-zA-Z0-9_-]+$/.test(v)) msg = "Only letters, numbers, _ or - are allowed";
+        showError("usernameError", msg);
+        checkIfStepIsValid();
+      });
+      document.getElementById("phoneS").addEventListener("input", function() {
+        const v = this.value.trim();
+        let msg = "";
+        if (!v) msg = "Phone number is required";
+        else if (!/^0(7|1)\d{0,8}$/.test(v)) msg = "Must start with 07 or 01";
+        else if (v.length < 10) msg = "Number is too short";
+        else if (v.length > 10) msg = "Number is too long";
+        showError("phoneError", msg);
+        checkIfStepIsValid();
+      });
+      document.getElementById("passwordS").addEventListener("input", function() {
+        const pw = this.value;
+        let strength = "None", color = "#ccc", width = "0%", msg = "";
+        if (!pw) msg = "Password is required";
+        else if (pw.length < 6) msg = "Too short — minimum 6 characters";
+        else if (pw.length > 12) msg = "Too long — maximum 12 characters";
+        else {
+          if (pw.length >= 10 || (pw.match(/[A-Z]/) && pw.match(/[0-9]/) && pw.match(/[^A-Za-z0-9]/))) {
+            strength = "Strong"; color = "#4caf50"; width = "100%";
+          } else if (pw.length >= 8 || pw.match(/[A-Z]/) || pw.match(/[0-9]/)) {
+            strength = "Medium"; color = "#ff9800"; width = "60%";
+          } else {
+            strength = "Weak"; color = "#f44336"; width = "30%";
+          }
+        }
+        document.getElementById("strengthText").textContent = `Password strength: ${strength}`;
+        document.getElementById("strengthText").style.color = color;
+        document.getElementById("strengthBar").style.width = width;
+        document.getElementById("strengthBar").style.background = color;
+        showError("passwordError", msg);
+        checkIfStepIsValid();
+      });
+      document.getElementById("passwordCS").addEventListener("input", function() {
+        const pw = document.getElementById("passwordS").value;
+        const cf = this.value;
+        let msg = "";
+        if (!cf) msg = "Please enter your confirmation password";
+        else if (cf !== pw) msg = "Passwords do not match — please check and try again";
+        showError("confirmError", msg);
+        checkIfStepIsValid();
+      });
+
+      function showError(id, msg) {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.style.display = msg ? "block" : "none"; }
+      }
+
+      // ── Progress ──
+      function updateProgress(step) {
+        const pct = Math.round((step / TOTAL_STEPS) * 100);
+        document.getElementById("progressPercent").textContent = pct + "%";
+        document.getElementById("progressFill").style.width = pct + "%";
+        let label = "Basic info";
+        if (step >= 4) label = "Account security";
+        if (step >= 6) label = "About you";
+        if (step >= 9) label = "Date of birth";
+        if (step >= 12) label = "Almost done";
+        document.getElementById("progressLabel").textContent = label;
+      }
+
+      // ── Navigation ──
+      function gotoNext() {
+        if (!isCurrentStepValid()) {
+          errorDisplay.textContent = "Please complete this step correctly before continuing";
+          setTimeout(() => errorDisplay.textContent = "", 2500);
+          return;
+        }
+        if (currentStep < TOTAL_STEPS) {
+          currentStep++;
+          showStep(currentStep);
+        } else {
+          // Last step — show consent popup instead of submitting
+          openConsent();
+        }
+      }
+
+      function gotoBack() {
+        if (currentStep <= 1) return;
+        currentStep--;
+        showStep(currentStep);
+      }
+
+      nextBtn.addEventListener("click", gotoNext);
+      backBtn.addEventListener("click", gotoBack);
+
+      document.getElementById("INPUTS-WRAPPER").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); if (!nextBtn.classList.contains("unchanged")) gotoNext(); }
+      });
+
+      // ── Profile picture preview ──
+      document.getElementById("profilePic").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          document.getElementById("profilePreview").src = URL.createObjectURL(file);
+          document.getElementById("picFileName").textContent = `Selected: ${file.name}`;
+          checkIfStepIsValid();
+        }
+      });
+
+      // ── Consent popup ──
+      function openConsent() {
+        document.getElementById('consent-overlay').classList.add('open');
+      }
+      function closeConsent() {
+        document.getElementById('consent-overlay').classList.remove('open');
+        document.getElementById('consent-privacy').checked = false;
+        document.getElementById('consent-about').checked = false;
+        document.getElementById('consent-submit-btn').classList.remove('ready');
+      }
+      function checkConsent() {
+        const p = document.getElementById('consent-privacy').checked;
+        const a = document.getElementById('consent-about').checked;
+        document.getElementById('consent-submit-btn').classList.toggle('ready', p && a);
+      }
+      function submitForm() {
+        // If student, ensure Year field has value; if non-student, ensure Year hidden field is set
+        if (currentRole !== 'Student') {
+          const expVal = document.getElementById('expHiddenValue').value;
+          document.getElementById('Year').value = expVal || 'N/A';
+        }
+        // Loader
+        const loadA = document.getElementById("loadA");
+        const loadB = document.getElementById("loadB");
+        if (loadA && loadB) {
+          loadA.classList.remove("unload");
+          loadB.classList.remove("unload");
+        }
+        form.submit();
+      }
+
+      // ── Blocked site check ──
+      fetch("/sysInfo")
+        .then(t => t.json())
+        .then(d => { if (!d[0].appState) document.getElementById("blocked").style.display = "flex"; })
+        .catch(() => {});
+
+      // ── Init ──
+      backBtn.style.display = "none";
+      nextBtn.classList.add("unchanged");
+      showStep(1);
+      updateProgress(1);
+    </script>
+  </body>
+</html>

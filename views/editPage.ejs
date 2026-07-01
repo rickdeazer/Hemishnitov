@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="rgb(37, 4, 43)" />
+  <title>Test Edit Form</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="editPage.css">
+<link href="https://fonts.googleapis.com/css2?family=Akronim&family=Bellefair&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Kranky&family=Lora:ital,wght@0,400..700;1,400..700&family=Offside&family=Oleo+Script:wght@400;700&family=Rubik+Scribble&family=Rubik+Wet+Paint&family=Stack+Sans+Notch:wght@200..700&family=Trade+Winds&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="xbox">
+    <h3>Your Profile Page</h3>
+  <p><%= user.username%>...</p>
+
+  <!-- THE EDIT BUTTON -->
+  <button id="openEdit">
+    Edit Profile
+  </button>
+  </div>
+
+  <!-- THE POPUP FORM -->
+  <div id="editModal">
+    <div id="MainBox">
+      
+      <button id="closeModal">×</button>
+      
+      <h2>Edit Your Profile</h2>
+      <form id="editForm">
+        <div class="grid">
+          <h3 class="MAINS_TITLES">BLOG IDENTITY</h3>
+          <div class="MAINS" id="MAIN_blog_slog">
+                      <div>
+            <label>Blog Title</label>
+            <input type="text" id="blogTitle" value="<%= user.blogTitle || "MY BLOG TITLE "%>">
+          </div>
+          
+          <div>
+            <label>Slogan</label>
+            <input type="text" id="slogan" value="<%= user.slogan %>">
+          </div>
+          </div>
+          <h3 class="MAINS_TITLES"> ETHNICITY AND CULTURE </h3>
+          <div class="MAINS" id="MAIN_trb_loc_rel">
+                      <div>
+            <label>Tribe</label>
+            <select id="tribe">
+              <option value="" disabled <%= !user.tribe ? "selected" : "" %>>Select your tribe</option>
+              <option value="Kikuyu" <%= user.tribe === "Kikuyu" ? "selected" : "" %>>Kikuyu</option>
+              <option value="Luhya" <%= user.tribe === "Luhya" ? "selected" : "" %>>Luhya</option>
+              <option value="Kalenjin" <%= user.tribe === "Kalenjin" ? "selected" : "" %>>Kalenjin</option>
+              <option value="Luo" <%= user.tribe === "Luo" ? "selected" : "" %>>Luo</option>
+              <option value="Kamba" <%= user.tribe === "Kamba" ? "selected" : "" %>>Kamba</option>
+              <option value="Kisii" <%= user.tribe === "Kisii" ? "selected" : "" %>>Kisii</option>
+              <option value="Meru" <%= user.tribe === "Meru" ? "selected" : "" %>>Meru</option>
+              <option value="Mijikenda" <%= user.tribe === "Mijikenda" ? "selected" : "" %>>Mijikenda</option>
+              <option value="Maasai" <%= user.tribe === "Maasai" ? "selected" : "" %>>Maasai</option>
+              <option value="Turkana" <%= user.tribe === "Turkana" ? "selected" : "" %>>Turkana</option>
+              <option value="Samburu" <%= user.tribe === "Samburu" ? "selected" : "" %>>Samburu</option>
+              <option value="Embu" <%= user.tribe === "Embu" ? "selected" : "" %>>Embu</option>
+              <option value="Mbeere" <%= user.tribe === "Mbeere" ? "selected" : "" %>>Mbeere</option>
+              <option value="Taita" <%= user.tribe === "Taita" ? "selected" : "" %>>Taita</option>
+              <option value="Pokot" <%= user.tribe === "Pokot" ? "selected" : "" %>>Pokot</option>
+              <option value="Giriama" <%= user.tribe === "Giriama" ? "selected" : "" %>>Giriama</option>
+              <option value="Kuria" <%= user.tribe === "Kuria" ? "selected" : "" %>>Kuria</option>
+              <option value="Rendille" <%= user.tribe === "Rendille" ? "selected" : "" %>>Rendille</option>
+              <option value="Borana" <%= user.tribe === "Borana" ? "selected" : "" %>>Borana</option>
+              <option value="Somali" <%= user.tribe === "Somali" ? "selected" : "" %>>Somali</option>
+              <option value="Gabra" <%= user.tribe === "Gabra" ? "selected" : "" %>>Gabra</option>
+              <option value="Teso" <%= user.tribe === "Teso" ? "selected" : "" %>>Teso</option>
+              <option value="Nubian" <%= user.tribe === "Nubian" ? "selected" : "" %>>Nubian</option>
+              <option value="Other" <%= user.tribe === "Other" ? "selected" : "" %>>Other</option>
+            </select>
+            <div class="privacy-checkbox">
+              <input type="checkbox" id="tribePublic" <%= user.tribePublic ? "checked" : "" %>>
+              <label for="tribePublic">Make Public</label>
+            </div>
+          </div>
+          <div>
+            <label>Locality (County/City)</label>
+            <select id="locality">
+              <option value="" disabled <%= !user.locality ? "selected" : "" %>>Select county/city</option>
+              <option value="Nairobi" <%= user.locality === "Nairobi" ? "selected" : "" %>>Nairobi</option>
+              <option value="Mombasa" <%= user.locality === "Mombasa" ? "selected" : "" %>>Mombasa</option>
+              <option value="Kisumu" <%= user.locality === "Kisumu" ? "selected" : "" %>>Kisumu</option>
+              <option value="Nakuru" <%= user.locality === "Nakuru" ? "selected" : "" %>>Nakuru</option>
+              <option value="Uasin Gishu" <%= user.locality === "Uasin Gishu" ? "selected" : "" %>>Uasin Gishu</option>
+              <option value="Kiambu" <%= user.locality === "Kiambu" ? "selected" : "" %>>Kiambu</option>
+              <option value="Machakos" <%= user.locality === "Machakos" ? "selected" : "" %>>Machakos</option>
+              <option value="Kilifi" <%= user.locality === "Kilifi" ? "selected" : "" %>>Kilifi</option>
+              <option value="Kwale" <%= user.locality === "Kwale" ? "selected" : "" %>>Kwale</option>
+              <option value="Mandera" <%= user.locality === "Mandera" ? "selected" : "" %>>Mandera</option>
+              <option value="Turkana" <%= user.locality === "Turkana" ? "selected" : "" %>>Turkana</option>
+              <option value="Bungoma" <%= user.locality === "Bungoma" ? "selected" : "" %>>Bungoma</option>
+              <option value="Kakamega" <%= user.locality === "Kakamega" ? "selected" : "" %>>Kakamega</option>
+              <option value="Meru" <%= user.locality === "Meru" ? "selected" : "" %>>Meru</option>
+              <option value="Nyeri" <%= user.locality === "Nyeri" ? "selected" : "" %>>Nyeri</option>
+              <option value="Murang'a" <%= user.locality === "Murang'a" ? "selected" : "" %>>Murang'a</option>
+              <option value="Kirinyaga" <%= user.locality === "Kirinyaga" ? "selected" : "" %>>Kirinyaga</option>
+              <option value="Embu" <%= user.locality === "Embu" ? "selected" : "" %>>Embu</option>
+              <option value="Kitui" <%= user.locality === "Kitui" ? "selected" : "" %>>Kitui</option>
+              <option value="Taita Taveta" <%= user.locality === "Taita Taveta" ? "selected" : "" %>>Taita Taveta</option>
+              <option value="Garissa" <%= user.locality === "Garissa" ? "selected" : "" %>>Garissa</option>
+              <option value="Wajir" <%= user.locality === "Wajir" ? "selected" : "" %>>Wajir</option>
+              <option value="Marsabit" <%= user.locality === "Marsabit" ? "selected" : "" %>>Marsabit</option>
+              <option value="Isiolo" <%= user.locality === "Isiolo" ? "selected" : "" %>>Isiolo</option>
+              <option value="Elgeyo Marakwet" <%= user.locality === "Elgeyo Marakwet" ? "selected" : "" %>>Elgeyo Marakwet</option>
+              <option value="West Pokot" <%= user.locality === "West Pokot" ? "selected" : "" %>>West Pokot</option>
+              <option value="Baringo" <%= user.locality === "Baringo" ? "selected" : "" %>>Baringo</option>
+              <option value="Laikipia" <%= user.locality === "Laikipia" ? "selected" : "" %>>Laikipia</option>
+              <option value="Nandi" <%= user.locality === "Nandi" ? "selected" : "" %>>Nandi</option>
+              <option value="Kajiado" <%= user.locality === "Kajiado" ? "selected" : "" %>>Kajiado</option>
+              <option value="Kericho" <%= user.locality === "Kericho" ? "selected" : "" %>>Kericho</option>
+              <option value="Bomet" <%= user.locality === "Bomet" ? "selected" : "" %>>Bomet</option>
+              <option value="Narok" <%= user.locality === "Narok" ? "selected" : "" %>>Narok</option>
+              <option value="Trans Nzoia" <%= user.locality === "Trans Nzoia" ? "selected" : "" %>>Trans Nzoia</option>
+              <option value="Homa Bay" <%= user.locality === "Homa Bay" ? "selected" : "" %>>Homa Bay</option>
+              <option value="Siaya" <%= user.locality === "Siaya" ? "selected" : "" %>>Siaya</option>
+              <option value="Migori" <%= user.locality === "Migori" ? "selected" : "" %>>Migori</option>
+              <option value="Busia" <%= user.locality === "Busia" ? "selected" : "" %>>Busia</option>
+              <option value="Vihiga" <%= user.locality === "Vihiga" ? "selected" : "" %>>Vihiga</option>
+              <option value="Lamu" <%= user.locality === "Lamu" ? "selected" : "" %>>Lamu</option>
+              <option value="Tana River" <%= user.locality === "Tana River" ? "selected" : "" %>>Tana River</option>
+              <option value="Nyandarua" <%= user.locality === "Nyandarua" ? "selected" : "" %>>Nyandarua</option>
+              <option value="Tharaka Nithi" <%= user.locality === "Tharaka Nithi" ? "selected" : "" %>>Tharaka Nithi</option>
+              <option value="Other" <%= user.locality === "Other" ? "selected" : "" %>>Other</option>
+            </select>
+            <div class="privacy-checkbox">
+              <input type="checkbox" id="localityPublic" <%= user.localityPublic ? "checked" : "" %>>
+              <label for="localityPublic">Make Public</label>
+            </div>
+          </div>
+          <div> 
+            <label>Religion</label>
+            <select id="religion">
+              <option value="Christian" <%= user.religion === "Christian" ? "selected" : "" %>>Christian</option>
+              <option value="Catholic" <%= user.religion === "Catholic" ? "selected" : "" %>>Catholic</option>
+              <option value="Protestant" <%= user.religion === "Protestant" ? "selected" : "" %>>Protestant</option>
+              <option value="Pentecostal" <%= user.religion === "Pentecostal" ? "selected" : "" %>>Pentecostal</option>
+              <option value="Muslim" <%= user.religion === "Muslim" ? "selected" : "" %>>Muslim</option>
+              <option value="Hindu" <%= user.religion === "Hindu" ? "selected" : "" %>>Hindu</option>
+              <option value="Traditional African Religion" <%= user.religion === "Traditional African Religion" ? "selected" : "" %>>Traditional African Religion</option>
+              <option value="Buddhist" <%= user.religion === "Buddhist" ? "selected" : "" %>>Buddhist</option>
+              <option value="Sikh" <%= user.religion === "Sikh" ? "selected" : "" %>>Sikh</option>
+              <option value="Jehovah's Witness" <%= user.religion === "Jehovah's Witness" ? "selected" : "" %>>Jehovah's Witness</option>
+              <option value="Atheist" <%= user.religion === "Atheist" ? "selected" : "" %>>Atheist</option>
+              <option value="Agnostic" <%= user.religion === "Agnostic" ? "selected" : "" %>>Agnostic</option>
+              <option value="Other" <%= user.religion === "Other" ? "selected" : "" %>>Other</option>
+            </select>
+            <div class="privacy-checkbox">
+              <input type="checkbox" id="religionPublic" <%= user.religionPublic ? "checked" : "" %>>
+              <label for="religionPublic">Make Public</label>
+            </div>
+          </div>
+          </div>
+          <h3 class="MAINS_TITLES"> RELATIONSHIP </h3>
+         <div class="MAINS" id="MAIN_relation">
+           <div>
+            <label>Relationship</label>
+            <select id="relationship">
+              <option value="Single" <%= user.relationship === "Single" ? "selected" : "" %>>Single</option>
+              <option value="In a relationship" <%= user.relationship === "In a relationship" ? "selected" : "" %>>In a relationship</option>
+              <option value="Engaged" <%= user.relationship === "Engaged" ? "selected" : "" %>>Engaged</option>
+              <option value="Married" <%= user.relationship === "Married" ? "selected" : "" %>>Married</option>
+              <option value="Divorced" <%= user.relationship === "Divorced" ? "selected" : "" %>>Divorced</option>
+              <option value="It's complicated" <%= user.relationship === "It's complicated" ? "selected" : "" %>>It's complicated</option>
+            </select>
+            <div class="privacy-checkbox">
+              <input type="checkbox" id="relationshipPublic" <%= user.relationshipPublic ? "checked" : "" %>>
+              <label for="relationshipPublic">Make Public</label>
+            </div>
+          </div>
+         </div>
+          <div><h3 class="MAINS_TITLES"> SOCIAL MEDIA </h3>
+            <h4 class="MAINS-TITLES-SUB">INSTAGRAM</h4></div>
+          <!-- Instagram -->
+       <div class="MAINS" id="MAIN_instagram">
+          <div>
+          <label for="instagramHandle">Instagram Handle</label>
+          <input type="text" id="instagramHandle" 
+                value="<%= user.instagramHandle || '' %>" 
+                placeholder="@yourhandle">
+          <small class="hint">Include the @ symbol (e.g. @igUser)</small>
+        </div>
+
+        <div>
+          <label>Instagram Profile Link</label>
+          <input type="text" id="instagramLink" 
+                value="<%= user.instagramLink || '' %>" 
+                placeholder="https://instagram.com/yourusername">
+        </div>
+
+        <div class="privacy-checkbox">
+          <input type="checkbox" id="instagramPublic" <%= user.instagramPublic ? "checked" : "" %>>
+          <label for="instagramPublic">Make Instagram public</label>
+        </div>
+    </div>
+<h4 class="MAINS-TITLES-SUB">WHATSAPP</h4>
+<!-- WhatsApp -->
+  <div class="MAINS" id="MAIN_whatsapp">
+    <div>
+  <label>WhatsApp Display Name / Handle (optional)</label>
+  <input type="text" id="whatsappHandle" 
+         value="<%= user.whatsappHandle || '' %>" 
+         placeholder="<%= user.username%> vibes or your name">
+  <small class="hint">What should show before the WhatsApp link (optional)</small>
+</div>
+
+<div>
+  <label>WhatsApp Number (with country code)</label>
+  <input type="tel" id="whatsappNumber" 
+         value="<%= user.whatsappNumber || '' %>" 
+         placeholder="+254712345678">
+  <small class="hint">Used to create clickable link to your whatsapp</small>
+</div>
+
+<div>
+  <label>Default WhatsApp Message</label>
+  <textarea 
+    id="whatsappDefaultMsg" 
+    rows="3"
+    maxlength="300"
+    placeholder="Hey! Saw your profile on MMUN and had to say hi 😊 What's good?"
+  ><%= user.whatsappDefaultMsg || "" %></textarea>
+  <small class="hint" style="color:#b090ad; font-size:13px; margin-top:6px; display:block;">
+    This message will be pre-filled when someone clicks your WhatsApp button (max 300 characters)
+  </small>
+</div>
+
+<div class="privacy-checkbox">
+  <input type="checkbox" id="whatsappPublic" <%= user.whatsappPublic ? "checked" : "" %>>
+  <label for="whatsappPublic">Make WhatsApp public</label>
+</div>
+  </div>
+  <h4 class="MAINS-TITLES-SUB">FACEBOOK</h4>
+<!-- Facebook -->
+  <div class="MAINS" id="MAIN_facebook">
+    <div>
+  <label>Facebook Display Name / Handle</label>
+  <input type="text" id="facebookHandle" 
+         value="<%= user.facebookHandle || '' %>" 
+         placeholder="@yourfbname or full name">
+</div>
+
+<div>
+  <label>Facebook Profile Link</label>
+  <input type="text" id="facebookLink" 
+         value="<%= user.facebookLink || '' %>" 
+         placeholder="https://facebook.com/yourprofile">
+</div>
+
+<div class="privacy-checkbox">
+  <input type="checkbox" id="facebookPublic" <%= user.facebookPublic ? "checked" : "" %>>
+  <label for="facebookPublic">Make Facebook public</label>
+</div>
+  </div>
+        </div>
+
+          <h3 class="MAINS_TITLES"> GALLERY AND PHOTOGRAPHY </h3>
+        <!-- Profile Photo with Preview -->
+<div class="MAINS" id="MAIN_profile">
+          <label>Profile Photo</label>
+        <div class="file-upload-wrapper">
+          <input type="file" id="profilePhoto" accept="image/*">
+          <div class="file-upload-btn">
+            <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>
+            <span>Choose Profile Photo</span>
+          </div>
+          <div class="file-name" id="profileName">No file chosen</div>
+        </div>
+        <div class="image-preview" id="profilePreview"></div>
+</div>
+
+<div class="MAINS" id="MAIN_images">
+   <!-- Gallery Photo 1 with Preview -->
+        <label>Gallery Photo 1</label>
+        <div class="file-upload-wrapper">
+          <input type="file" id="gallery0" accept="image/*">
+          <div class="file-upload-btn">
+            <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>
+            <span>Choose Gallery Photo 1</span>
+          </div>
+          <div class="file-name" id="gal0Name">No file chosen</div>
+        </div>
+        <div class="image-preview" id="gal0Preview"></div>
+
+        <!-- Gallery Photo 2 -->
+        <label>Gallery Photo 2</label>
+        <div class="file-upload-wrapper">
+          <input type="file" id="gallery1" accept="image/*">
+          <div class="file-upload-btn">
+            <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>
+            <span>Choose Gallery Photo 2</span>
+          </div>
+          <div class="file-name" id="gal1Name">No file chosen</div>
+        </div>
+        <div class="image-preview" id="gal1Preview"></div>
+
+        <!-- Gallery Photo 3 -->
+        <label>Gallery Photo 3</label>
+        <div class="file-upload-wrapper">
+          <input type="file" id="gallery2" accept="image/*">
+          <div class="file-upload-btn">
+            <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>
+            <span>Choose Gallery Photo 3</span>
+          </div>
+          <div class="file-name" id="gal2Name">No file chosen</div>
+        </div>
+        <div class="image-preview" id="gal2Preview"></div>
+</div>
+
+<h3 class="MAINS_TITLES"> PERSONALITY </h3>
+<div class="MAINS" id="MAIN_abouts">
+          <label>About Me</label>
+        <div contenteditable="true" id="aboutMe">
+          <%= user.aboutMe || "Describe yourself in a way that lets someone truly understand who you are, what excites you, and what makes you uniquely you. Share your passions, quirks, and perspectives openly, painting a picture that feels authentic and inviting. Let your words convey energy, curiosity, and warmth, so that anyone reading feels a genuine connection and the irresistible urge to reach out and explore a conversation with you. Don’t hold back on length—every detail that reflects your true self only makes the connection stronger." %>
+        </div>
+
+        <label>About You</label>
+        <div contenteditable="true" id="aboutYou">
+          <%= user.aboutYou || "Describe the qualities of the kind of person you can accept interests from. This will help them understand whether they share the traits and values you care about, so if they recognize these qualities in themselves, they’ll feel inspired and confident to send you an interest. How should that person be?"%>
+        </div>
+</div>
+
+        <div id="progressContainer" style="display:none; margin: 30px 0;">
+          <div id="progressBar" style="height:10px; background:#222; border-radius:8px; overflow:hidden; border:1px solid #444;">
+            <div id="progressFill" style="height:100%; width:0%; background:linear-gradient(90deg, #9b2c8f, #c44ab8); transition: width 0.4s ease;"></div>
+          </div>
+          <p id="progressText" style="text-align:center; margin-top:12px; font-size:15px; color:#d0a0cc;">Preparing...</p>
+        </div>
+
+        <button type="submit">
+          Save Changes
+        </button>
+      </form>
+    </div>
+  </div>
+  <script>
+      const aboutMe = document.getElementById('aboutMe');
+  const aboutYou = document.getElementById('aboutYou');
+  const aboutYouText = "Describe the qualities of the kind of person you can accept interests from. This will help them understand whether they share the traits and values you care about, so if they recognize these qualities in themselves, they’ll feel inspired and confident to send you an interest. How should that person be?";
+  const aboutMeText = "Describe yourself in a way that lets someone truly understand who you are, what excites you, and what makes you uniquely you. Share your passions, quirks, and perspectives openly, painting a picture that feels authentic and inviting. Let your words convey energy, curiosity, and warmth, so that anyone reading feels a genuine connection and the irresistible urge to reach out and explore a conversation with you. Don’t hold back on length—every detail that reflects your true self only makes the connection stronger.";
+
+  aboutMe.addEventListener('focus',()=>{
+    if(aboutMe.innerText.trim() == aboutMeText.trim()){
+      aboutMe.innerText = "";
+    }
+  });
+  aboutMe.addEventListener('blur',()=>{
+    if(aboutMe.innerText.trim() == ""){
+      aboutMe.innerText = aboutMeText;
+    }
+  });
+  aboutYou.addEventListener('focus',()=>{
+    if(aboutYou.innerText.trim() == aboutYouText.trim()){
+      aboutYou.innerText = "";
+    }
+  });
+  aboutYou.addEventListener('blur',()=>{
+    if (aboutYou.innerText.trim() == ""){
+      aboutYou.innerText = aboutYouText;}
+  })
+
+  document.getElementById('openEdit').onclick = function() {
+    document.getElementById('editModal').style.display = 'flex';
+  };
+
+  document.getElementById('closeModal').onclick = function() {
+    const allEdits = document.querySelectorAll(".edited");
+    let editCounts = 0;
+    allEdits.forEach((item)=>{
+      editCounts ++;
+    });
+     if(allEdits.length){
+    const result = confirm(`You have made ${editCounts} ${editCounts == 1? "change": "changes"}. Do do you want to drop ${editCounts == 1? "it": "them"} and exit?`);
+      if (result){
+      window.history.back();
+      }
+     } else{
+      window.history.back();
+     }
+  };
+
+
+  document.getElementById('editModal').onclick = function(e) {
+    if (e.target === this) this.style.display = 'none';
+  };
+
+  const username = localStorage.getItem("mainUser") || "your_username_here";
+
+  const changedImages = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Profile photo
+  const profileLink = '<%= user.profileLink %>';
+  function preloadImage(previewId, imgUrl) {
+    if (!imgUrl) return;
+    const preview = document.getElementById(previewId);
+    if (!preview) return;
+    const img = document.createElement('img');
+    img.src = imgUrl;  
+    preview.appendChild(img);
+  }
+
+  // Preload profile image
+  preloadImage('profilePreview', profileLink);
+
+  // Gallery images
+  const serverLinks = ('<%= links %>' || '').split(',');
+  preloadImage('gal0Preview', serverLinks[0]);
+  preloadImage('gal1Preview', serverLinks[1]);
+  preloadImage('gal2Preview', serverLinks[2]);
+});
+
+
+
+
+
+
+
+
+
+  
+
+  // === IMAGE SETUP (preview + tracking) ===
+  function setupImageUpload(inputId, backendField, index = null) {
+    const input = document.getElementById(inputId);
+    const previewDiv = document.getElementById(
+      inputId === 'profilePhoto' ? 'profilePreview' : inputId.replace('gallery', 'gal') + 'Preview'
+    );
+    const btn = input.closest('.file-upload-wrapper').querySelector('.file-upload-btn');
+    const fileNameEl = document.getElementById(
+      inputId === 'profilePhoto' ? 'profileName' : inputId.replace('gallery', 'gal') + 'Name'
+    );
+
+    input.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          let img = previewDiv.querySelector('img');
+          if (!img) {
+            img = document.createElement('img');
+            previewDiv.appendChild(img);
+          }
+          img.src = e.target.result;
+          img.classList.add('edited');
+        };
+        reader.readAsDataURL(file);
+
+        fileNameEl.textContent = file.name;
+        btn.classList.add('edited');
+
+        const obj = { field: backendField === 'profile' ? 'prof' : 'gallery', index, file };
+        const existingIdx = changedImages.findIndex(ci => ci.field === obj.field && ci.index === obj.index);
+        if (existingIdx >= 0) changedImages[existingIdx] = obj;
+        else changedImages.push(obj);
+      } else {
+        previewDiv.innerHTML = '';
+        fileNameEl.textContent = 'No file chosen';
+        btn.classList.remove('edited');
+        const idx = changedImages.findIndex(ci => ci.field === (backendField === 'profile' ? 'prof' : 'gallery') && ci.index === index);
+        if (idx >= 0) changedImages.splice(idx, 1);
+      }
+    });
+  }
+
+  setupImageUpload('profilePhoto', 'profile');
+  setupImageUpload('gallery0', 'gallery', 0);
+  setupImageUpload('gallery1', 'gallery', 1);
+  setupImageUpload('gallery2', 'gallery', 2);
+
+  // === TEXT TRACKING ===
+const textFields = [
+  'blogTitle',
+  'slogan',
+  'course',
+  'year',
+  'tribe',
+  'relationship',
+  'locality',
+  'religion',
+  'skinColor',
+  'eyeColor',
+  'favoriteColor',
+  'favoriteFood',
+  'bestFriend',
+  'favoriteMovie',
+  'hobbies',
+  'favoriteBook',
+  'favoriteMusic',
+  'aboutMe',
+  'aboutYou',
+  'instagramHandle',
+  'instagramLink',
+  'whatsappHandle',
+  'whatsappNumber',
+  'facebookHandle',
+  'facebookLink',
+  'whatsappDefaultMsg'
+];
+
+
+  textFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.dataset.modified = "false";
+    el.addEventListener('input', () => {
+      if(el.textContent !== aboutMeText && el.textContent !== aboutYouText){
+        el.dataset.modified = "true";
+        el.classList.add('edited'); 
+      }
+    });
+    if (el.tagName === 'SELECT') {
+      el.addEventListener('change', () => {
+        el.dataset.modified = "true";
+        el.classList.add('edited');
+      });
+    }
+  });
+
+const privacyFields = [
+  'tribe',
+  'relationship',
+  'locality',
+  'religion', 
+  'instagram',
+  'whatsapp',
+  'facebook'
+];
+
+privacyFields.forEach((field)=>{
+  let element = document.getElementById(field + "Public");
+  if (!element) return;
+  element.addEventListener('change',()=>{
+  element.dataset.modified = true;
+  })
+})
+
+  async function uploadChangedImages() {
+    if (changedImages.length === 0) return { ok: true, message: "no images changed" };
+
+    const formData = new FormData();
+    formData.append("username", username);
+    changedImages.forEach(ci => {
+      if (ci.field === "prof") formData.append("prof_main", ci.file);
+      else formData.append(`gallery_${ci.index}`, ci.file);
+    });
+
+    document.getElementById('progressContainer').style.display = 'block';
+    let uploadText = document.getElementById('progressText')
+    uploadText.textContent = 'Uploading images...';
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+xhr.upload.onprogress = (e) => {
+  if (e.lengthComputable) {
+    const percent = Math.round((e.loaded / e.total) * 100);
+    document.getElementById('progressFill').style.width = percent + '%';
+
+    // Update text dynamically at different milestones
+    if (percent < 30) uploadText.textContent = `Uploading... ${percent}%`;
+    else if (percent < 60) uploadText.textContent = `Halfway there... ${percent}%`;
+    else if (percent < 90) uploadText.textContent = `Almost done... ${percent}%`;
+    else if (percent < 100) uploadText.textContent = `Finishing up... ${percent}%`;
+    else uploadText.textContent = 'Processing...';
+  }
+};
+
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          try {
+            resolve(JSON.parse(xhr.responseText));
+          } catch (err) {
+            reject(err);
+          }
+        } else {
+          reject(new Error(`Upload failed: ${xhr.status}`));
+        }
+      };
+
+      xhr.onerror = () => reject(new Error("Network error"));
+
+      xhr.open("POST", "/profile/update/pics");
+      xhr.send(formData);
+    });
+  }
+
+  // === TEXT UPDATE (fake progress) ===
+  async function updateChangedText() {
+    const changed = {};
+
+    textFields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.dataset.modified === "true") {
+        let value = el.isContentEditable ? (el.innerText || "") : (el.value || "");
+        changed[id] = value.trim();
+      }
+    });
+
+    privacyFields.forEach(field => {
+      const checkbox = document.getElementById(field + 'Public');
+      if (checkbox.dataset.modified == "true") changed[field + 'Public'] = checkbox.checked;
+    });
+
+    if (Object.keys(changed).length === 0) return { ok: true, message: "no text changed" };
+
+    changed.username = username;
+
+    document.getElementById('progressContainer').style.display = 'block';
+    document.getElementById('progressText').textContent = 'Saving changes...';
+    let fakePercent = 0;
+    const fakeInterval = setInterval(() => {
+      fakePercent += Math.random() * 15;
+      if (fakePercent > 90) fakePercent = 90;
+      document.getElementById('progressFill').style.width = fakePercent + '%';
+    }, 200);
+    const res = await fetch("/profile/update/text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(changed)
+    });
+
+    clearInterval(fakeInterval);
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = 'Complete!';
+
+    return await res.json();
+  }
+
+  document.querySelector('form button[type="submit"]').addEventListener('click', async (e) => {
+    e.preventDefault();
+
+const errors = [];
+
+    const igHandle = document.getElementById('instagramHandle')?.value?.trim() || '';
+    if (igHandle) {
+        if (!igHandle.startsWith('@')) {
+            errors.push(`Instagram handle must start with @ (example: @${`<%user.username%>`})`);
+        } else if (igHandle.length < 3 || igHandle.length > 35) {
+            errors.push("Instagram handle should be 3–30 characters long");
+        }
+    }
+
+    const igLink = document.getElementById('instagramLink')?.value?.trim() || '';
+    if (igLink) {
+        if (!igLink.startsWith('https://')) {
+            errors.push("Instagram link must start with https:// to be clickable");
+        } else if (!igLink.includes('instagram.com') && !igLink.includes('instagr.am')) {
+            errors.push("Instagram link should contain instagram.com or instagr.am");
+        }
+    }
+    const fbLink = document.getElementById('facebookLink')?.value?.trim() || '';
+    if (fbLink) {
+        if (!fbLink.startsWith('https://')) {
+            errors.push("Facebook link must start with https:// to be clickable");
+        } else if (!fbLink.includes('facebook.com') && !fbLink.includes('fb.com')) {
+            errors.push("Facebook link should contain facebook.com or fb.com");
+        }
+    }
+
+    const waNumber = document.getElementById('whatsappNumber')?.value?.trim() || '';
+    if (waNumber) {
+        const cleaned = waNumber.replace(/[\s\-\(\)\.]/g, '');
+        if (!cleaned.startsWith('+254')) {
+            errors.push("WhatsApp number must start with +254 for Kenyan numbers");
+        } else {
+            const afterPrefix = cleaned.substring(4);
+            if (afterPrefix.length !== 9) {
+                errors.push("Kenyan number must have exactly 9 digits after +254");
+            } else if (!afterPrefix.startsWith('7') && !afterPrefix.startsWith('1')) {
+                errors.push("Kenyan numbers start with 07 or 01 (after +254)");
+            } else if (!/^\d{9}$/.test(afterPrefix)) {
+                errors.push("Only digits allowed after +254");
+            }
+        }
+    }
+
+    if (errors.length > 0) {
+        showToast(
+            "Please fix these:\n\n• " + errors.join("\n• "),
+            'error'
+        );
+        return;
+    }
+
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('progressContainer').style.display = 'none';
+
+    const promises = [];
+
+    if (changedImages.length > 0) promises.push(uploadChangedImages());
+    const anyTextModified = (textFields.some(id => {
+      const el = document.getElementById(id);
+      return el && el.dataset.modified === "true"
+    }) || privacyFields.some((field)=>{
+      const element = document.getElementById(field + "Public");
+      return element && element.dataset.modified == "true";
+    }))
+    if (anyTextModified) promises.push(updateChangedText());
+
+    if (promises.length === 0) {
+      showToast("Make at least one change to update.","error");
+      return;
+    }
+
+    try {
+      const results = await Promise.all(promises);
+
+setTimeout(() => {
+  document.getElementById('progressContainer').style.display = 'none';
+  
+  let updateType = "";
+  if (changedImages.length > 0 && anyTextModified) {
+    updateType = "whole vibe & pics";
+  } else if (changedImages.length > 0) {
+    updateType = "fire new pics";
+  } else if (anyTextModified) {
+    updateType = "whole vibe";
+  } else {
+    updateType = "profile";
+  }
+  
+  showToast(`✨ Boom! Your ${updateType} just leveled up, "<%=user.username%>"! 🔥`,"green");
+  
+  changedImages.length = 0;
+  textFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.dataset.modified = "false";
+      el.classList.remove('edited');
+    }
+  });
+
+  setTimeout(() => {
+    localStorage.setItem("editAuthBeacon", Math.random() * 1000000000);
+    window.location.href = "userProfile";
+  }, 200);
+
+}, 600);
+
+    } catch (err) {
+  document.getElementById('progressContainer').style.display = 'none';
+  showToast("Oops! Something went wrong: " + err.message, 'error',"error");
+}
+  });
+function showToast(message, type = 'success') {
+  let toast = document.getElementById('toast');
+  
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.className = 'toast ' + type;  // success or error
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 200);
+}
+  </script>
+
+</body>
+</html>

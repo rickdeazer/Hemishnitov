@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Call</title>
+    <link rel="stylesheet" href="videocall.css">
+  </head>
+  <body>
+    <div id="statusEl">Idle</div>
+
+    <video id="remoteVideo" autoplay playsinline></video>
+    <video id="localVideo" autoplay playsinline muted></video>
+
+    <div id="controls">
+      <button class="actions" id="toggleCam">🎥</button>
+      <button class="actions" id="toggleMic">🎤</button>
+      <button class="actions" id="hangup">📞</button>
+      <button class="actions" id="callBtn">Call</button>
+    </div>
+
+    <div id="popup">
+      <div class="popup-box">
+        <p>📞 Incoming Call</p>
+        <button id="acceptBtn">Accept</button>
+        <button id="declineBtn">Decline</button>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      let pc = null;
+      let localStream = null;
+      let remoteStream = null;
+      let pendingOffer = null;
+      let a = JSON.parse(localStorage.getItem("mainUser"));
+      let b = JSON.parse(localStorage.getItem("chatInfo2")).username;
+
+      const room = "room1";
+      const statusEl = document.getElementById("statusEl");
+      const popup = document.getElementById("popup");
+      const acceptBtn = document.getElementById("acceptBtn");
+      const declineBtn = document.getElementById("declineBtn");
+      const localVideo = document.getElementById("localVideo");
+      const remoteVideo = document.getElementById("remoteVideo");
+
+      const toggleCamBtn = document.getElementById("toggleCam");
+      const toggleMicBtn = document.getElementById("toggleMic");
+      const hangupBtn = document.getElementById("hangup");
+      const callBtn = document.getElementById("callBtn");
+
+      const ICE_CONFIG = {
+        iceServers: [
+          { urls: "stun:stun.relay.metered.ca:80" },
+          {
+            urls: "turn:global.relay.metered.ca:80",
+            username: "ed8ade22a5f3311aa8b5224c",
+            credential: "ryeeze5nrrlbGFt0",
+          },
+          {
+            urls: "turn:global.relay.metered.ca:80?transport=tcp",
+            username: "ed8ade22a5f3311aa8b5224c",
+            credential: "ryeeze5nrrlbGFt0",
+          },
+          {
+            urls: "turn:global.relay.metered.ca:443",
+            username: "ed8ade22a5f3311aa8b5224c",
+            credential: "ryeeze5nrrlbGFt0",
+          },
+          {
+            urls: "turns:global.relay.metered.ca:443?transport=tcp",
+            username: "ed8ade22a5f3311aa8b5224c",
+            credential: "ryeeze5nrrlbGFt0",
+          },
+        ],
+      };
+
+      let targetUser = JSON.parse(localStorage.getItem("chatInfo2")).username;
+      let from = JSON.parse(localStorage.getItem("mainUser"));
+
+      const ringtone = new Audio("/mediafiles/sounds/ring1.mp3");
+      ringtone.loop = true;
+      socket.emit("join-room", room);
+
+      async function ensureLocalStream() {
+        if (!localStream) {
+          localStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+          });
+          localVideo.srcObject = localStream;
+        }
+      }
+
+      function createPeerConnection() {
+        pc = new RTCPeerConnection(ICE_CONFIG);
+        pc.ontrack = (e) => {
+          if (!remoteStream) remoteStream = new MediaStream();
+          e.streams[0].getTracks().forEach((t) => remoteStream.addTrack(t));
+          remoteVideo.srcObject = remoteStream;
+        };
+        pc.onicecandidate = (e) => {
+          if (e.candidate)
+            socket.emit("ice-candidate", { room, candidate: e.candidate });
+        };
+      }
+
+      toggleCamBtn.onclick = () => {
+        if (localStream) {
+          localStream.getVideoTracks().forEach((t) => (t.enabled = !t.enabled));
+          toggleCamBtn.style.opacity = localStream.getVideoTracks()[0].enabled
+            ? "1"
+            : "0.5";
+        }
+      };
+      toggleMicBtn.onclick = () => {
+        if (localStream) {
+          localStream.getAudioTracks().forEach((t) => (t.enabled = !t.enabled));
+          toggleMicBtn.style.opacity = localStream.getAudioTracks()[0].enabled
+            ? "1"
+            : "0.5";
+        }
+      };
+      hangupBtn.onclick = () => {
+        if (pc) pc.close();
+        pc = null;
+        if (localStream) localStream.getTracks().forEach((t) => t.stop());
+        if (remoteStream) remoteStream.getTracks().forEach((t) => t.stop());
+        statusEl.textContent = "Call ended ❌";
+        socket.emit("user-left", { room });
+        window.location.href = "/chatspage";
+      };
+      callBtn.onclick = startCall;
+
+      async function startCall() {
+        await ensureLocalStream();
+        createPeerConnection();
+        localStream.getTracks().forEach((t) => pc.addTrack(t, localStream));
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        socket.emit("video-offer", { room, offer, to: targetUser, from: from });
+        statusEl.textContent = "Calling… 📞";
+      }
+
+      socket.on("video-offer", async ({ offer, from }) => {
+        targetUser = from;
+        pendingOffer = offer;
+        ringtone.currentTime = 0;
+        ringtone.play();
+        popup.style.display = "flex";
+        statusEl.textContent = "Incoming call… 📞";
+      });
+
+      acceptBtn.onclick = async () => {
+        popup.style.display = "none";
+        ringtone.pause();
+        await ensureLocalStream();
+        createPeerConnection();
+        localStream.getTracks().forEach((t) => pc.addTrack(t, localStream));
+        await pc.setRemoteDescription(new RTCSessionDescription(pendingOffer));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        socket.emit("video-answer", {
+          room,
+          answer,
+          to: targetUser,
+          from: a,
+        });
+
+        statusEl.textContent = "Connected 🎥";
+      };
+
+      declineBtn.onclick = () => {
+        popup.style.display = "none";
+        ringtone.pause();
+        socket.emit("call-declined", { room });
+        statusEl.textContent = "Declined ❌";
+      };
+
+      socket.on("video-answer", async ({ answer }) => {
+        ringtone.pause();
+        if (pc) await pc.setRemoteDescription(answer);
+        statusEl.textContent = "Connected 🎥";
+      });
+
+      socket.on("ice-candidate", async ({ candidate }) => {
+        if (candidate && pc) await pc.addIceCandidate(candidate);
+      });
+
+      socket.on("user-left", () => {
+        ringtone.pause();
+        if (pc) pc.close();
+        pc = null;
+        statusEl.textContent = "Caller left 👋";
+      });
+    </script>
+  </body>
+</html>

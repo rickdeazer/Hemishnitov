@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MMUN v2.0 — Release Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Elsie+Swash+Caps:wght@400;900&family=Rubik+Moonrocks&family=Shadows+Into+Light&family=Special+Elite&display=swap');
+  :root {
+    --green-d:   #14532d;
+    --green-m:   #15803d;
+    --green-l:   #4ade80;
+    --purple-d:  #4a1d96;
+    --purple-m:  #7c3aed;
+    --purple-l:  #e9d5ff;
+    --pink-d:    #831843;
+    --pink-m:    #be185d;
+    --pink-l:    #fbcfe8;
+    --badge-bg:  rgba(4,33,10,0.51);
+    --body-bg:   #f0eeff;
+    --ink:       #1a1a2e;
+    --muted:     #888;
+    --border:    rgba(124,58,237,0.13);
+    --icon-border: #7f4ab4;
+    --scroll-thumb: #e0d0f0;
+    --card-bg:   rgba(255,255,255,0.82);
+    --yr-bg:     rgba(10,54,4,0.16);
+    --yr-border: #072d04d2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', sans-serif;
+    background: var(--body-bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* same mesh palette as modal header */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse 65% 45% at 0% 0%,   rgba(20,83,45,0.22) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 45% at 100% 5%,  rgba(74,29,150,0.20) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 55% 100%, rgba(131,24,67,0.18) 0%, transparent 55%),
+      #f0eeff;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-size: 200px; pointer-events: none;
+  }
+
+  /* exact same keyframes as modal */
+  @keyframes gradientShift {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 300%; }
+    100% { background-position: 300% 300%; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+  }
+
+  /* ════════════ NAV ════════════ */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 36px; height: 60px;
+    background: rgba(240,238,255,0.78);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo-wrap {
+    display: flex; align-items: center; gap: 10px; text-decoration: none;
+  }
+  .nav-logo-img {
+    width: 32px; height: 32px; border-radius: 9px; object-fit: cover;
+  }
+  .nav-logo-text {
+    font-family: 'arial', serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  .nav-logo-text span { color: var(--purple-m); }
+
+  /* same badge as modal #yp-version-badge */
+  .nav-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(90deg,green,rgb(1, 45, 1));
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 100px; padding: 5px 12px 5px 7px;
+  }
+  .nav-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: cyan; box-shadow: 0 0 6px var(--green-l);
+    animation: pulse 2s infinite;
+  }
+  .nav-badge .txt {
+    font-size: 11px; font-weight: 500;
+    color: rgba(255,255,255,0.78); letter-spacing: 0.04em;
+  }
+  .nav-back {
+    font-size: 12.5px; font-weight: 500; color: rgb(3, 56, 3);
+    text-decoration: none; display: flex; align-items: center; gap: 5px;
+    transition: color 0.15s;
+  }
+  .nav-back:hover { color: var(--purple-m); }
+
+  /* ════════════ HERO BAR — mirrors modal #yp-top-bar ════════════ */
+  .hero-bar {
+    background: linear-gradient(135deg, var(--green-d) 0%, var(--purple-d) 60%, var(--pink-d) 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite;
+    padding: 60px 36px 52px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero-bar::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -55deg, transparent, transparent 60px,
+      rgba(255,255,255,0.03) 60px, rgba(255,255,255,0.03) 61px
+    );
+    pointer-events: none;
+  }
+  /* same version badge */
+  .hero-kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgb(1, 53, 1);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 100px; padding: 4px 12px 4px 7px;
+    margin-bottom: 22px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .hero-kicker .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green-l); box-shadow: 0 0 6px var(--green-l);
+    animation: pulse 2s infinite;
+  }
+  .hero-kicker span {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.75);
+    font-family: 'Geist Mono', monospace; text-transform: uppercase;
+  }
+  /* same Instrument Serif italic h2 as modal */
+  .hero-bar h1 {
+    font-family: 'Rubik Moonrocks', serif;
+    font-weight: bold;
+    background: linear-gradient(90deg,white,red,white,green,cyan,white);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.142);
+    background-clip: text;
+    font-style: italic; font-weight: 400;
+    font-size: clamp(34px, 6vw, 62px);
+    color: transparent;
+    animation: fadeUp 0.45s 0.05s ease both;
+  }
+  .hero-bar p {
+    font-size: 13.5px; font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    max-width: 440px; margin: 0 auto; line-height: 1.7;
+    animation: fadeUp 0.45s 0.1s ease both;
+  }
+
+  /* ════════════ STAT STRIP ════════════ */
+  .stat-strip {
+    display: flex; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.52);
+    backdrop-filter: blur(10px);
+  }
+  .stat-item {
+    flex: 1; min-width: 110px;
+    padding: 18px 20px; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Rubik Moonrocks', serif;
+    font-style: italic; font-size: 30px; line-height: 1;
+    background: linear-gradient(135deg, var(--green-m), var(--purple-m), var(--pink-m));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 11px; font-weight: 300; color: var(--muted); }
+
+  /* ════════════ LAYOUT ════════════ */
+  .page-body {
+    max-width: 900px; margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .section { margin-bottom: 60px; }
+
+  /* ── Section header — mirrors .yp-change-item layout ── */
+  .sec-head {
+    display: flex; align-items: center; gap: 13px; margin-bottom: 22px;
+  }
+  /* mirrors .yp-change-icon exactly */
+  .sec-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+    border: 1px solid #2563eb;
+  }
+  .sec-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: darkblue; margin-bottom: 2px;
+  }
+  .sec-title {
+    font-family: 'Special Elite', serif;
+    font-style: italic; font-size: 22px; font-weight: 400;
+    color: darkgreen; line-height: 1.2;
+  }
+
+  /* ── Cards — match modal card aesthetic ── */
+  .card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px 22px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(74,29,150,0.1);
+    border-color: rgba(124,58,237,0.24);
+  }
+  .card h3 { font-size: 13.5px; font-weight: 500; color: var(--ink); margin-bottom: 7px; }
+  .card p  { font-size: 12.5px; font-weight: 300; color: var(--muted); line-height: 1.7; }
+  .card-detail {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--muted); line-height: 1.6;
+  }
+  .card-wide { margin-bottom: 12px; }
+  .card-wide h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .card-wide p  { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.75; }
+  .card-wide p + p { margin-top: 9px; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+
+  /* mirrors .yp-change-icon */
+  .card-icon {
+    width: 32px; height: 32px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; margin-bottom: 13px;
+    border: 1px solid var(--icon-border);
+  }
+
+  /* ── Before / After ── */
+  .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .ba-box { border-radius: 10px; padding: 13px 15px; font-size: 12px; line-height: 1.65; }
+  .ba-before { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.18); }
+  .ba-after  { background: rgba(21,128,61,0.07); border: 1px solid rgba(21,128,61,0.2); }
+  .ba-label  {
+    font-family: 'Geist Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: 6px;
+  }
+  .ba-before .ba-label { color: #dc2626; }
+  .ba-after  .ba-label { color: var(--green-m); }
+  .ba-before p { color: #7f1d1d; font-weight: 300; }
+  .ba-after  p { color: var(--green-d); font-weight: 300; }
+
+  /* exact pill chips from modal */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .chip {
+    padding: 5px 11px; border-radius: 100px;
+    font-size: 11.5px; font-weight: 500;
+    border: 1.5px solid transparent;
+  }
+  .chip-green  { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .chip-purple { background: #faf5ff; color: var(--purple-m); border-color: var(--purple-l); }
+  .chip-pink   { background: #fdf2f8; color: var(--pink-m); border-color: var(--pink-l); }
+
+  /* ── Timeline ── */
+  .timeline { list-style: none; }
+  .tl-item {
+    display: grid; grid-template-columns: 30px 1fr; gap: 13px;
+    padding: 13px 0; border-bottom: 1px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  /* mirrors .yp-change-icon */
+  .tl-dot {
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; margin-top: 1px;
+    border: 1px solid var(--icon-border);
+  }
+  .tl-body h4 { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body p  { font-size: 12px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+
+  /* ── Coming soon ── */
+  .coming-card {
+    border-radius: 16px; padding: 20px 22px;
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(255,255,255,0.52);
+    backdrop-filter: blur(10px);
+    border: 1px dashed rgba(127,74,180,0.35);
+    transition: border-color 0.15s;
+  }
+  .coming-card:hover { border-color: var(--icon-border); }
+  .coming-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .coming-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--pink-m); margin-bottom: 4px;
+  }
+  .coming-card h3 { font-size: 13.5px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .coming-card p  { font-size: 12px; font-weight: 300; color: var(--muted); line-height: 1.7; }
+
+  /* ── Divider label ── */
+  .divider-label {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  }
+  .divider-label::before, .divider-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .divider-label span {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); white-space: nowrap;
+  }
+
+  /* ── CTA — mirrors modal top-bar gradient + button styles ── */
+  .cta-section { border-radius: 20px; overflow: hidden; margin-bottom: 60px; }
+  .cta-top {
+    background: linear-gradient(135deg, var(--green-d) 0%, var(--purple-d) 60%, var(--pink-d) 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite;
+    padding: 44px 36px 40px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-top::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -55deg, transparent, transparent 60px,
+      rgba(255,255,255,0.03) 60px, rgba(255,255,255,0.03) 61px
+    );
+    pointer-events: none;
+  }
+  .cta-top h2 {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-size: 28px; font-weight: 400;
+    color: #fff; margin-bottom: 10px;
+  }
+  .cta-top p {
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7; max-width: 420px; margin: 0 auto 24px;
+  }
+  .cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+  /* mirrors yp-btn-primary exactly */
+  .btn-primary {
+    padding: 13px 26px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg, var(--green-m), var(--purple-m));
+    background-size: 100% 150%;
+    animation: gradientShift 15s ease infinite;
+    font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 500;
+    color: #fff; cursor: pointer; text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.86; transform: translateY(-1px); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* mirrors yp-btn-secondary exactly */
+  .btn-secondary {
+    padding: 13px 26px; border-radius: 12px;
+    background: radial-gradient(circle at center left, #072d04d2, transparent, #26034125);
+    border: none;
+    font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.7); cursor: pointer; text-decoration: none;
+    display: inline-block; transition: opacity 0.15s;
+  }
+  .btn-secondary:hover { opacity: 0.8; }
+
+  /* ── code inline ── */
+  code {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    background: rgba(74,29,150,0.07); border: 1px solid rgba(74,29,150,0.15);
+    border-radius: 4px; padding: 1px 5px; color: var(--purple-m);
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 36px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    background: rgba(255,255,255,0.42); backdrop-filter: blur(10px);
+  }
+  footer p { font-size: 12px; font-weight: 300; color: var(--muted); }
+  .footer-chips { display: flex; gap: 7px; flex-wrap: wrap; }
+  .f-chip {
+    padding: 4px 11px; border-radius: 100px;
+    font-size: 11px; font-weight: 500;
+    background: rgba(74,29,150,0.07);
+    border: 1px solid rgba(127,74,180,0.2);
+    color: var(--purple-m);
+  }
+  .index{
+    color: white;
+    font-family: calibri;
+    border-radius: 5px;
+    background-color: rgba(101, 3, 3, 0.568);
+    padding:0 5px;
+    font-size: 1.1rem;
+  }
+  /* ── Scrollbar — same as modal ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 10px; }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .hero-bar { padding: 40px 20px 36px; }
+    .page-body { padding: 36px 16px 60px; background-color:#aff5c8;}
+    .ba-grid { grid-template-columns: 1fr; }
+    .cta-top { padding: 32px 20px 28px; }
+    footer { padding: 18px 16px; flex-direction: column; align-items: flex-start; }
+    .stat-item { padding: 14px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="/" class="nav-logo-wrap">
+    <!-- Replace src with your logo URL -->
+    <img
+      src="/Assets/colorMMUNlogo.png"
+      class="nav-logo-img"
+    />
+    <span class="nav-logo-text">MM<span>UN</span></span>
+  </a>
+  <div class="nav-badge">
+    <span class="dot"></span>
+    <span class="txt">v2.0 Rel-11 Live</span>
+  </div>
+  <a href="javascript:history.back()" class="nav-back">← Back</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero-bar">
+  <div class="hero-kicker">
+    <span class="dot"></span>
+    <span>Release Notes · MMUN v2.0 Rel-11</span>
+  </div>
+  <h1>EVERY CHANGE,<br />EXPLAINED.</h1>
+  <p>A full breakdown of everything shipped in MMUN v2.0 — what broke, what we fixed, what we improved, and why every decision was made.</p>
+</div>
+
+<!-- ══ STAT STRIP ══ -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Changes shipped</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Bugs squashed</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2</div>
+    <div class="stat-label">New features</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-item" style="color: gray;">00:00</div>
+    <div class="stat-label">Wed/06/May/2026</div>
+  </div>
+</div>
+
+<!-- ══ PAGE BODY ══ -->
+<div class="page-body">
+
+  <!-- 1. MESSAGE STATUS DOTS -->
+  <div class="section reveal" id="s1">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#eff6ff;">💬</div>
+      <div>
+        <div class="sec-tag">Feature · Messaging</div>
+        <div class="sec-title"> <span class="index">1</span>  Message Status Indicators</div>
+      </div>
+    </div>
+    <div class="card card-wide">
+      <h3>What changed</h3>
+      <p>You can now see the delivery and read status of every message you send directly inside your conversation thread. Three new coloured indicators appear alongside sent messages: a <strong style="color:#2563eb;">blue dot</strong> means the recipient has read your message, a <strong style="color:#16a34a;">green dot</strong> means it was delivered but not yet read, and a <strong style="color:#d97706;">yellow dot</strong> means kyou have a new message.</p>
+      <p>Indicators update in real-time via WebSocket — the moment the other person opens the conversation, the dot transitions instantly. No refresh needed, no guessing.</p>
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="card">
+        <div class="card-icon" style="background:#dbeafe;">🔵</div>
+        <h3>Blue — Read</h3>
+        <p>Recipient opened the conversation and viewed your message. Live WebSocket sync updates this the moment they read it.</p>
+        <div class="card-detail">status: delivered + opened · real-time</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#dcfce7;">🟢</div>
+        <h3>Green — Delivered, Unread</h3>
+        <p>Message reached the device but conversation hasn't been opened. Transitions to blue automatically on open.</p>
+        <div class="card-detail">status: delivered · pending read</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fef9c3;">🟡</div>
+        <h3>Yellow — New Message</h3>
+        <p>Message has been sent by someone to you. Opened messages will show no dots on them since they're now seen.</p>
+        <div class="card-detail">status: New-message · incoming delivered</div>
+      </div>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-purple">Real-time</span>
+      <span class="chip chip-green">All conversations</span>
+      <span class="chip chip-pink">New feature</span>
+    </div>
+  </div>
+
+  <!-- 2. ACCOUNT CREATION FIX -->
+  <div class="section reveal" id="s2">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#f0fdf4;">🙍‍♂️</div>
+      <div>
+        <div class="sec-tag">Bug Fix · Onboarding</div>
+        <div class="sec-title"> <span class="index">2</span> Account Creation — Year Not Saving</div>
+      </div>
+    </div>
+    <div class="card card-wide">
+      <h3>What was broken</h3>
+      <p>During sign-up, users were asked to select their academic year (Year 1–6) or, for staff, enter their years of experience. A race condition in the form submission handler caused this value to be captured by the frontend but silently dropped before reaching the server — it was never saved to the user's profile.</p>
+      <p>This created blank or placeholder year values across affected accounts, breaking filters, profile display, and matching logic. Any user affected will be prompted once inside the app to re-enter their year via the update modal.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-box ba-before">
+        <div class="ba-label">Before</div>
+        <p>Year selected at sign-up was silently dropped. Profile stored no year value. Filters showed wrong results. Users appeared as "Unknown Year" to others.</p>
+      </div>
+      <div class="ba-box ba-after">
+        <div class="ba-label">After</div>
+        <p>Year correctly persisted on submission. Affected users prompted once via in-app modal. All filters now reflect accurate, verified data.</p>
+      </div>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-green">Bug fixed</span>
+      <span class="chip chip-purple">Data integrity</span>
+      <span class="chip chip-pink">All users</span>
+    </div>
+  </div>
+
+  <!-- 3. SCROLL ANIMATIONS -->
+  <div class="section reveal" id="s3">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#fefce8;">⚡</div>
+      <div>
+        <div class="sec-tag">Performance · Animations</div>
+        <div class="sec-title"> <span class="index">3</span> Smoother Scroll Effects</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-icon" style="background:#fefce8;">🖥</div>
+        <h3>What was causing jank</h3>
+        <p>Scroll animations ran on the main thread via <code>scroll</code> event listeners. On budget Android devices this caused frame drops and visible stutter — the browser had to recalculate layout mid-scroll on every frame. This followed the many scroll animations we had in the home page hero items e.g. logo, but now every animation is highly optimized to run smoothly without lag.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#f0fdf4;">🎯</div>
+        <h3>The fix — GPU compositor</h3>
+        <p>All animations now use only <code>transform</code> and <code>opacity</code> — properties the browser runs entirely on the GPU compositor layer, off the main thread. Zero layout recalculation during scroll. All scroll listeners we're also reduced to use only one listener for any event. The scroll overhead was also reduced by removing the logo rotation animation on every scroll. The scroll is now magnetic.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#dcfce7;">📱</div>
+        <h3>Low-end device focus</h3>
+        <p>Tested on 2GB RAM / Snapdragon 4xx-class devices. Animations now consistently hit 60 fps, down from 24–35 fps before. Flagship devices are unaffected — this fix is purely targeted at mid-to-low-end hardware.</p>
+        <div class="card-detail">target: 60 fps · tested: Snapdragon 4xx</div>
+      </div>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-green">60 fps target</span>
+      <span class="chip chip-purple">GPU compositor</span>
+      <span class="chip chip-pink">Low-end Android</span>
+    </div>
+  </div>
+
+  <!-- 4. NEW FILTERS -->
+  <div class="section reveal" id="s4">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#fdf4ff;">🔍</div>
+      <div>
+        <div class="sec-tag">Feature · Discovery</div>
+        <div class="sec-title"> <span class="index">4</span> New Student Filters</div>
+      </div>
+    </div>
+    <div class="card card-wide">
+      <h3>What's new</h3>
+      <p>The student discovery section now supports three combinable filter dimensions. Search for Year 2 students at a specific campus taking a specific course — all at once. Results update in real-time as you adjust filters, with no page reload required.</p>
+    </div>
+    <div class="grid-3" style="margin-top:12px;">
+      <div class="card">
+        <div class="card-icon" style="background:#f0fdf4;">🏫</div>
+        <h3>Filter by Campus</h3>
+        <p>Find students at the same campus or discover people at partner and sister institutions across the network.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#faf5ff;">📅</div>
+        <h3>Filter by Year</h3>
+        <p>Narrow results to a specific year of study — find coursemates, seniors to learn from, or juniors you can mentor.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fdf2f8;">📚</div>
+        <h3>Filter by Course</h3>
+        <p>Browse students enrolled in a specific programme. Great for project grouping, study partners, and cohort connections.</p>
+      </div>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-green">Combinable</span>
+      <span class="chip chip-purple">Real-time results</span>
+      <span class="chip chip-pink">New feature</span>
+    </div>
+  </div>
+
+  <!-- 5. NOTIFICATION FIX ANDROID -->
+  <div class="section reveal" id="s5">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#fff1f2;">🔔</div>
+      <div>
+        <div class="sec-tag">Bug Fix · Android Notifications</div>
+        <div class="sec-title"> <span class="index">5</span> Notification Content Not Showing</div>
+      </div>
+    </div>
+    <div class="card card-wide">
+      <h3>What was broken</h3>
+      <p>On Android, push notifications arrived but displayed only the MMUN app icon — no message preview, no sender name, no title. The root cause was a missing <code>notification</code> payload block in our Firebase Cloud Messaging (FCM) requests. We were sending only a <code>data</code> payload, which Android handles silently in the background — the OS never surfaces its content to the user.</p>
+      <p>iOS was unaffected because APNs handles data-only payloads differently. The fix adds a proper <code>notification</code> block with <code>title</code>, <code>body</code>, and Android-specific channel configuration to every outgoing FCM message.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-box ba-before">
+        <div class="ba-label">Before</div>
+        <p>Android showed only the app icon. No sender name, no message content, no title. Users had to open the app to know what the notification was about.</p>
+      </div>
+      <div class="ba-box ba-after">
+        <div class="ba-label">After</div>
+        <p>Notifications now show sender name as title, message preview as body, with correct channel, sound, and vibration. Fully visible on lock screen and notification shade.</p>
+      </div>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-pink">Android only</span>
+      <span class="chip chip-purple">FCM fix</span>
+      <span class="chip chip-green">Bug fixed</span>
+    </div>
+  </div>
+
+  <!-- 6. VIDEO STREAMING -->
+  <div class="section reveal" id="s6">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#f0fdf4;">🎬</div>
+      <div>
+        <div class="sec-tag">Performance · Media</div>
+        <div class="sec-title"> <span class="index">6</span> Improved Video Streaming</div>
+      </div>
+    </div>
+    <div class="card card-wide">
+      <h3>What changed and why</h3>
+      <p>Previously all video elements in the feed loaded and attempted to play simultaneously — regardless of whether they were on screen. With multiple videos this caused severe memory pressure, excessive data usage, and constant stuttering because the browser was decoding multiple streams at once.</p>
+      <p>We rewrote our media loading strategy using the <strong>Intersection Observer API</strong> correctly. A video only begins loading its source when it enters the viewport (100px pre-fetch buffer), and pauses or unloads when it scrolls out of view. At any moment, only one or two videos are active.</p>
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="card">
+        <div class="card-icon" style="background:#ccfbf1;">👁</div>
+        <h3>Intersection Observer</h3>
+        <p>Each video is individually observed. At 20% viewport visibility loading begins. At 0% visibility the source is cleared and memory freed immediately.</p>
+        <div class="card-detail">threshold: [0, 0.2] · rootMargin: 100px</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#dcfce7;">📉</div>
+        <h3>Data & memory savings</h3>
+        <p>Mobile data users no longer pre-load videos they never watch. Estimated savings on a typical feed scroll are 60–75% versus the old eager-load approach.</p>
+        <div class="card-detail">~60–75% less data on video feeds</div>
+      </div>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-green">Lazy loading</span>
+      <span class="chip chip-purple">Intersection Observer</span>
+      <span class="chip chip-pink">Data saver</span>
+    </div>
+  </div>
+
+  <!-- 7. UI / UX REDESIGN -->
+  <div class="section reveal" id="s7">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:#faf5ff;">✨</div>
+      <div>
+        <div class="sec-tag">Design · Full App</div>
+        <div class="sec-title"> <span class="index">7</span> UI / UX Redesign</div>
+      </div>
+    </div>
+    <div class="card card-wide">
+      <h3>Why we redesigned</h3>
+      <p>The previous UI was built fast during early development — it worked, but accumulated visual debt. Inconsistent spacing, mismatched type scales, and unintuitive interaction patterns were our most common user feedback. This update is a full visual and structural pass across the entire app.</p>
+    </div>
+    <div class="card" style="padding: 8px 20px 16px; margin-top:12px;">
+      <ul class="timeline">
+        <li class="tl-item">
+          <div class="tl-dot" style="background:#faf5ff;">🔤</div>
+          <div class="tl-body">
+            <h4>Typography system rebuilt</h4>
+            <p>A consistent type scale governs every screen. Display headings, body text, captions, and labels all follow a single predictable hierarchy — easier to scan at any size.</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-dot" style="background:#fdf2f8;">🎨</div>
+          <div class="tl-body">
+            <h4>Colour system updated</h4>
+            <p>Unified palette with clear roles: green for success and active states, purple for primary actions and identity, pink for highlights and alerts. Colour is now intentional, not decorative.</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-dot" style="background:#f0fdf4;">📐</div>
+          <div class="tl-body">
+            <h4>Spacing & layout — 8px grid</h4>
+            <p>All margins, paddings, and component gaps now follow an 8px grid. This single change eliminated most of the visual inconsistency users described as feeling "off".</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-dot" style="background:#eff6ff;">👆</div>
+          <div class="tl-body">
+            <h4>Touch targets enlarged</h4>
+            <p>All interactive elements meet the 44×44px minimum touch target standard. Buttons, tabs, and message actions are noticeably easier to tap accurately on small screens.</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-dot" style="background:#fefce8;">⚡</div>
+          <div class="tl-body">
+            <h4>Micro-interactions added</h4>
+            <p>Subtle feedback animations on likes, sends, tab switches, and profile loads. The app now feels alive and responsive rather than flat and static.</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-dot" style="background:#ccfbf1;">♿</div>
+          <div class="tl-body">
+            <h4>Accessibility improvements</h4>
+            <p>Contrast ratios now meet WCAG AA standards. Screen reader labels added to all icon buttons. Focus indicators are visible, consistent, and fully keyboard-navigable throughout.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="chip-row">
+      <span class="chip chip-purple">All screens</span>
+      <span class="chip chip-green">WCAG AA</span>
+      <span class="chip chip-pink">8px grid</span>
+    </div>
+  </div>
+
+  <!-- COMING SOON -->
+  <div class="section reveal" id="s8">
+    <div class="divider-label"><span>What's coming next</span></div>
+    <div style="display:grid;gap:10px;">
+      <div class="coming-card">
+        <div class="coming-icon">🤖</div>
+        <div>
+          <div class="coming-tag">In development</div>
+          <h3>MMMUN Notics</h3>
+          <p>This feature is already on mmun but has been disabled since MMUN is currently an MVP. Optimization for this feature is still ongoing, and feature will be released once optimization is complete. Users will be able to choose if they become announcers and once subscribed to, they can share info to others like class reps do. For instance a user can subscribe to the admin channel to receive notifications from the school.</p>
+        </div>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon">🚶</div>
+        <div>
+          <div class="coming-tag">Planned</div>
+          <h3>TMT</h3>
+          <p>This private is under security review and will be released in later versions of the app.</p>
+        </div>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon">🗣</div>
+        <div>
+          <div class="coming-tag">Planned</div>
+          <h3>MMUN-jobs</h3>
+          <p>Through this feature, students will easily be able to benefit from governmenet scholarship opportunities, or from hiring companies, or even easily apply for interships or attachments.</p>
+        </div>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon">🏪</div>
+        <div>
+          <div class="coming-tag">Planned</div>
+          <h3>MABS</h3>
+          <p>MMUN will enable your to access products from sellers easily or even let you sell something yourself to colleagues on the same campus.</p>
+        </div>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon">🔐</div>
+        <div>
+          <div class="coming-tag">Intergration in progress</div>
+          <h3>Verified academic profiles</h3>
+          <p>Institution-verified student badges so you always know who you're talking to is genuinely enrolled at the university they claim. No fakes, no imposters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="reveal" id="scta">
+    <div class="cta-section">
+      <div class="cta-top">
+        <h2>Want to help shape what's next?</h2>
+        <p>MMUN is growing and we're looking for passionate people — developers, designers, marketers, shareholders, and more. The door is open.</p>
+        <div class="cta-btns">
+          <a href="/specialists/applications" class="btn-primary">Apply to join the team →</a>
+          <a href="/" class="btn-secondary">← Back to MMUN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-body -->
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>© 2025 MMUN · v2.0 Rel-11 Release Notes</p>
+  <div class="footer-chips">
+    <span class="f-chip">Messaging</span>
+    <span class="f-chip">Bug fixes</span>
+    <span class="f-chip">Performance</span>
+    <span class="f-chip">Design</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.045) + 's';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

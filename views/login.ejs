@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="rgb(0, 0, 0)" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/login.css" />
+    <link rel="manifest" href="/manifest.json">
+    <style>
+      #installBtn {
+  display: inline-block;
+  background: linear-gradient(135deg, #073058, #f58442);
+  color: white;
+  text-shadow: 0 0 3px black;
+  font-weight: light;
+  border-radius: 8px;
+  font-size: 10px;
+  padding: 5px;
+  border-bottom-right-radius: 12px;
+  border: groove 1px gray;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  transition: all 0.3s ease;
+  position: fixed;
+  bottom: 20px;
+  right: 28px;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+#installBtn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+  background: linear-gradient(135deg, #1565c0, #64b5f6);
+}
+
+#installBtn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 8px rgba(25, 118, 210, 0.3);
+}
+
+#installBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+#xyzDesign {
+  background: linear-gradient(45deg, #18bbf2d9, black, green, black, purple);
+  z-index: -1;
+  position: absolute;
+  background-size: 500% 1000%;
+  background-position: 100% 0%;
+  animation: headerback 25s ease infinite alternate;
+  width: 100%;
+  height: inherit;
+  opacity: 0.2;
+}
+@keyframes headerback {
+  0%{}
+  100%{background-position: 500% 1000%;}
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="SIGNUP-PAGE">
+      <button id="installBtn">Install MMUN </button>
+      <!---Top Div Wrapper has header, top div, and header bottom div-->
+      <div id="TOP-WRAPPER">
+        <!--This is header-->
+        <div id="HEADER">
+          <div id="xyzDesign"></div>
+          <div id="HAPPNAMELOGO">
+            <div>
+              <img id="headerLogo" src="mediafiles/MMUNlogo_production.png" alt=""  />
+            </div>
+            <div><h1 id="HAPPNAME">MMUN</h1></div>
+          </div>
+          <div id="HSPACE"></div>
+          <div id="HPAGELINKS">
+            <a class="HPAGELINKS-ITEMS" href="/contacts">Contacts</a>
+            <a class="HPAGELINKS-ITEMS" href="/privacyPolicy">Policy</a>
+            <a class="HPAGELINKS-ITEMS" href="/about">About</a>
+          </div>
+        </div>
+        <div id="HEADER-TOPDIV">
+          <h3 id="TOPDIV-TEXT">Made for Modern Minds</h3>
+        </div>
+        <div id="HEADER-BOTTOMDIV">
+          <h3 id="BOTTOMDIV-TEXT">
+            Our platfom is built for social connection a place to meet new
+            people, share ideas and grow together through meaningful
+            interactions
+          </h3>
+        </div>
+      </div>
+      <div id="BOTTOM-WRAPPER">
+        <!---LOGIN-FORM-->
+        <form id="SIGNUP-FORM" action="/login" method="POST" autocomplete="on">
+          <div id="SIGNUP-FORM-WRAPPER">
+            <div id="loader" class="loads">
+              <div id="loadA" class="unload"></div>
+              <h2 id="SIGNUP-TEXT">Login</h2>
+              <div id="loadB" class="unload"></div>
+            </div>
+            <h4 id="ERROR-TEXT">
+              <% if (errors && errors.length > 0) { %> <% errors.forEach(err =>
+              { %> <% if (err === "Your Account has been created") { %>
+              <h4
+                style="
+                  color: yellow;
+                  text-align: center;
+                  padding: 0px;
+                  margin: 0px;
+                  align-self: center;
+                  font-family: Arial, Helvetica, sans-serif;
+                  font-size: small;
+                "
+              >
+                <%= err %><br />
+              </h4>
+              <% } else { %> <%= err %><br />
+              <% } %> <% }) %> <% } %>
+            </h4>
+
+            <div id="INPUTS-WRAPPER">
+              <div class="SIGNUP-INPUTS-DIVS">
+                <label for="usernameL" class="SIGNUP-INPUTS-LABELS"
+                  >Username</label
+                >
+
+                <input
+                  class="SIGNUP-INPUTS"
+                  type="text"
+                  id="usernameL"
+                  name="usernameL"
+                  placeholder="Enter your username..."
+                />
+              </div>
+
+              <div class="SIGNUP-INPUTS-DIVS">
+                <label for="passwordL" class="SIGNUP-INPUTS-LABELS"
+                  >Password</label
+                >
+
+                <input
+                  type="password"
+                  class="SIGNUP-INPUTS"
+                  id="passwordL"
+                  name="passwordL"
+                  placeholder="Enter password..."
+                />
+                <button type="button" class="viewPasswordBtn" onclick="const input = document.querySelector('input#passwordL'); input.type = input.type == 'password'? 'text' : 'password' ; this.innerHTML = this.innerHTML == '👁️'? '🔒' : '👁️';">👁️</button>
+              </div>
+
+              <button id="SUBMIT-BTN" type="button">Submit</button>
+            </div>
+            <span class="createText"
+              >If you don't have a MMUN account,<br><br> <a href="/signup">click me to create one first</a></span
+            ><div id="FLOGO"></div>
+          </div>
+        </form>
+        <!---FLOGO-->
+        
+        <!---BOTTOM-DIVS-RTEXTs-->
+        <div id="BOTTOM-DIVS-RTEXTS">
+          <h4>
+            Your username must be unique to ensure full ownership of your
+            account
+          </h4>
+          <h4>
+            Your password must be strong and match the confirmation to secure
+            your account
+          </h4>
+        </div>
+      </div>
+    </div>
+    <div class="floating-container" id="blocked">
+      <div class="floating-text">
+        This site was blocked by cloud-based Terminal
+      </div>
+    </div>
+    <footer id="incompatibleText">
+      <h1>
+        Desktop,laptops and tablets support is coming soon. For now use a
+        smartphone.
+      </h1>
+    </footer>
+  </body>
+  <script src="/dist/login.js"></script>
+  <script src="/dist/androidTokenForFCM.js"></script>
+  </html>
+

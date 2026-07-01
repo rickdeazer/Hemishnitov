@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF5722">
+  <title>Take Me To - MMUN</title>
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="tmt.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+</head>
+<body class="body">
+  <div id="TMT-PAGE">
+    <!-- ══ HEADER (Copied from home.ejs) ══ -->
+    <section id="HEADER">
+      <div id="HEADER-TOP-DIV">
+        <div id="APP-DETAILS">
+          <div id="HEADER-LOGO" onclick="window.location.href='/home'"></div>
+        </div>
+        <div id="HEADER-MENU-ICONS">
+            <button class="menu-icon" id="addTmtBtn" title="Post TMT">
+                <span class="material-symbols-outlined" style="color:white; font-size: 2rem;">add_circle</span>
+            </button>
+        </div>
+        <div id="HEADER-BTNS">
+            <button onclick="window.location.href='/home'" class="HEADER-BTNS">
+                <span class="material-symbols-outlined"><img class="imgSvg" src="/Assets/emoji_people_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg"></span>
+            </button>
+        </div>
+        <div id="USER-DETAILS" onclick="window.location.href = '/userProfile'">
+          <div id="HEADER-USERNAME"><h3 id="username"><%= user.username %></h3></div>
+          <div id="HEADER-PROFILEPIC" <% if (user.profileLink) {%> style="background: url(<%=user.profileLink%>); background-size: cover;"<%}%>></div>
+        </div>
+      </div>
+      <div id="HEADER-BOTTOM-DIV">
+        <div id="HEADER-APPNAME"><h2>Take Me To</h2></div>
+        <div id="bottomSubdiv">
+          <input type="text" placeholder="Search venues..." id="TMT-SEARCH" oninput="TMT.search(this.value)" />
+          <span class="material-symbols-outlined">search</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CATEGORY TABS ══ -->
+    <nav class="tmt-tabs">
+      <button class="tab-item active" data-category="all">All</button>
+      <button class="tab-item" data-category="Supper">Supper</button>
+      <button class="tab-item" data-category="Lunch">Lunch</button>
+      <button class="tab-item" data-category="Shopping">Shopping</button>
+      <button class="tab-item" data-category="Study">Study</button>
+      <button class="tab-item" data-category="Others">Others</button>
+    </nav>
+
+    <!-- ══ FEED SECTION ══ -->
+    <section id="mainSection">
+      <div id="tmt-feed" class="tmt-container">
+        <!-- Dynamically loaded posts go here -->
+        <div class="loader-placeholder">Loading events...</div>
+      </div>
+    </section>
+
+    <!-- ══ POST MODAL ══ -->
+    <div id="TMT-MODAL" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Post a Request</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <form id="tmt-form">
+          <div class="input-group">
+            <label>Where are you going?</label>
+            <input type="text" id="tmt-venue" placeholder="e.g. Stage, Supermarket, Library" required>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Time</label>
+              <input type="time" id="tmt-time" required>
+            </div>
+            <div class="input-group">
+              <label>Category</label>
+              <select id="tmt-category">
+                <option value="Supper">Supper</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Study">Study</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Any Conditions? (Optional)</label>
+            <textarea id="tmt-conditions" placeholder="e.g. Must have a mask, strictly girls, etc."></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Announce Request</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ CONDITIONS MODAL ══ -->
+    <div id="CONDITIONS-MODAL" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Conditions</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="conditions-text" class="modal-body"></div>
+        </div>
+    </div>
+
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/dist/tmt.js"></script>
+</body>
+</html>

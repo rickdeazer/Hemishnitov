@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="google-site-verification" content="j2PeLR-jOJ8tFFsrBhozNNQxXLaUe1EEU3MSM8gwXzI" />
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="rgb(2, 91, 11)" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up — MMUN</title>
+    <link rel="stylesheet" href="signup.css" />
+    <style>
+      .SIGNUP-INPUTS, .SIGNUP-INPUTS-LABELS select, select.SIGNUP-INPUTS-LABELS { caret-color: rgb(2, 91, 11); }
+      .SIGNUP-INPUTS::placeholder { opacity: 0.5; }
+      .chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+      .chip { background: #e8f5e9; color: rgb(2,91,11); border: 1px solid rgb(2,91,11); border-radius: 20px; padding: 4px 12px; font-size: 13px; cursor: pointer; user-select: none; transition: background 0.2s, color 0.2s; }
+      .chip.selected { background: rgb(2,91,11); color: #fff; }
+      .other-input-wrap { margin-top: 10px; display: none; }
+      .other-input-wrap.visible { display: block; }
+      .other-input-wrap input { width: 100%; padding: 10px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; caret-color: rgb(2,91,11); outline: none; }
+      .other-input-wrap input:focus { border-color: rgb(2,91,11); }
+      .exp-wrap { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+      .exp-wrap input[type=number] { width: 90px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; caret-color: rgb(2,91,11); outline: none; text-align: center; }
+      .exp-wrap input[type=number]:focus { border-color: rgb(2,91,11); }
+      .exp-wrap span { font-size: 14px; color: #555; }
+      .gender-cards { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+      .gender-card { flex: 1; min-width: 90px; border: 1.5px solid #ddd; border-radius: 12px; padding: 16px 10px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; font-size: 14px; color: #444; }
+      .gender-card .gender-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+      .gender-card.selected { border-color: rgb(2,91,11); background: #e8f5e9; color: rgb(2,91,11); font-weight: 600; }
+      .upload-pic-btn { display: flex; align-items: center; gap: 10px; background: rgb(2,91,11); color: #fff; border: none; border-radius: 10px; padding: 12px 22px; font-size: 15px; cursor: pointer; margin-top: 14px; width: fit-content; transition: background 0.2s; }
+      .upload-pic-btn:hover { background: rgb(1,70,8); }
+      .upload-pic-btn svg { width: 20px; height: 20px; fill: #fff; }
+      #profilePic { display: none; }
+      #consent-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
+      #consent-overlay.open { display: flex; }
+      .consent-box { background: radial-gradient(circle at top right,pink, white, white); border-top-right-radius: 18px; padding: 28px 24px; max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
+      .consent-box h2 { font-size: 20px; color: #021d07; margin-bottom: 6px; }
+      .consent-box p { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 18px; }
+      .consent-check-row { display: flex; align-items: flex-start; gap: 10px; background: #000000d4; padding: 12px 14px; margin-bottom: 12px; }
+      .consent-check-row input[type=checkbox] { width: 18px; height: 18px; margin-top: 2px; accent-color: rgb(2,91,11); flex-shrink: 0; cursor: pointer; }
+      .consent-check-row label { font-size: 14px; color: #a19f9f; line-height: 1.5; cursor: pointer; }
+      .consent-check-row label a { color: rgb(3, 156, 19); text-decoration: underline; }
+      .consent-submit-btn { width: 100%; padding: 14px; transition: all 3s ease; background: rgb(2,91,11); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: background 0.2s; opacity: 0.45; pointer-events: none; }
+      .consent-submit-btn.ready { opacity: 1; pointer-events: all; border-radius: 5px 20%; background: linear-gradient(90deg, rgb(2,91,11), rgb(215, 220, 215),rgb(2,91,11)); background-size: 200% 100%; background-position: 0% 0%; animation: gradientShift 3s linear infinite; }
+      @keyframes gradientShift {
+        0% { background-position: 0% 0%; }
+        50% { background-position: 200% 100%; }
+        100% { background-position: 0% 0%; }
+      };
+      .consent-submit-btn.ready:hover { background: rgb(1,70,8); }
+      .consent-cancel { display: block; text-align: center; margin-top: 12px; font-size: 13px; font-weight: bold; color: #1791f6; cursor: pointer; }rgb(2, 123, 222)
+      .consent-cancel:hover { color: #333; }
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      .blink-caret::after { content: '|'; margin-left: 2px; animation: blink 1s infinite; color: rgb(2,91,11); font-weight: 300; }
+      .field-error { color: #e53935; font-size: 12px; margin-top: 4px; display: none; }
+      .hidden { display: none !important; }
+      #usernameStatus { font-size: 12px; margin-top: 5px; min-height: 16px; display: flex; align-items: center; gap: 6px; }
+      #usernameStatus .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+      #usernameStatus.checking { color: #555; font-weight: 500; }
+      #usernameStatus.checking .status-dot { background: #888; animation: statusPulse 0.8s ease infinite alternate; }
+      #usernameStatus.available { color: greenyellow; font-weight: 600; }
+      #usernameStatus.available .status-dot { background: greenyellow; }
+      #usernameStatus.taken { color: rgb(250, 77, 77); font-weight: 600; }
+      #usernameStatus.taken .status-dot { background: red; }
+      @keyframes statusPulse { from{opacity:0.3} to{opacity:1} }
+      .searchable-select-wrap { position: relative; }
+      .searchable-select-display { width: 100%; padding: 0 40px 0 14px; border: 1.5px solid #bdbdbd; border-radius: 8px; font-size: 15px; font-weight: 600; color: #1a1a1a; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 14px center; cursor: pointer; user-select: none; height: 48px; line-height: 48px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: border-color 0.2s; }
+      .searchable-select-display:hover { border-color: rgb(2,91,11); }
+      .searchable-select-display.placeholder-style { color: #888; font-weight: 400; }
+      .searchable-select-dropdown { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 6px); background: #fff; border: 2px solid rgb(2,91,11); border-radius: 10px; z-index: 500; box-shadow: 0 10px 32px rgba(0,0,0,0.18); overflow: hidden; }
+      .searchable-select-dropdown.open { display: block; }
+      .searchable-select-search { width: 100%; padding: 12px 16px; border: none; border-bottom: 2px solid #2a2a2a; font-size: 14px; font-weight: 500; color: #ececec; outline: none; caret-color: rgb(2,91,11); background: #383a38; box-sizing: border-box; }
+      .searchable-select-search::placeholder { color: #aaa; font-weight: 400; }
+      .searchable-select-list { max-height: 240px; overflow-y: auto; overscroll-behavior: contain; }
+      .searchable-select-option { padding: 13px 16px; font-size: 14px; font-weight: 600; color: #1a1a1a; cursor: pointer; border-bottom: 1.5px solid #e8e8e8; transition: background 0.12s, color 0.12s; line-height: 1.3; }
+      .searchable-select-option:last-child { border-bottom: none; }
+      .searchable-select-option:hover { background: #1e151c; color: rgb(236,249,237); }
+      .searchable-select-option.no-result { color: #888; font-style: italic; font-weight: 400; cursor: default; }
+      .searchable-select-option.no-result:hover { background: none; color: #888; }
+      /* DOB typed inputs */
+      .dob-row { display: flex; place-content: space-between; align-items: end; gap: 5px; }
+      .dob-field > small { display: flex; justify-self: center; align-self: start; font-size: 12px; color: #6d5cfe; font-weight: 600; margin-bottom: 4px; }
+      .dob-typed-input { width: 100%; padding: 12px 14px; border: 1.5px solid #bdbdbd; border-radius: 8px; font-size: 15px; font-weight: 600; color: #1a1a1a; caret-color: rgb(2,91,11); outline: none; box-sizing: border-box; text-align: center; transition: border-color 0.2s; }
+      .dob-typed-input:focus { border-color: rgb(2,91,11); }
+      .dob-typed-input.invalid { border-color: #e53935; }
+      .step-divider { border: none; border-top: 1.5px solid #e0e0e0; margin: 24px 0; }
+      /* resume banner */
+      #resume-banner { display:none; background:#680202; border:1px groove rgb(143, 149, 144); padding:10px 14px; margin-bottom:14px; font-size:13px; color:#bfc2bf; align-items:center; justify-content:space-between; gap:10px; }
+      #resume-banner.show { display:flex; }
+      #resume-banner button { background:rgb(2,91,11); color:#fff; border: solid 1px #555; padding:5px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
+      #resume-clear { background:none !important; color:#efefef !important; font-size:11px !important; padding:4px 8px !important; }
+    </style>
+  </head>
+  <body>
+    <div id="SIGNUP-PAGE">
+      <header id="HEADER">
+        <div id="HAPPNAMELOGO">
+          <img id="headerLogo" src="mediafiles/MMUNlogo_production.png" alt="MMUN Logo" />
+          <h1 id="HAPPNAME">MMUN</h1>
+        </div>
+        <img onclick="showNav()" id="Menu" src="/Assets/menu_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Menu">
+        <nav id="HPAGELINKS">
+          <a class="HPAGELINKS-ITEMS" href="/login">Login</a>
+          <a class="HPAGELINKS-ITEMS" href="/Contacts">Contacts</a>
+          <a class="HPAGELINKS-ITEMS" href="/privacyPolicy">Policy</a>
+          <a class="HPAGELINKS-ITEMS" href="/about">About</a>
+        </nav>
+      </header>
+
+      <section id="TOP-WRAPPER">
+        <h3 id="TOPDIV-TEXT">A Modern Mind</h3>
+      </section>
+
+      <section id="BOTTOM-WRAPPER">
+        <p id="HEADER-BOTTOMDIV">
+          A place to meet: new teammates, project collaborators, new friends and
+          to share ideas through meaningful interactions.
+        </p>
+
+        <form id="SIGNUP-FORM" action="/signup" method="POST" enctype="multipart/form-data">
+          <div id="SIGNUP-FORM-WRAPPER">
+
+            <div id="loader" class="loads">
+              <div id="loadA" class="unload"></div>
+              <h2 id="SIGNUP-TEXT">Create An Account</h2>
+              <div id="loadB" class="unload"></div>
+            </div>
+
+            <h4 id="ERROR-TEXT">
+              <% errors.forEach((error)=>{%><%= error %><br /><%}) %>
+            </h4>
+
+            <div class="tips-carousel">
+              <div class="tip-item" style="--order: 1;">Some records (username, phone, institution) <strong>cannot be edited</strong> once saved.</div>
+              <div class="tip-item" style="--order: 2;"><strong>MMUN</strong> lets you connect with students from <strong>other campuses</strong> nationwide.</div>
+              <div class="tip-item" style="--order: 3;">Chat, make calls, follow and share moments with friends from UoN, KU, Moi, JKUAT, Strathmore &amp; more.</div>
+              <div class="tip-item" style="--order: 4;">Find coursemates, study partners or future collaborators on MMUN! Welcome to MMUN!</div>
+            </div>
+
+            <div id="INPUTS-WRAPPER">
+
+              <div id="STEP-PROGRESS" style="text-align:center; margin-bottom:20px;">
+                <div id="progressLabel" style="font-size:15px; font-weight:500; color:#00d4ff; margin-bottom:8px;">User info</div>
+                <div id="progressText" style="font-size:13px; color:#666; margin-bottom:6px;"><span id="progressPercent"></span> complete</div>
+                <div id="progressBar" style="height:8px; background:#e0e0e0; border-radius:4px; overflow:hidden;">
+                  <div id="progressFill" ></div>
+                </div>
+              </div>
+
+              <!-- Resume banner -->
+              <div id="resume-banner">
+                <span>You have a saved session. Resume where you left off?</span>
+                <div style="display:flex;gap:6px;">
+                  <button type="button" onclick="resumeSaved()">Resume</button>
+                  <button type="button" id="resume-clear" onclick="clearSaved()">Clear</button>
+                </div>
+              </div>
+
+              <!-- STEP 1: Username -->
+              <div class="SIGNUP-INPUTS-DIVS step-1">
+                <label for="usernameS" class="SIGNUP-INPUTS-LABELS blink-caret">enter a unique username</label>
+                <small>No spaces allowed. Use letters, numbers, _ or - only. (4–12 characters)</small>
+                <input class="SIGNUP-INPUTS" type="text" name="usernameS" id="usernameS" placeholder="e.g. Mmun_user" autocomplete="off" />
+                <div id="usernameStatus"></div>
+                <small id="usernameError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 2: Phone -->
+              <div class="SIGNUP-INPUTS-DIVS step-2 hidden">
+                <label class="SIGNUP-INPUTS-LABELS blink-caret" for="phoneS">Enter your phone number</label>
+                <small>Must be a valid Kenyan number starting with 07 or 01 (10 digits total)</small>
+                <input class="SIGNUP-INPUTS" type="tel" id="phoneS" name="phoneS" placeholder="e.g. 0712345678" autocomplete="off" />
+                <small id="phoneError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 3: Password + Confirm -->
+              <div class="SIGNUP-INPUTS-DIVS step-3 hidden">
+                <label class="SIGNUP-INPUTS-LABELS blink-caret" for="passwordS">Create a password</label>
+                <small>Between 6 and 12 characters. Make it strong!</small>
+                <div class="flexEyeandInput">
+                  <input class="SIGNUP-INPUTS" type="password" id="passwordS" name="passwordS" placeholder="Enter your password..." autocomplete="new-password" />
+                  <button type="button" class="viewPasswordBtn" onclick="const i=document.querySelector('input#passwordS');i.type=i.type==='password'?'text':'password';this.innerHTML=i.type==='password'?'👁️':'🔒'">👁️</button>
+                </div>
+                <div id="passwordStrength" style="margin-top:8px; font-size:13px; color:#aaa;">
+                  <span id="strengthText">Password strength: None</span>
+                  <div id="strengthBar" style="height:4px; width:0%; background:#ccc; margin-top:4px; border-radius:2px;"></div>
+                </div>
+                <small id="passwordError" class="field-error"></small>
+                <hr style="margin:18px 0;border:none;border-top:1px solid #eee;"/>
+                <label class="SIGNUP-INPUTS-LABELS blink-caret" for="passwordCS" style="display:block;">Confirm your password</label>
+                <small>Type your password again exactly as you entered it above</small>
+                <div class="flexEyeandInput">
+                  <input class="SIGNUP-INPUTS" type="password" id="passwordCS" name="passwordCS" placeholder="Re-enter your password here..." autocomplete="new-password" />
+                  <button type="button" class="viewPasswordBtn" onclick="const i=document.querySelector('input#passwordCS');i.type=i.type==='password'?'text':'password';this.innerHTML=i.type==='password'?'👁️':'🔒'">👁️</button>
+                </div>
+                <small id="confirmError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 4: Role -->
+              <div class="SIGNUP-INPUTS-DIVS step-4 hidden">
+                <label class="SIGNUP-INPUTS-LABELS" for="Role">What is your role on campus?</label>
+                <small>This helps us personalise your experience on MMUN</small>
+                <div class="searchable-select-wrap">
+                  <div class="searchable-select-display placeholder-style" id="roleDisplay" tabindex="0">-- Select your role --</div>
+                  <div class="searchable-select-dropdown" id="roleDropdown">
+                    <div class="searchable-select-list">
+                      <div class="searchable-select-option" data-value="Student">Student (VIR)</div>
+                      <div class="searchable-select-option" data-value="Lecturer">Lecturer (VIR)</div>
+                      <div class="searchable-select-option" data-value="Department Worker">Department Worker (VNR)</div>
+                      <div class="searchable-select-option" data-value="Announcer"> News/Notifications Annoucer (VNR)</div>
+                      <div class="searchable-select-option" data-value="Department Worker"> Advertisement Channel (VNR)</div>
+                      <div class="searchable-select-option" data-value="Department Worker">Student Employer (VNR)</div>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="Role" id="Role" />
+                <small id="roleError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 5: Course / Dept / Lecturer -->
+              <div class="SIGNUP-INPUTS-DIVS step-5 hidden">
+                <div id="student-course-wrap">
+                  <label class="SIGNUP-INPUTS-LABELS">Select your course of study</label>
+                  <small>Choose the course you are currently enrolled in</small>
+                  <div class="searchable-select-wrap">
+                    <div class="searchable-select-display placeholder-style" id="courseDisplay" tabindex="0">-- Select your course --</div>
+                    <div class="searchable-select-dropdown" id="courseDropdown">
+                      <input type="text" class="searchable-select-search" id="courseSearch" placeholder="🔍  Search courses..." autocomplete="off" />
+                      <div class="searchable-select-list" id="courseList"></div>
+                    </div>
+                  </div>
+                  <input type="hidden" name="course" id="CourseS" />
+                  <div class="other-input-wrap" id="course-other-wrap">
+                    <input type="text" id="courseOtherInput" placeholder="Type your course name here..." />
+                  </div>
+                  <small id="courseError" class="field-error"></small>
+                </div>
+
+                <div id="deptworker-wrap" class="hidden">
+                  <label class="SIGNUP-INPUTS-LABELS">Select your department(s)</label>
+                  <small>Choose all departments that apply to your work role</small>
+                  <div class="searchable-select-wrap">
+                    <div class="searchable-select-display placeholder-style" id="deptDisplay" tabindex="0">-- Pick a department --</div>
+                    <div class="searchable-select-dropdown" id="deptDropdown">
+                      <input type="text" class="searchable-select-search" id="deptSearch" placeholder="🔍  Search departments..." autocomplete="off" />
+                      <div class="searchable-select-list" id="deptList"></div>
+                    </div>
+                  </div>
+                  <div class="chip-container" id="deptworker-chips"></div>
+                  <div class="other-input-wrap" id="deptworker-other-wrap">
+                    <input type="text" id="deptworkerOtherInput" placeholder="Describe your department here..." />
+                  </div>
+                  <input type="hidden" name="course" id="deptworkerValue" />
+                  <small id="deptworkerError" class="field-error"></small>
+                </div>
+
+                <div id="lecturer-wrap" class="hidden">
+                  <label class="SIGNUP-INPUTS-LABELS">Select the subject(s) / fields you teach</label>
+                  <small>You can select more than one field.</small>
+                  <div class="searchable-select-wrap">
+                    <div class="searchable-select-display placeholder-style" id="lecturerDisplay" tabindex="0">-- Pick a subject or field --</div>
+                    <div class="searchable-select-dropdown" id="lecturerDropdown">
+                      <input type="text" class="searchable-select-search" id="lecturerSearch" placeholder="🔍  Search subjects..." autocomplete="off" />
+                      <div class="searchable-select-list" id="lecturerList"></div>
+                    </div>
+                  </div>
+                  <div class="chip-container" id="lecturer-chips"></div>
+                  <div class="other-input-wrap" id="lecturer-other-wrap">
+                    <input type="text" id="lecturerOtherInput" placeholder="Type your subject or field here..." />
+                  </div>
+                  <input type="hidden" name="course" id="lecturerValue" />
+                  <small id="lecturerError" class="field-error"></small>
+                </div>
+              </div>
+
+              <!-- STEP 6: Year / Experience -->
+              <div class="SIGNUP-INPUTS-DIVS step-6 hidden">
+                <div id="student-year-wrap">
+                  <label class="SIGNUP-INPUTS-LABELS">What year of study are you in?</label>
+                  <small>Select your current academic year</small>
+                  <div class="searchable-select-wrap">
+                    <div class="searchable-select-display placeholder-style" id="yearDisplay" tabindex="0">-- Select your year --</div>
+                    <div class="searchable-select-dropdown" id="yearDropdown">
+                      <div class="searchable-select-list">
+                        <div class="searchable-select-option" data-value="First Year">Year One</div>
+                        <div class="searchable-select-option" data-value="Second Year">Year Two</div>
+                        <div class="searchable-select-option" data-value="Third Year">Year Three</div>
+                        <div class="searchable-select-option" data-value="Forth Year">Year Four</div>
+                        <div class="searchable-select-option" data-value="Fifth Year">Year Five</div>
+                        <div class="searchable-select-option" data-value="Sixth Year">Year Six</div>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" name="Year" id="Year" />
+                  <small id="yearError" class="field-error"></small>
+                </div>
+                <div id="experience-wrap" class="hidden">
+                  <label class="SIGNUP-INPUTS-LABELS">How many years of work experience do you have?</label>
+                  <small>You can pick from the list or type in a number directly</small>
+                  <div class="exp-wrap">
+                    <input type="number" id="expNumberInput" min="0" max="60" placeholder="e.g. 5" oninput="syncExpFromNumber(this.value)" />
+                    <span>years, or select:</span>
+                    <div class="searchable-select-wrap" style="flex:1;">
+                      <div class="searchable-select-display placeholder-style" id="expDisplay" tabindex="0">-- Choose --</div>
+                      <div class="searchable-select-dropdown" id="expDropdown">
+                        <div class="searchable-select-list" id="expList"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" name="Year" id="expHiddenValue" />
+                  <small id="expError" class="field-error"></small>
+                </div>
+              </div>
+
+              <!-- STEP 7: Institution -->
+              <div class="SIGNUP-INPUTS-DIVS step-7 hidden">
+                <label class="SIGNUP-INPUTS-LABELS">Which institution are you at?</label>
+                <small>Select your university or college from the list below</small>
+                <div class="searchable-select-wrap">
+                  <div class="searchable-select-display placeholder-style" id="campusDisplay" tabindex="0">-- Select your institution --</div>
+                  <div class="searchable-select-dropdown" id="campusDropdown">
+                    <input type="text" class="searchable-select-search" id="campusSearch" placeholder="🔍  Search institutions..." autocomplete="off" />
+                    <div class="searchable-select-list" id="campusList"></div>
+                  </div>
+                </div>
+                <input type="hidden" name="Campus" id="Campus" />
+                <small id="campusError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 8: Date of Birth (typed day + dropdown month + typed year) -->
+              <div class="SIGNUP-INPUTS-DIVS step-8 hidden">
+                <label class="SIGNUP-INPUTS-LABELS">When were you born?</label>
+                <small>You must be at least 16 years old to join MMUN</small>
+                <div class="dob-row">
+                  <div class="dob-field">
+                    <small>Day (1–31)</small>
+                    <input type="number" class="dob-typed-input" id="dobDayInput" min="1" max="31" placeholder="..18" />
+                    <input type="hidden" name="birthDay" id="birthDay" />
+                  </div>
+                  <div class="dob-field">
+                    <small>Month</small>
+                    <div class="searchable-select-wrap">
+                      <div class="searchable-select-display placeholder-style" id="monthDisplay" tabindex="0" style="font-size:14px;">-- Month --</div>
+                      <div class="searchable-select-dropdown" id="monthDropdown">
+                        <div class="searchable-select-list">
+                          <div class="searchable-select-option" data-value="01">1. January</div>
+                          <div class="searchable-select-option" data-value="02">2. February</div>
+                          <div class="searchable-select-option" data-value="03">3. March</div>
+                          <div class="searchable-select-option" data-value="04">4. April</div>
+                          <div class="searchable-select-option" data-value="05">5. May</div>
+                          <div class="searchable-select-option" data-value="06">6. June</div>
+                          <div class="searchable-select-option" data-value="07">7. July</div>
+                          <div class="searchable-select-option" data-value="08">8. August</div>
+                          <div class="searchable-select-option" data-value="09">9. September</div>
+                          <div class="searchable-select-option" data-value="10">10. October</div>
+                          <div class="searchable-select-option" data-value="11">11. November</div>
+                          <div class="searchable-select-option" data-value="12">12. December</div>
+                        </div>
+                      </div>
+                      <input type="hidden" name="birthMonth" id="birthMonth" />
+                    </div>
+                  </div>
+                  <div class="dob-field">
+                    <small>Year 1968-2015</small>
+                    <input type="number" class="dob-typed-input" id="dobYearInput" min="1900" max="2015" placeholder="..2006" />
+                    <input type="hidden" name="birthYear" id="birthYear" />
+                  </div>
+                </div>
+                <small id="dobError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 9: Gender (now separate) -->
+              <div class="SIGNUP-INPUTS-DIVS step-9 hidden">
+                <label class="SIGNUP-INPUTS-LABELS">Select your gender</label>
+                <small>This helps us personalise your MMUN experience. Default is Female.</small>
+                <input type="hidden" name="gender" id="genderValue" value="Female" />
+                <div class="gender-cards">
+                  <div class="gender-card selected" data-value="Female" onclick="selectGender('Female')"><span class="gender-icon">♀</span>Female</div>
+                  <div class="gender-card" data-value="Male" onclick="selectGender('Male')"><span class="gender-icon">♂</span>Male</div>
+                  <div class="gender-card" data-value="Rather not say" onclick="selectGender('Rather not say')"><span class="gender-icon">◎</span>Rather not say</div>
+                </div>
+                <small id="genderError" class="field-error"></small>
+              </div>
+
+              <!-- STEP 10: Profile Picture (now separate) -->
+              <div class="SIGNUP-INPUTS-DIVS profile-section step-10 hidden">
+                <label class="SIGNUP-INPUTS-LABELS profile-label">Upload your profile picture <span style="color:#f44336; font-size:0.9em;">(required)</span></label>
+                <p style="font-size:13px; color:#666; margin:4px 0 12px 0; line-height:1.5;">A clear, profile photo is what others will see in their feed. Make sure your face is visible and well-lit!</p>
+                <div class="neon-divider"></div>
+                <div class="profile-pic-wrapper">
+                  <img id="profilePreview" src="/mediafiles/defaultProfile.png" alt="Profile preview" style="width:inherit;height:inherit;border-radius:50%;object-fit:cover;border:2px solid #ddd;display:block;" />
+                </div>
+                <input class="SIGNUP-INPUTS" id="profilePic" name="profilePic" type="file" accept="image/*" required />
+                  <p id="picFileName" style="font-size:13px;color:#888;margin-top:8px;"></p>
+                <button type="button" class="upload-pic-btn" id="uploadPicBtn" style="width: 100%;">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
+                    Upload Profile Picture
+                  </button>
+                <small id="profileError" class="field-error"></small>
+              </div>
+
+              <div id="BUTTONS-WRAPPER" style="display: flex; gap: 16px; justify-content: center; margin-top: 24px;">
+                <button id="BACK-BTN" type="button" class="backBtn"><img src="/Assets/BackSvg.svg" alt="Back"></button>
+                <button id="SUBMIT-BTN" type="button" class="submitBtn unchanged">Next</button>
+              </div>
+
+              <!-- Only shown on step 1 -->
+              <div class="createText" id="loginLink">Already have an account? <a href="/login">Login</a></div>
+            </div>
+          </div>
+        </form>
+
+        <div class="floating-container" id="blocked" style="display: none">
+          <div class="floating-text">This site was blocked by cloud-based Terminal</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CONSENT POPUP -->
+    <div id="consent-overlay">
+      <div class="consent-box">
+        <h2>Almost there!</h2>
+        <p>Before we create your MMUN account, please read and agree to our terms. Your privacy matters to us.</p>
+        <div class="consent-check-row">
+          <input type="checkbox" id="consent-privacy" onchange="checkConsent()" />
+          <label for="consent-privacy">I have read and agree to the <a href="/privacypolicy" target="_blank">MMUN Privacy Policy</a>. I understand how my data is collected and used.</label>
+        </div>
+        <div class="consent-check-row">
+          <input type="checkbox" id="consent-about" onchange="checkConsent()" />
+          <label for="consent-about">I have read <a href="/about" target="_blank">About MMUN</a> and I understand what this platform is and what it is for.</label>
+        </div>
+        <button class="consent-submit-btn" id="consent-submit-btn" onclick="submitForm()">Create My Account</button>
+        <span class="consent-cancel" onclick="closeConsent()">Go back and review my information</span>
+      </div>
+    </div>
+
+    <script>
+      // ════════════════════════════════════════
+      // DATA — comprehensive Kenyan courses & campuses
+      // ════════════════════════════════════════
+      const COURSE_OPTIONS = [
+        "Accounting","Actuarial Science","Adult Education","Aeronautical Engineering","Agribusiness Management",
+        "Agricultural Biotechnology","Agricultural Economics","Agricultural Economics and Resource Management",
+        "Agricultural Education","Agricultural Engineering","Agriculture","Agronomy","Air Transport Management",
+        "Animal Health and Production","Animal Science","Animal Production","Anthropology","Applied Biology",
+        "Applied Chemistry","Applied Mathematics","Applied Statistics","Aquatic Science","Architecture",
+        "Bachelor of Arts","Bachelor of Business Management (BBM)","Bachelor of Commerce",
+        "Bachelor of Education (Arts)","Bachelor of Education (Science)","Bachelor of Laws (LLB)",
+        "Bachelor of Science","Banking and Finance","Biochemistry","Biology","Biomedical Engineering",
+        "Biomedical Laboratory Sciences","Biomedical Sciences","Biometry","Biotechnology",
+        "Building and Construction","Business Administration","Business Information Technology",
+        "Business Management","Chemical Engineering","Chemistry","Child Development",
+        "Civil and Structural Engineering","Civil Engineering","Clinical Medicine","Clinical Psychology",
+        "Communication","Communication and Journalism","Communication and Media Studies",
+        "Communication and Public Relations","Community Development","Community Health","Computer Engineering",
+        "Computer Science","Counselling","Criminology","Criminology and Criminal Justice","Crop Science",
+        "Curriculum Studies","Data Science","Dentistry","Development Studies","Disaster Management",
+        "Drama and Theatre Arts","Early Childhood Development Education","Ecology","Economics",
+        "Education Arts","Education Science","Electrical and Electronic Engineering","Electrical Engineering",
+        "Electronics and Computer Engineering","Emergency Medicine","Energy Engineering",
+        "Entrepreneurship","Environmental Biology","Environmental Engineering","Environmental Health",
+        "Environmental Management","Environmental Planning and Management","Environmental Science",
+        "Fashion Design","Film and Theatre Studies","Finance","Financial Economics","Food Science",
+        "Food Science and Nutrition","Food Science and Technology","Forensic Science","Forestry",
+        "Gender and Development","Gender Studies","Geography","Geospatial Engineering","Geology",
+        "Health Records Management","Health Systems Management","History","Horticulture",
+        "Hospitality Management","Hotel and Hospitality Management","Human Geography",
+        "Human Nutrition and Dietetics","Human Resource Management","Hydrology","ICT","Industrial Chemistry",
+        "Industrial Mathematics","Information and Communication Technology","Information Sciences",
+        "Information Technology","Insurance","Interior Design","International Business Administration",
+        "International Relations","Journalism","Journalism and Mass Communication","Kiswahili","Land Economics",
+        "Land Management","Landscape Architecture","Language and Communication","Law","Library and Information Science",
+        "Linguistics","Literature","Marine Engineering","Marketing","Mass Communication","Mathematics",
+        "Mechanical and Manufacturing Engineering","Mechanical Engineering","Media Studies",
+        "Medical Biochemistry","Medical Engineering","Medical Laboratory Sciences","Medicine and Surgery (MBChB)",
+        "Meteorology","Microbiology","Midwifery","Molecular Biology","Music","Natural Resource Management",
+        "Network Security","Nursing","Nutrition and Dietetics","Occupational Health and Safety",
+        "Occupational Therapy","Oil and Gas Engineering","Optometry","Peace and Conflict Studies",
+        "Petroleum Engineering","Pharmacy","Philosophy","Physical Education","Physics","Physiotherapy",
+        "Plant Science","Political Science","Political Science and Public Administration",
+        "Project Management","Psychology","Public Administration","Public Health","Public Policy",
+        "Quantity Surveying","Range Management","Real Estate","Recreation Management",
+        "Religious Studies","Renewable Energy","Social Work","Sociology","Software Engineering",
+        "Soil Science","Special Needs Education","Sports Management","Sports Science","Statistics",
+        "Surveying","Technology Education","Telecommunication Engineering","Theatre Arts",
+        "Tourism Management","Tourism and Hospitality","Urban and Regional Planning","Veterinary Medicine",
+        "Water Resources Management","Wildlife Conservation","Wildlife Management","Zoology","Other"
+      ];
+
+      const DEPT_OPTIONS = [
+        "Admissions Office","Alumni Relations","Bursary and Finance Office","Campus Security",
+        "Career Services","Catering and Hospitality","Counselling and Student Welfare",
+        "Dean of Students Office","Disability Services","E-Learning and ICT Support",
+        "Examinations Office","Facilities and Estates Management","Gender and Inclusion Office",
+        "Health Services / Medical Centre","Housing and Accommodation","Human Resources",
+        "International Students Office","IT Department","Laboratory Services","Legal Affairs",
+        "Library and Information Services","Marketing and Communications","Maintenance and Works",
+        "Office of the Deputy Vice Chancellor (Academic)","Office of the Deputy Vice Chancellor (Administration)",
+        "Office of the Registrar (Academic)","Office of the Registrar (Administration)",
+        "Office of the Vice Chancellor","Procurement and Supply Chain","Public Relations",
+        "Quality Assurance Office","Records and Archives","Research and Innovation",
+        "Senate and Academic Affairs","Sports and Recreation","Student Affairs",
+        "Student Finance and Scholarships","Student Government Liaison","Transport and Logistics","Other"
+      ];
+
+      const LECTURER_OPTIONS = [
+        "Accounting","Adult Education","Agricultural Sciences","Anatomy","Architecture","Biochemistry",
+        "Biology","Biomedical Engineering","Biomedical Sciences","Business Administration","Business Law",
+        "Chemical Engineering","Chemistry","Civil Engineering","Clinical Medicine","Communication Studies",
+        "Community Health","Computer Science","Criminology","Data Science","Dentistry","Ecology",
+        "Economics","Education","Electrical Engineering","Environmental Science","Finance","Food Science",
+        "Forensic Science","Gender Studies","Geography","Geology","History","Human Resource Management",
+        "Information Technology","International Relations","Journalism","Kiswahili",
+        "Languages and Linguistics","Law","Literature","Marketing","Mathematics","Mechanical Engineering",
+        "Medicine and Surgery","Microbiology","Music","Nursing","Nutrition and Dietetics","Pathology",
+        "Pharmacy","Philosophy","Physical Education","Physics","Physiology","Physiotherapy",
+        "Political Science","Psychology","Public Administration","Public Health","Religious Studies",
+        "Social Work","Sociology","Software Engineering","Statistics","Surgery","Theatre Arts",
+        "Tourism and Hospitality","Veterinary Medicine","Wildlife and Conservation","Zoology","Other"
+      ];
+
+      const CAMPUS_OPTIONS = [
+        // Public Universities
+        "University of Nairobi","Kenyatta University","Moi University","Egerton University",
+        "Jomo Kenyatta University of Agriculture and Technology","Maseno University",
+        "Masinde Muliro University of Science and Technology","Dedan Kimathi University of Technology",
+        "Technical University of Kenya","Technical University of Mombasa",
+        "Jaramogi Oginga Odinga University of Science and Technology",
+        "South Eastern Kenya University","University of Eldoret","Kisii University",
+        "Laikipia University","Chuka University","Rongo University","Meru University of Science and Technology",
+        "Tom Mboya University","Karatina University","Kibabii University","Kirinyaga University",
+        "Machakos University","Maasai Mara University","Alupe University","Garissa University",
+        "Murang'a University of Technology","University of Embu","University of Kabianga",
+        "Pwani University","Co-operative University of Kenya","Open University of Kenya",
+        // Chartered Private Universities
+        "Strathmore University","United States International University-Africa","Daystar University",
+        "Africa Nazarene University","Aga Khan University","Amref International University",
+        "Catholic University of Eastern Africa","KCA University","Kenya Methodist University",
+        "Management University of Africa","Mount Kenya University","Multimedia University of Kenya",
+        "Nairobi University","Riara University","Scott Christian University","St. Paul's University",
+        "Zetech University","Gretsa University","Uzima University","Adventist University of Africa",
+        "African Institute for Capacity Development","Africa International University",
+        "Kabarak University","Pan Africa Christian University","Kenya Highlands University",
+        "Kiriri Women's University of Science and Technology","St. Augustine University of Tanzania (Kenya Campus)",
+        "Jomo Kenyatta University of Agriculture and Technology (Westlands Campus)",
+        // Technical and Vocational Institutions (degree-granting)
+        "Kenya Medical Training College (Nairobi)","Kenya Medical Training College (Mombasa)",
+        "Kenya Medical Training College (Kisumu)","Kenya Medical Training College (Eldoret)",
+        "Kenya Medical Training College (Embu)","Kenya Medical Training College (Kakamega)",
+        "Kenya School of Law","Kenya Institute of Management","Kenya College of Accountancy University",
+        "East Africa School of Aviation","Kenya Utalii College",
+        // Other
+        "Other"
+      ];
+
+      const EXP_OPTIONS = [
+        "Less than 1 year","1 year","2 years","3 years","4 years","5 years","6 years","7 years",
+        "8 years","9 years","10 years","11 years","12 years","13 years","14 years","15 years",
+        "16 years","17 years","18 years","19 years","20 years","21–25 years","26–30 years",
+        "31–35 years","36–40 years","More than 40 years"
+      ];
+
+      // ════════════════════════════════════════
+      // LOCAL STORAGE — save/restore progress
+      // ════════════════════════════════════════
+      const LS_KEY = 'mmun_signup_draft';
+
+      function saveDraft() {
+        const draft = {
+          step: currentStep,
+          username: document.getElementById('usernameS').value,
+          phone: document.getElementById('phoneS').value,
+          // passwords intentionally excluded
+          role: document.getElementById('Role').value,
+          course: document.getElementById('CourseS').value,
+          courseOther: document.getElementById('courseOtherInput').value,
+          deptworker: document.getElementById('deptworkerValue').value,
+          lecturer: document.getElementById('lecturerValue').value,
+          year: document.getElementById('Year').value,
+          expHidden: document.getElementById('expHiddenValue').value,
+          campus: document.getElementById('Campus').value,
+          dobDay: document.getElementById('dobDayInput').value,
+          dobMonth: document.getElementById('birthMonth').value,
+          dobYear: document.getElementById('dobYearInput').value,
+          gender: document.getElementById('genderValue').value,
+          // chip sets
+          deptChips: [...deptWorkerSelected],
+          lecturerChips: [...lecturerSelected],
+          // display labels for dropdowns
+          roleLabel: document.getElementById('roleDisplay').textContent,
+          courseLabel: document.getElementById('courseDisplay').textContent,
+          campusLabel: document.getElementById('campusDisplay').textContent,
+          yearLabel: document.getElementById('yearDisplay').textContent,
+          expLabel: document.getElementById('expDisplay').textContent,
+          monthLabel: document.getElementById('monthDisplay').textContent,
+        };
+        localStorage.setItem(LS_KEY, JSON.stringify(draft));
+      }
+
+      function loadDraft() {
+        try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch(e) { return null; }
+      }
+
+      function clearSaved() {
+        localStorage.removeItem(LS_KEY);
+        document.getElementById('resume-banner').classList.remove('show');
+      }
+
+      function resumeSaved() {
+        const d = loadDraft();
+        if (!d) return;
+        document.getElementById('resume-banner').classList.remove('show');
+
+        // Restore text fields
+        if (d.username) document.getElementById('usernameS').value = d.username;
+        if (d.phone) document.getElementById('phoneS').value = d.phone;
+
+        // Restore role
+        if (d.role) {
+          document.getElementById('Role').value = d.role;
+          currentRole = d.role;
+          if (d.roleLabel) { const el = document.getElementById('roleDisplay'); el.textContent = d.roleLabel; el.classList.remove('placeholder-style'); }
+        }
+
+        // Restore course
+        if (d.course) {
+          document.getElementById('CourseS').value = d.course;
+          if (d.courseLabel) { const el = document.getElementById('courseDisplay'); el.textContent = d.courseLabel; el.classList.remove('placeholder-style'); }
+          if (d.course === 'Other') document.getElementById('course-other-wrap').classList.add('visible');
+        }
+        if (d.courseOther) document.getElementById('courseOtherInput').value = d.courseOther;
+
+        // Restore dept chips
+        if (d.deptChips && d.deptChips.length) {
+          d.deptChips.forEach(v => { deptWorkerSelected.add(v); });
+          renderDeptWorkerChips();
+          syncDeptWorkerValue();
+        }
+
+        // Restore lecturer chips
+        if (d.lecturerChips && d.lecturerChips.length) {
+          d.lecturerChips.forEach(v => { lecturerSelected.add(v); });
+          renderLecturerChips();
+          syncLecturerValue();
+        }
+
+        // Restore year / experience
+        if (d.year) {
+          document.getElementById('Year').value = d.year;
+          if (d.yearLabel) { const el = document.getElementById('yearDisplay'); el.textContent = d.yearLabel; el.classList.remove('placeholder-style'); }
+        }
+        if (d.expHidden) {
+          document.getElementById('expHiddenValue').value = d.expHidden;
+          if (d.expLabel) { const el = document.getElementById('expDisplay'); el.textContent = d.expLabel; el.classList.remove('placeholder-style'); }
+        }
+
+        // Restore campus
+        if (d.campus) {
+          document.getElementById('Campus').value = d.campus;
+          if (d.campusLabel) { const el = document.getElementById('campusDisplay'); el.textContent = d.campusLabel; el.classList.remove('placeholder-style'); }
+        }
+
+        // Restore DOB
+        if (d.dobDay) document.getElementById('dobDayInput').value = d.dobDay;
+        if (d.dobMonth) {
+          document.getElementById('birthMonth').value = d.dobMonth;
+          if (d.monthLabel) { const el = document.getElementById('monthDisplay'); el.textContent = d.monthLabel; el.classList.remove('placeholder-style'); }
+        }
+        if (d.dobYear) document.getElementById('dobYearInput').value = d.dobYear;
+
+        // Restore gender
+        if (d.gender) { selectGender(d.gender); }
+
+        // Go to saved step
+        if (d.step && d.step > 1) {
+          currentStep = d.step;
+          showStep(currentStep);
+        }
+      }
+
+      // ════════════════════════════════════════
+      // SEARCHABLE DROPDOWN ENGINE
+      // ════════════════════════════════════════
+      function makeSearchableSelect({ displayId, dropdownId, searchId, listId, items, hiddenId, onSelect }) {
+        const display  = document.getElementById(displayId);
+        const dropdown = document.getElementById(dropdownId);
+        const listEl   = listId ? document.getElementById(listId) : dropdown.querySelector('.searchable-select-list');
+        const searchEl = searchId ? document.getElementById(searchId) : null;
+
+        function renderList(filter) {
+          listEl.innerHTML = '';
+          const filtered = filter ? items.filter(i => i.toLowerCase().includes(filter.toLowerCase())) : items;
+          if (!filtered.length) {
+            const d = document.createElement('div');
+            d.className = 'searchable-select-option no-result';
+            d.textContent = 'No results found';
+            listEl.appendChild(d);
+            return;
+          }
+          filtered.forEach(item => {
+            const d = document.createElement('div');
+            d.className = 'searchable-select-option';
+            d.textContent = item;
+            d.addEventListener('mousedown', e => { e.preventDefault(); pick(item); });
+            listEl.appendChild(d);
+          });
+        }
+
+        function pick(val) {
+          display.textContent = val;
+          display.classList.remove('placeholder-style');
+          if (hiddenId) document.getElementById(hiddenId).value = val;
+          closeAll();
+          if (onSelect) onSelect(val);
+          checkIfStepIsValid();
+        }
+
+        function open() {
+          closeAll();
+          if (items) renderList(searchEl ? searchEl.value : '');
+          dropdown.classList.add('open');
+          if (searchEl) { searchEl.value = ''; searchEl.focus(); }
+        }
+
+        display.addEventListener('click', () => dropdown.classList.contains('open') ? closeAll() : open());
+        display.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+        if (searchEl) searchEl.addEventListener('input', () => renderList(searchEl.value));
+        if (items) renderList('');
+      }
+
+      function makeSimpleSelect({ displayId, dropdownId, hiddenId, onSelect }) {
+        const display  = document.getElementById(displayId);
+        const dropdown = document.getElementById(dropdownId);
+        display.addEventListener('click', () => {
+          if (dropdown.classList.contains('open')) { closeAll(); return; }
+          closeAll(); dropdown.classList.add('open');
+        });
+        dropdown.querySelectorAll('.searchable-select-option').forEach(opt => {
+          opt.addEventListener('mousedown', e => {
+            e.preventDefault();
+            display.textContent = opt.textContent.trim();
+            display.classList.remove('placeholder-style');
+            if (hiddenId) document.getElementById(hiddenId).value = opt.dataset.value || opt.textContent.trim();
+            closeAll();
+            if (onSelect) onSelect(opt.dataset.value || opt.textContent.trim(), opt.textContent.trim());
+            checkIfStepIsValid();
+          });
+        });
+      }
+
+      function closeAll() {
+        document.querySelectorAll('.searchable-select-dropdown.open').forEach(d => d.classList.remove('open'));
+      }
+      document.addEventListener('mousedown', e => { if (!e.target.closest('.searchable-select-wrap')) closeAll(); });
+
+      // ── Role ──
+      makeSimpleSelect({ displayId:'roleDisplay', dropdownId:'roleDropdown', hiddenId:'Role',
+        onSelect(val) { currentRole = val; handleRoleChange(); }
+      });
+
+      // ── Course ──
+      makeSearchableSelect({ displayId:'courseDisplay', dropdownId:'courseDropdown', searchId:'courseSearch', listId:'courseList', items:COURSE_OPTIONS, hiddenId:'CourseS',
+        onSelect(val) { document.getElementById('course-other-wrap').classList.toggle('visible', val === 'Other'); }
+      });
+
+      // ── Dept worker ──
+      makeSearchableSelect({ displayId:'deptDisplay', dropdownId:'deptDropdown', searchId:'deptSearch', listId:'deptList', items:DEPT_OPTIONS,
+        onSelect(val) {
+          if (val === 'Other') { document.getElementById('deptworker-other-wrap').classList.add('visible'); syncDeptWorkerValue(); }
+          else { addDeptWorkerChip(val); }
+          const d = document.getElementById('deptDisplay'); d.textContent = '-- Pick a department --'; d.classList.add('placeholder-style');
+        }
+      });
+
+      // ── Lecturer ──
+      makeSearchableSelect({ displayId:'lecturerDisplay', dropdownId:'lecturerDropdown', searchId:'lecturerSearch', listId:'lecturerList', items:LECTURER_OPTIONS,
+        onSelect(val) {
+          if (val === 'Other') { document.getElementById('lecturer-other-wrap').classList.add('visible'); syncLecturerValue(); }
+          else { addLecturerChip(val); }
+          const d = document.getElementById('lecturerDisplay'); d.textContent = '-- Pick a subject or field --'; d.classList.add('placeholder-style');
+        }
+      });
+
+      // ── Year of study ──
+      makeSimpleSelect({ displayId:'yearDisplay', dropdownId:'yearDropdown', hiddenId:'Year' });
+
+      // ── Experience ──
+      (function() {
+        const listEl = document.getElementById('expList');
+        EXP_OPTIONS.forEach(opt => {
+          const d = document.createElement('div');
+          d.className = 'searchable-select-option'; d.textContent = opt;
+          d.addEventListener('mousedown', e => {
+            e.preventDefault();
+            document.getElementById('expHiddenValue').value = opt;
+            const disp = document.getElementById('expDisplay'); disp.textContent = opt; disp.classList.remove('placeholder-style');
+            document.getElementById('expNumberInput').value = '';
+            closeAll(); checkIfStepIsValid();
+          });
+          listEl.appendChild(d);
+        });
+        document.getElementById('expDisplay').addEventListener('click', () => {
+          if (document.getElementById('expDropdown').classList.contains('open')) { closeAll(); return; }
+          closeAll(); document.getElementById('expDropdown').classList.add('open');
+        });
+      })();
+
+      // ── Campus ──
+      makeSearchableSelect({ displayId:'campusDisplay', dropdownId:'campusDropdown', searchId:'campusSearch', listId:'campusList', items:CAMPUS_OPTIONS, hiddenId:'Campus' });
+
+      // ── DOB Month ──
+      makeSimpleSelect({ displayId:'monthDisplay', dropdownId:'monthDropdown', hiddenId:'birthMonth' });
+
+      // ── DOB Day typed input ──
+      document.getElementById('dobDayInput').addEventListener('input', function() {
+        let v = parseInt(this.value);
+        if (this.value && (isNaN(v) || v < 1 || v > 31)) {
+          this.classList.add('invalid');
+        } else {
+          this.classList.remove('invalid');
+          if (!isNaN(v) && v >= 1 && v <= 31) document.getElementById('birthDay').value = String(v).padStart(2,'0');
+          else document.getElementById('birthDay').value = '';
+        }
+        validateDOB();
+        checkIfStepIsValid();
+      });
+
+      // ── DOB Year typed input ──
+      document.getElementById('dobYearInput').addEventListener('input', function() {
+        let v = parseInt(this.value);
+        const currentYear = new Date().getFullYear();
+        if (this.value.length === 4 && (isNaN(v) || v < 1900 || v > currentYear)) {
+          this.classList.add('invalid');
+        } else {
+          this.classList.remove('invalid');
+          if (!isNaN(v)) document.getElementById('birthYear').value = v;
+          else document.getElementById('birthYear').value = '';
+        }
+        validateDOB();
+        checkIfStepIsValid();
+      });
+
+      function validateDOB() {
+        const day = parseInt(document.getElementById('dobDayInput').value);
+        const month = document.getElementById('birthMonth').value;
+        const year = parseInt(document.getElementById('dobYearInput').value);
+        const errEl = document.getElementById('dobError');
+
+        if (!day || !month || !year || String(document.getElementById('dobYearInput').value).length < 4) {
+          errEl.style.display = 'none'; return false;
+        }
+
+        // Check age >= 16
+        const today = new Date();
+        const dob = new Date(year, parseInt(month) - 1, day);
+        const age = today.getFullYear() - dob.getFullYear() - (today < new Date(today.getFullYear(), dob.getMonth(), dob.getDate()) ? 1 : 0);
+
+        if (age < 16) {
+          errEl.textContent = 'You must be at least 16 years old to join MMUN';
+          errEl.style.display = 'block'; return false;
+        }
+        if (age > 110) {
+          errEl.textContent = 'Please enter a valid birth year';
+          errEl.style.display = 'block'; return false;
+        }
+        errEl.style.display = 'none'; return true;
+      }
+
+      // ════════════════════════════════════════
+      // NAV MENU
+      // ════════════════════════════════════════
+      const menu = document.getElementById("Menu");
+      const navigationPane = document.getElementById("HPAGELINKS");
+      function showNav() {
+        if (navigationPane.style.display === '' || navigationPane.style.display === 'none') {
+          navigationPane.style.display = 'flex'; menu.style.transform = 'rotate(90deg)'; menu.style.scale = "0.5";
+          setTimeout(() => { navigationPane.style.display = 'none'; menu.style.transform = 'rotate(0deg)'; menu.style.scale = '1'; }, 4000);
+        }
+      }
+
+      setInterval(() => {
+        const u = document.getElementById("usernameS");
+        u.placeholder = (u.placeholder === 'e.g. Mmun_user' || u.placeholder === '') ? '|' : 'e.g. Mmun_user';
+      }, 600);
+
+      // ════════════════════════════════════════
+      // STEP MANAGEMENT — 10 steps
+      // 1=username 2=phone 3=pw+confirm 4=role
+      // 5=course/dept/lect 6=year/exp 7=campus
+      // 8=DOB 9=gender 10=profilepic
+      // ════════════════════════════════════════
+      let currentStep = 1;
+      let currentRole = 'Student';
+      const TOTAL_STEPS = 10;
+
+      const nextBtn = document.getElementById("SUBMIT-BTN");
+      const backBtn = document.getElementById("BACK-BTN");
+      const form    = document.getElementById("SIGNUP-FORM");
+      const errorDisplay = document.getElementById("ERROR-TEXT");
+
+      function getStepEl(step) { return document.querySelector(`.step-${step}`); }
+
+      function showStep(step) {
+        for (let i = 1; i <= TOTAL_STEPS; i++) { const el = getStepEl(i); if (el) el.classList.add('hidden'); }
+        const el = getStepEl(step); if (el) el.classList.remove('hidden');
+
+        if (step === 5) {
+          document.getElementById('student-course-wrap').classList.toggle('hidden', currentRole !== 'Student');
+          document.getElementById('deptworker-wrap').classList.toggle('hidden', currentRole !== 'Department Worker');
+          document.getElementById('lecturer-wrap').classList.toggle('hidden', currentRole !== 'Lecturer');
+        }
+        if (step === 6) {
+          document.getElementById('student-year-wrap').classList.toggle('hidden', currentRole !== 'Student');
+          document.getElementById('experience-wrap').classList.toggle('hidden', currentRole === 'Student');
+        }
+
+        nextBtn.textContent = step === TOTAL_STEPS ? 'Create Account' : 'Next';
+        backBtn.style.display = step > 1 ? 'flex' : 'none';
+
+        // Show login link only on step 1
+        document.getElementById('loginLink').style.display = step === 1 ? 'block' : 'none';
+
+        updateProgress(step);
+        checkIfStepIsValid();
+      }
+
+      function handleRoleChange() { currentRole = document.getElementById('Role').value; checkIfStepIsValid(); }
+
+      function selectGender(val) {
+        document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+        document.querySelector(`.gender-card[data-value="${val}"]`).classList.add('selected');
+        document.getElementById('genderValue').value = val;
+        checkIfStepIsValid();
+      }
+
+      // ── Dept Worker chips ──
+      const deptWorkerSelected = new Set();
+      function addDeptWorkerChip(val) { if (!val || deptWorkerSelected.has(val)) return; deptWorkerSelected.add(val); renderDeptWorkerChips(); syncDeptWorkerValue(); }
+      function removeDeptWorkerChip(val) { deptWorkerSelected.delete(val); renderDeptWorkerChips(); syncDeptWorkerValue(); }
+      function renderDeptWorkerChips() {
+        const container = document.getElementById('deptworker-chips'); container.innerHTML = '';
+        deptWorkerSelected.forEach(val => {
+          const chip = document.createElement('div'); chip.className = 'chip selected';
+          chip.innerHTML = `${val} <span style="margin-left:6px;font-size:11px;cursor:pointer;" onclick="removeDeptWorkerChip('${val.replace(/'/g,"\\'")}')">✕</span>`;
+          container.appendChild(chip);
+        }); checkIfStepIsValid();
+      }
+      function syncDeptWorkerValue() {
+        const other = document.getElementById('deptworkerOtherInput').value.trim();
+        const all = [...deptWorkerSelected]; if (other) all.push(other);
+        document.getElementById('deptworkerValue').value = all.join(', '); checkIfStepIsValid();
+      }
+      document.getElementById('deptworkerOtherInput').addEventListener('input', syncDeptWorkerValue);
+
+      // ── Lecturer chips ──
+      const lecturerSelected = new Set();
+      function addLecturerChip(val) { if (!val || lecturerSelected.has(val)) return; lecturerSelected.add(val); renderLecturerChips(); syncLecturerValue(); }
+      function removeLecturerChip(val) { lecturerSelected.delete(val); renderLecturerChips(); syncLecturerValue(); }
+      function renderLecturerChips() {
+        const container = document.getElementById('lecturer-chips'); container.innerHTML = '';
+        lecturerSelected.forEach(val => {
+          const chip = document.createElement('div'); chip.className = 'chip selected';
+          chip.innerHTML = `${val} <span style="margin-left:6px;font-size:11px;cursor:pointer;" onclick="removeLecturerChip('${val.replace(/'/g,"\\'")}')">✕</span>`;
+          container.appendChild(chip);
+        }); checkIfStepIsValid();
+      }
+      function syncLecturerValue() {
+        const other = document.getElementById('lecturerOtherInput').value.trim();
+        const all = [...lecturerSelected]; if (other) all.push(other);
+        document.getElementById('lecturerValue').value = all.join(', '); checkIfStepIsValid();
+      }
+      document.getElementById('lecturerOtherInput').addEventListener('input', syncLecturerValue);
+      document.getElementById('courseOtherInput').addEventListener('input', checkIfStepIsValid);
+
+      function syncExpFromNumber(val) {
+        const n = parseInt(val);
+        if (!isNaN(n) && n >= 0) {
+          const label = n === 1 ? '1 year' : `${n} years`;
+          document.getElementById('expHiddenValue').value = label;
+          const disp = document.getElementById('expDisplay'); disp.textContent = '-- Choose --'; disp.classList.add('placeholder-style');
+        }
+        checkIfStepIsValid();
+      }
+
+      // ════════════════════════════════════════
+      // USERNAME AVAILABILITY CHECK (backend)
+      // ════════════════════════════════════════
+      let usernameCheckTimer = null;
+      let usernameAvailable  = false;
+      let usernameChecking   = false;
+
+      function setUsernameStatus(state, msg) {
+        const el = document.getElementById('usernameStatus');
+        el.className = state;
+        el.innerHTML = state ? `<span class="status-dot"></span>${msg}` : '';
+      }
+
+      document.getElementById("usernameS").addEventListener("input", function () {
+        const v = this.value.trim();
+        usernameAvailable = false; usernameChecking = false; checkIfStepIsValid();
+        let msg = "";
+        if (!v) msg = "Username is required";
+        else if (v.length < 4) msg = "Too short — minimum 4 characters";
+        else if (v.length > 12) msg = "Too long — maximum 12 characters";
+        else if (!/^[a-zA-Z0-9_-]+$/.test(v)) msg = "Only letters, numbers, _ or - are allowed";
+        showError("usernameError", msg); setUsernameStatus('', '');
+        if (msg) return;
+        clearTimeout(usernameCheckTimer);
+        usernameChecking = true; setUsernameStatus('checking', 'Checking availability…'); checkIfStepIsValid();
+        usernameCheckTimer = setTimeout(() => {
+          fetch(`/checkUsername?username=${encodeURIComponent(v)}`)
+            .then(r => r.json())
+            .then(data => {
+              usernameChecking = false; usernameAvailable = !!data.available;
+              if (data.available) { setUsernameStatus('available', `Username '${v}' is available ✓`); showError('usernameError', ''); }
+              else { setUsernameStatus('taken', `Username '${v}' is already taken — try another`); showError('usernameError', 'This username is already in use'); }
+              checkIfStepIsValid();
+            })
+            .catch(() => { usernameChecking = false; usernameAvailable = false; setUsernameStatus('taken', 'Could not verify username — please try again'); checkIfStepIsValid(); });
+        }, 1500);
+      });
+
+      // ════════════════════════════════════════
+      // VALIDATION
+      // ════════════════════════════════════════
+      function isCurrentStepValid() {
+        const s = currentStep;
+        if (s === 1) { const v = document.getElementById("usernameS").value.trim(); return v.length >= 4 && v.length <= 12 && /^[a-zA-Z0-9_-]+$/.test(v) && !usernameChecking && usernameAvailable; }
+        if (s === 2) { return /^0(7|1)\d{8}$/.test(document.getElementById("phoneS").value.trim()); }
+        if (s === 3) { const pw = document.getElementById("passwordS").value; const cf = document.getElementById("passwordCS").value; return pw.length >= 6 && pw.length <= 12 && cf.length > 0 && pw === cf; }
+        if (s === 4) return !!document.getElementById("Role").value;
+        if (s === 5) {
+          if (currentRole === 'Student') { const v = document.getElementById('CourseS').value; if (v === 'Other') return document.getElementById('courseOtherInput').value.trim().length > 0; return !!v; }
+          if (currentRole === 'Department Worker') return document.getElementById('deptworkerValue').value.trim().length > 0;
+          if (currentRole === 'Lecturer') return document.getElementById('lecturerValue').value.trim().length > 0;
+        }
+        if (s === 6) { if (currentRole === 'Student') return !!document.getElementById('Year').value; return document.getElementById('expHiddenValue').value.trim().length > 0; }
+        if (s === 7) return !!document.getElementById("Campus").value;
+        if (s === 8) {
+          const day = parseInt(document.getElementById('dobDayInput').value);
+          const month = document.getElementById('birthMonth').value;
+          const year = parseInt(document.getElementById('dobYearInput').value);
+          const yearStr = document.getElementById('dobYearInput').value;
+          if (!day || day < 1 || day > 31 || !month || !year || yearStr.length < 4) return false;
+          return validateDOB();
+        }
+        if (s === 9) return !!document.getElementById("genderValue").value;
+        if (s === 10) return profilePicChosen;
+        return false;
+      }
+
+      document.getElementById("phoneS").addEventListener("input", function() {
+        const v = this.value.trim(); let msg = "";
+        if (!v) msg = "Phone number is required";
+        else if (!/^0(7|1)\d{0,8}$/.test(v)) msg = "Must start with 07 or 01";
+        else if (v.length < 10) msg = "Number is too short";
+        else if (v.length > 10) msg = "Number is too long";
+        showError("phoneError", msg); checkIfStepIsValid();
+      });
+
+      document.getElementById("passwordS").addEventListener("input", function() {
+        const pw = this.value; let strength = "None", color = "#ccc", width = "0%", msg = "";
+        if (!pw) msg = "Password is required";
+        else if (pw.length < 6) msg = "Too short — minimum 6 characters";
+        else if (pw.length > 12) msg = "Too long — maximum 12 characters";
+        else {
+          if (pw.length >= 10 || (pw.match(/[A-Z]/) && pw.match(/[0-9]/) && pw.match(/[^A-Za-z0-9]/))) { strength = "Strong"; color = "#4caf50"; width = "100%"; }
+          else if (pw.length >= 8 || pw.match(/[A-Z]/) || pw.match(/[0-9]/)) { strength = "Medium"; color = "#ff9800"; width = "60%"; }
+          else { strength = "Weak"; color = "#f44336"; width = "30%"; }
+        }
+        document.getElementById("strengthText").textContent = `Password strength: ${strength}`;
+        document.getElementById("strengthText").style.color = color;
+        document.getElementById("strengthBar").style.width = width;
+        document.getElementById("strengthBar").style.background = color;
+        showError("passwordError", msg); checkIfStepIsValid();
+      });
+
+      document.getElementById("passwordCS").addEventListener("input", function() {
+        const pw = document.getElementById("passwordS").value; const cf = this.value; let msg = "";
+        if (!cf) msg = "Please enter your confirmation password";
+        else if (cf !== pw) msg = "Passwords do not match — please check and try again";
+        showError("confirmError", msg); checkIfStepIsValid();
+      });
+
+      function showError(id, msg) { const el = document.getElementById(id); if (el) { el.textContent = msg; el.style.display = msg ? "block" : "none"; } }
+
+      function updateProgress(step) {
+        const pct = Math.round((step / TOTAL_STEPS) * 100);
+        document.getElementById("progressPercent").textContent = pct + "%";
+        document.getElementById("progressFill").style.width = pct + "%";
+        const labels = { 1:"User info",2:"Contact",3:"Account security",4:"Your role",5:"About you",6:"Experience",7:"Institution",8:"Date of birth",9:"Gender",10:"Almost done" };
+        document.getElementById("progressLabel").textContent = labels[step] || "Setting up";
+      }
+
+      function gotoNext() {
+        if (!isCurrentStepValid()) {
+          errorDisplay.textContent = "Please complete this step correctly before continuing";
+          setTimeout(() => errorDisplay.textContent = "", 2500); return;
+        }
+        saveDraft(); // save progress on every valid step advance
+        if (currentStep < TOTAL_STEPS) { currentStep++; showStep(currentStep); }
+        else { openConsent(); }
+      }
+
+      function gotoBack() { if (currentStep <= 1) return; currentStep--; showStep(currentStep); }
+
+      nextBtn.addEventListener("click", gotoNext);
+      backBtn.addEventListener("click", gotoBack);
+      document.getElementById("INPUTS-WRAPPER").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); if (!nextBtn.classList.contains("unchanged")) gotoNext(); } });
+
+      // ── Profile picture — cancel bug fix ──
+      let profilePicChosen = false;
+      document.getElementById("uploadPicBtn").addEventListener("click", () => { document.getElementById("profilePic").click(); });
+      document.getElementById("profilePic").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) { document.getElementById("profilePreview").src = URL.createObjectURL(file); document.getElementById("picFileName").textContent = `Selected: ${file.name}`; profilePicChosen = true; checkIfStepIsValid(); }
+      });
+
+      function checkIfStepIsValid() { nextBtn.classList.toggle("unchanged", !isCurrentStepValid()); }
+
+      // ── Consent popup ──
+      function openConsent() { document.getElementById('consent-overlay').classList.add('open'); }
+      function closeConsent() {
+        document.getElementById('consent-overlay').classList.remove('open');
+        document.getElementById('consent-privacy').checked = false;
+        document.getElementById('consent-about').checked = false;
+        document.getElementById('consent-submit-btn').classList.remove('ready');
+      }
+      function checkConsent() {
+        const p = document.getElementById('consent-privacy').checked;
+        const a = document.getElementById('consent-about').checked;
+        document.getElementById('consent-submit-btn').classList.toggle('ready', p && a);
+      }
+      function submitForm() {
+        document.getElementById('consent-overlay').classList.remove('open');
+        if (currentRole !== 'Student') { const expVal = document.getElementById('expHiddenValue').value; document.getElementById('Year').value = expVal || 'N/A'; }
+        document.getElementById("loadA").classList.remove("unload");
+        document.getElementById("loadB").classList.remove("unload");
+        clearSaved(); // clear draft on successful submit
+        form.submit();
+      }
+
+      fetch("/sysInfo").then(t=>t.json()).then(d=>{ if(!d[0].appState) document.getElementById("blocked").style.display="flex"; }).catch(()=>{});
+
+      // ── Init ──
+      backBtn.style.display = "none";
+      nextBtn.classList.add("unchanged");
+      showStep(1);
+      updateProgress(1);
+
+      // Show resume banner if saved draft exists and is past step 1
+      const _draft = loadDraft();
+      if (_draft && _draft.step && _draft.step > 1) {
+        document.getElementById('resume-banner').classList.add('show');
+      }
+    </script>
+  </body>
+</html>

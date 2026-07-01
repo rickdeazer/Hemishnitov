@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group Chat - WhatsApp Style</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: #0b141a;
+        color: #e9edef;
+      }
+
+      #group-chat-page {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #chat-header {
+        height: 60px;
+        background: #202c33;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+
+      #back-btn,
+      #group-menu-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .group-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        cursor: pointer;
+      }
+
+      #group-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #25d366;
+      }
+
+      #group-name {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      #members-preview {
+        font-size: 12px;
+        color: #aebac1;
+        margin: 0;
+      }
+
+      #messages-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 10px;
+        background: url("/images/chat-bg.png") center top repeat;
+        background-size: 100% auto;
+      }
+
+      .msg {
+        display: flex;
+        margin: 6px 0;
+      }
+      .msg.sent {
+        justify-content: flex-end;
+      }
+      .msg.received {
+        justify-content: flex-start;
+      }
+
+      .bubble {
+        max-width: 75%;
+        padding: 6px 10px 22px 10px;
+        border-radius: 7.5px;
+        position: relative;
+        font-size: 15px;
+        line-height: 1.4;
+        word-break: break-word;
+        white-space: pre-wrap;
+        box-sizing: border-box;
+      }
+
+      .msg.received .bubble {
+        background: #202c33;
+        border-top-left-radius: 0;
+      }
+      .msg.sent .bubble {
+        background: #005c4b;
+        border-top-right-radius: 0;
+      }
+
+      .bubble:has(.quoted-reply) {
+        max-width: 82%;
+      }
+
+      .time {
+        position: absolute;
+        bottom: 3px;
+        right: 7px;
+        font-size: 11px;
+        color: #aebac1;
+        opacity: 0.85;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+
+      .date-separator {
+        text-align: center;
+        color: #8696a0;
+        font-size: 12px;
+        margin: 20px 0;
+        opacity: 0.9;
+      }
+
+      .bubble img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 4px 0 8px;
+        display: block;
+      }
+      .bubble img.loading {
+        opacity: 0.5;
+        filter: blur(4px);
+        background: #111;
+      }
+      .bubble img.error {
+        background: #222;
+        padding: 20px;
+        color: #aaa;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      /* Quoted reply - WhatsApp style */
+      .quoted-reply {
+        position: relative;
+        width: 100%;
+        margin: 2px 0 6px 0;
+        padding: 4px 8px 4px 38px;
+        background: rgba(0, 168, 132, 0.06);
+        border-left: 3px solid #00a884;
+        border-radius: 7px;
+        font-size: 13.2px;
+        line-height: 1.3;
+        color: #d1d7db;
+        overflow: hidden;
+      }
+
+      .quoted-reply strong {
+        color: #00a884;
+        font-weight: 600;
+        font-size: 13.5px;
+        display: block;
+        margin-bottom: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .quoted-reply .quoted-text,
+      .quoted-reply span {
+        opacity: 0.93;
+      }
+
+      .quoted-reply img {
+        max-width: 58px;
+        max-height: 58px;
+        border-radius: 5px;
+        margin-top: 3px;
+        display: block;
+      }
+
+      /* Quoted preview above input */
+      #quoted-reply-preview {
+        display: none;
+        margin: 8px 12px 4px;
+        padding: 8px 12px;
+        background: #2a3942;
+        border-left: 3px solid #00a884;
+        border-radius: 6px 6px 0 0;
+        position: relative;
+      }
+      .quoted-sender {
+        color: #00a884;
+        font-weight: 600;
+        font-size: 13.8px;
+        margin-bottom: 4px;
+      }
+      .quoted-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .quoted-content img {
+        width: 36px;
+        height: 36px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .quoted-text {
+        color: #d1d7db;
+        font-size: 13.5px;
+        line-height: 1.32;
+        max-height: 38px;
+        overflow: hidden;
+        flex: 1;
+      }
+      #quoted-reply-close {
+        position: absolute;
+        top: 4px;
+        right: 8px;
+        background: none;
+        border: none;
+        color: #8696a0;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      /* Message status icons */
+      .status-icon {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 2px;
+      }
+
+      .status-icon svg {
+        width: 16px;
+        height: 11px;
+        vertical-align: middle;
+      }
+
+      .status-icon.sending svg {
+        animation: spin 2.2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Threaded replies */
+      .thread-indicator {
+        position: absolute;
+        bottom: -10px;
+        left: 12px;
+        background: #202c33;
+        color: #00a884;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        border: 1px solid #374248;
+        cursor: pointer;
+        user-select: none;
+        z-index: 1;
+        display: none;
+      }
+
+      .thread-replies {
+        margin: 8px 0 4px 12px;
+        padding-left: 12px;
+        border-left: 2px solid #00a884;
+        background: rgb(58, 66, 66);
+      }
+      .thread-replies .msg {
+        margin: 4px 0;
+      }
+      .thread-replies .bubble {
+        background: #1f2c34;
+        padding: 6px 10px 14px;
+        font-size: 13.8px;
+        border-radius: 7.5px;
+      }
+
+      /* Swipe feedback */
+      .msg.swiping .bubble {
+        transition: transform 0.22s cubic-bezier(0.15, 0.9, 0.3, 1);
+      }
+      .bubble.replying::after {
+        content: "↩";
+        position: absolute;
+        right: -28px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #00a884;
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      /* Input area */
+      #chat-input-area {
+        background: #202c33;
+        padding: 8px 12px;
+        flex-shrink: 0;
+      }
+      #input-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      #message-input {
+        flex: 1;
+        height: 40px;
+        border-radius: 20px;
+        border: none;
+        padding: 0 16px;
+        font-size: 14.5px;
+        background: #2a3942;
+        color: #e9edef;
+        outline: none;
+      }
+      #send-btn {
+        background: #25d366;
+        border: none;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #attach-image {
+        background: none;
+        border: none;
+        color: #8696a0;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      /* Scroll button */
+      #scrollBtn {
+        position: fixed;
+        bottom: 90px;
+        right: 24px;
+        background: #202c33;
+        border: 1px solid #374248;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        color: #25d366;
+        font-size: 22px;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      }
+      #scrollBtn.show {
+        display: flex;
+      }
+
+      /* Sender name */
+      .bubble-sender {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #eefa49;
+        margin-bottom: 4px;
+        opacity: 0.95;
+      }
+      .msg.sent .bubble-sender {
+        text-align: right;
+      }
+      .msg.received .bubble-sender {
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="group-chat-page">
+      <header id="chat-header">
+        <button id="back-btn">←</button>
+        <div class="group-info" id="group-info-trigger">
+          <img
+            id="group-icon"
+            src="<%= groupIcon || '/images/default-group.png' %>"
+            alt="Group Icon"
+          />
+          <div>
+            <h3 id="group-name"><%= groupName %></h3>
+            <p id="members-preview">
+              <%= members.map(m => m.username).join(", ") %> • <%=
+              members.length %> members
+            </p>
+          </div>
+        </div>
+        <button id="group-menu-btn">⋮</button>
+      </header>
+
+      <div id="messages-container">
+        <div class="date-separator">Today</div>
+        <div id="chat-messages"></div>
+      </div>
+
+      <footer id="chat-input-area">
+        <div id="quoted-reply-preview">
+          <div class="quoted-sender"></div>
+          <div class="quoted-content">
+            <img
+              id="quoted-preview-thumb"
+              style="
+                display: none;
+                width: 36px;
+                height: 36px;
+                object-fit: cover;
+                border-radius: 6px;
+              "
+              alt="Preview"
+            />
+            <div class="quoted-text"></div>
+          </div>
+          <button id="quoted-reply-close">×</button>
+        </div>
+
+        <div id="input-row">
+          <button id="attach-image">📎</button>
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Type a message"
+            autocomplete="off"
+          />
+          <button id="send-btn">➤</button>
+        </div>
+
+        <input
+          type="file"
+          id="image-input"
+          accept="image/*"
+          style="display: none"
+        />
+      </footer>
+    </div>
+
+    <div id="image-preview-modal">
+      <img id="selected-image-preview" alt="Preview" />
+      <div id="image-preview-actions">
+        <button id="btn-confirm-send" class="preview-action-btn">Send</button>
+        <button id="btn-cancel-send" class="preview-action-btn">Cancel</button>
+      </div>
+    </div>
+
+    <button id="scrollBtn">⬇</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const groupId = "<%= groupId %>";
+      const currentUsername = "<%= currentUsername %>";
+      const currentUserId = "<%= currentUserId %>";
+
+      const messagesContainer = document.getElementById("messages-container");
+      const chatMessages = document.getElementById("chat-messages");
+      const messageInput = document.getElementById("message-input");
+      const sendBtn = document.getElementById("send-btn");
+      const scrollBtn = document.getElementById("scrollBtn");
+
+      const quotedPreview = document.getElementById("quoted-reply-preview");
+      const quotedSenderEl = quotedPreview.querySelector(".quoted-sender");
+      const quotedTextEl = quotedPreview.querySelector(".quoted-text");
+      const quotedThumb = document.getElementById("quoted-preview-thumb");
+      const quotedCloseBtn = document.getElementById("quoted-reply-close");
+
+      const imagePreviewModal = document.getElementById("image-preview-modal");
+      const selectedImagePreview = document.getElementById(
+        "selected-image-preview",
+      );
+      const btnConfirmSend = document.getElementById("btn-confirm-send");
+      const btnCancelSend = document.getElementById("btn-cancel-send");
+
+      let replyToId = null;
+      let touchStartX = 0;
+      let currentSwipedMsg = null;
+
+      const CLOCK_ICON = `<svg viewBox="0 0 16 16" width="16" height="16" fill="#8696a0"><path d="M8 1.5C4.41 1.5 1.5 4.41 1.5 8s2.91 6.5 6.5 6.5 6.5-2.91 6.5-6.5S11.59 1.5 8 1.5zm0 11.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm.5-10h-1v4l3.25 1.94.75-1.26-2.5-1.5V3z"/></svg>`;
+      const TICK_SINGLE = `<svg viewBox="0 0 16 15" width="16" height="11" fill="#aebac1"><path d="M10.91 3.316l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512z"/></svg>`;
+      const TICK_DOUBLE_GRAY = `<svg viewBox="0 0 16 15" width="16" height="11" fill="#aebac1"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"/></svg>`;
+      const TICK_DOUBLE_BLUE = `<svg viewBox="0 0 16 15" width="16" height="11" fill="#53bdeb"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"/></svg>`;
+
+      socket.emit("join-room", groupId);
+      socket.emit("get-group-messages", { groupId });
+
+      const replyCounts = new Map();
+
+      socket.on("group-messages", (messages) => {
+        messages.sort((a, b) => new Date(a.time) - new Date(b.time));
+        chatMessages.innerHTML = "";
+        replyCounts.clear();
+
+        messages.forEach((msg) => {
+          if (msg.replyTo) {
+            replyCounts.set(
+              msg.replyTo,
+              (replyCounts.get(msg.replyTo) || 0) + 1,
+            );
+          }
+        });
+
+        messages.forEach((msg) => {
+          const count = replyCounts.get(msg._id) || 0;
+          renderMessage(msg, count);
+        });
+
+        scrollToBottom(false);
+      });
+
+      socket.on("group-message", (msg) => {
+        if (msg.replyTo) {
+          const newCount = (replyCounts.get(msg.replyTo) || 0) + 1;
+          replyCounts.set(msg.replyTo, newCount);
+
+          const parentEl = chatMessages.querySelector(
+            `[data-message-id="${msg.replyTo}"]`,
+          );
+          if (parentEl) {
+            let indicator = parentEl.querySelector(".thread-indicator");
+            if (newCount >= 1) {
+              if (!indicator) {
+                indicator = document.createElement("div");
+                indicator.className = "thread-indicator";
+                indicator.onclick = () => toggleThread(parentEl);
+                parentEl.querySelector(".bubble")?.appendChild(indicator);
+              }
+              indicator.textContent = `${newCount} ${newCount === 1 ? "reply" : "replies"}`;
+            }
+          }
+        }
+
+        const count = replyCounts.get(msg._id) || 0;
+        renderMessage(msg, count);
+
+        scrollToBottom(true);
+      });
+
+      socket.on("message-status-update", ({ messageId, status }) => {
+        const msgEl = document.querySelector(
+          `[data-message-id="${messageId}"]`,
+        );
+        if (!msgEl) return;
+        const statusEl = msgEl.querySelector(".status-icon");
+        if (!statusEl) return;
+
+        if (status === "sent") statusEl.innerHTML = TICK_SINGLE;
+        else if (status === "delivered") statusEl.innerHTML = TICK_DOUBLE_GRAY;
+        else if (status === "read") statusEl.innerHTML = TICK_DOUBLE_BLUE;
+      });
+
+      function renderMessage(msg, replyCount = 0) {
+        const isSent = msg.username === currentUsername;
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `msg ${isSent ? "sent" : "received"}`;
+        msgDiv.dataset.messageId = msg._id;
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+
+        const senderName = document.createElement("div");
+        senderName.className = "bubble-sender";
+        senderName.textContent = msg.username;
+        bubble.appendChild(senderName);
+
+        if (
+          msg.replyTo &&
+          msg.replyToUsername &&
+          msg.replyToPreview !== undefined
+        ) {
+          const quote = document.createElement("div");
+          quote.className = "quoted-reply";
+
+          let quoteHTML = `<strong>${escapeHtml(msg.replyToUsername)}</strong>`;
+
+          if (
+            msg.replyToType === "image" ||
+            msg.replyToPreview?.match?.(/\.(jpe?g|png|gif|webp)$/i)
+          ) {
+            if (msg.replyToPreview) {
+              quoteHTML += `<br><img src="${escapeHtml(msg.replyToPreview)}" alt="Quoted photo" loading="lazy">`;
+            } else {
+              quoteHTML += `<br><span>Photo</span>`;
+            }
+          } else {
+            let preview = (msg.replyToPreview || "").trim();
+            if (preview.length > 80) preview = preview.substring(0, 77) + "...";
+            quoteHTML += `<div class="quoted-text">${escapeHtml(preview).replace(/\n/g, "<br>")}</div>`;
+          }
+
+          quote.innerHTML = quoteHTML;
+          bubble.appendChild(quote);
+        }
+
+        const isImage = msg.type === "image" && msg.text;
+        if (isImage) {
+          const img = document.createElement("img");
+          img.src = msg.text.trim();
+          img.alt = "Shared image";
+          img.loading = "lazy";
+          img.className = "loading";
+          img.onload = () => img.classList.remove("loading");
+          img.onerror = () => {
+            img.classList.remove("loading");
+            img.classList.add("error");
+            img.alt = "Image failed to load";
+          };
+          bubble.appendChild(img);
+        } else {
+          let html = escapeHtml(msg.text || "");
+          html = html.replace(
+            /(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi,
+            (url) => {
+              const full = url.startsWith("www.") ? `https://${url}` : url;
+              const display = url.replace(/^https?:\/\//i, "");
+              return `<a href="${full}" target="_blank" rel="noopener noreferrer" style="color:#53bdeb; word-break:break-all;">${display}</a>`;
+            },
+          );
+          html = html.replace(/\n/g, "<br>");
+          const contentDiv = document.createElement("div");
+          contentDiv.innerHTML = html;
+          bubble.appendChild(contentDiv);
+        }
+
+        const meta = document.createElement("div");
+        meta.className = "time";
+        meta.style.display = "flex";
+        meta.style.alignItems = "center";
+        meta.style.justifyContent = isSent ? "flex-end" : "flex-start";
+
+        const timeText = document.createElement("span");
+        timeText.textContent = new Date(msg.time).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        meta.appendChild(timeText);
+
+        if (isSent) {
+          const status = document.createElement("span");
+          status.className = "status-icon";
+          status.innerHTML = CLOCK_ICON;
+          meta.appendChild(status);
+        }
+
+        bubble.appendChild(meta);
+
+        // Reply indicator pill
+        if (replyCount >= 1) {
+          // or >=2 if you prefer to hide single-reply cases
+          const indicator = document.createElement("div");
+          indicator.className = "thread-indicator";
+          indicator.textContent = `${replyCount} ${replyCount === 1 ? "reply" : "replies"}`;
+          indicator.onclick = () => toggleThread(msgDiv);
+          bubble.appendChild(indicator);
+        }
+
+        msgDiv.appendChild(bubble);
+
+        // Inline thread container (hidden by default)
+        const threadContainer = document.createElement("div");
+        threadContainer.className = "thread-replies";
+        threadContainer.style.display = "none";
+        msgDiv.appendChild(threadContainer);
+
+        chatMessages.appendChild(msgDiv);
+
+        attachSwipeListeners(msgDiv, msg);
+      }
+
+      function toggleThread(msgDiv) {
+        const container = msgDiv.querySelector(".thread-replies");
+        if (!container) return;
+
+        if (container.style.display === "none" || !container.style.display) {
+          // Lazy-load replies into the container only when first opened
+          if (container.children.length === 0) {
+            // Note: This assumes you send replies in "group-message" and they are already rendered top-level.
+            // For a real threaded view you'd need server support to fetch thread replies.
+            // For now we just show a placeholder or skip actual loading.
+            // If you want real threads → server needs endpoint like "get-replies-for-message"
+            container.innerHTML =
+              "<div style='padding:8px;color:#8696a0;'>Replies appear here (implement fetch if needed)</div>";
+          }
+          container.style.display = "block";
+        } else {
+          container.style.display = "none";
+        }
+      }
+
+      // Swipe to reply (unchanged – works great)
+      function attachSwipeListeners(msgDiv, msg) {
+        msgDiv.addEventListener(
+          "touchstart",
+          (e) => {
+            if (e.touches.length !== 1) return;
+            touchStartX = e.touches[0].clientX;
+            currentSwipedMsg = msgDiv;
+            msgDiv.classList.add("swiping");
+          },
+          { passive: true },
+        );
+
+        msgDiv.addEventListener(
+          "touchmove",
+          (e) => {
+            if (!currentSwipedMsg || e.touches.length !== 1) return;
+            const deltaX = e.touches[0].clientX - touchStartX;
+            if (deltaX <= 0) return;
+            const translate = Math.min(deltaX, 120);
+            const bubble = msgDiv.querySelector(".bubble");
+            bubble.style.transform = `translateX(${translate}px)`;
+            bubble.classList.toggle("replying", translate > 50);
+          },
+          { passive: false },
+        );
+
+        msgDiv.addEventListener("touchend", (e) => {
+          if (!currentSwipedMsg) return;
+          const deltaX =
+            (e.changedTouches?.[0]?.clientX || touchStartX) - touchStartX;
+          if (deltaX > 60) prepareReply(msg);
+          resetSwipe();
+        });
+
+        msgDiv.addEventListener("touchcancel", resetSwipe);
+
+        // Mouse support (desktop testing)
+        msgDiv.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          touchStartX = e.clientX;
+          currentSwipedMsg = msgDiv;
+          msgDiv.classList.add("swiping");
+          document.addEventListener("mousemove", onMouseMove);
+          document.addEventListener("mouseup", onMouseUp);
+        });
+
+        function onMouseMove(e) {
+          if (!currentSwipedMsg) return;
+          const deltaX = e.clientX - touchStartX;
+          if (deltaX <= 0) return;
+          const translate = Math.min(deltaX, 120);
+          const bubble = currentSwipedMsg.querySelector(".bubble");
+          bubble.style.transform = `translateX(${translate}px)`;
+          bubble.classList.toggle("replying", translate > 50);
+        }
+
+        function onMouseUp(e) {
+          if (!currentSwipedMsg) return;
+          const deltaX = e.clientX - touchStartX;
+          if (deltaX > 60) prepareReply(msg);
+          resetSwipe();
+          document.removeEventListener("mousemove", onMouseMove);
+          document.removeEventListener("mouseup", onMouseUp);
+        }
+
+        function resetSwipe() {
+          if (currentSwipedMsg) {
+            const bubble = currentSwipedMsg.querySelector(".bubble");
+            bubble.style.transform = "";
+            bubble.classList.remove("replying");
+            currentSwipedMsg.classList.remove("swiping");
+            currentSwipedMsg = null;
+          }
+        }
+      }
+
+      function prepareReply(msg) {
+        replyToId = msg._id;
+        quotedSenderEl.textContent = msg.username;
+
+        if (msg.type === "image" && msg.text) {
+          quotedThumb.src = msg.text.trim();
+          quotedThumb.style.display = "block";
+          quotedTextEl.textContent = "Photo";
+        } else {
+          quotedThumb.style.display = "none";
+          let preview = (msg.text || "").substring(0, 90);
+          if (preview.length === 90) preview += "...";
+          quotedTextEl.textContent = preview || "Message";
+        }
+
+        quotedPreview.style.display = "block";
+        messageInput.focus();
+      }
+
+      quotedCloseBtn.onclick = () => {
+        quotedPreview.style.display = "none";
+        quotedThumb.style.display = "none";
+        replyToId = null;
+        messageInput.focus();
+      };
+
+      function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text) return;
+
+        const payload = {
+          groupId,
+          from: currentUserId,
+          username: currentUsername,
+          text,
+          type: "text",
+        };
+
+        if (replyToId) payload.replyTo = replyToId;
+
+        socket.emit("group-message", payload);
+
+        messageInput.value = "";
+        quotedPreview.style.display = "none";
+        quotedThumb.style.display = "none";
+        replyToId = null;
+      }
+
+      sendBtn.addEventListener("click", sendMessage);
+      messageInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // Image upload (unchanged)
+      document.getElementById("attach-image").onclick = () => {
+        document.getElementById("image-input").click();
+      };
+
+      document.getElementById("image-input").onchange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          selectedImagePreview.src = ev.target.result;
+          imagePreviewModal.style.display = "flex";
+        };
+        reader.readAsDataURL(file);
+
+        window.pendingImageFile = file;
+        e.target.value = "";
+      };
+
+      btnConfirmSend.onclick = async () => {
+        if (!window.pendingImageFile) return;
+
+        const formData = new FormData();
+        formData.append("image", window.pendingImageFile);
+
+        try {
+          const res = await fetch("/upload-image", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await res.json();
+
+          if (data.success && data.url) {
+            socket.emit("group-message", {
+              groupId,
+              from: currentUserId,
+              username: currentUsername,
+              text: data.url.trim(),
+              type: "image",
+            });
+          } else {
+            alert("Upload failed: " + (data.message || "No URL returned"));
+          }
+        } catch (err) {
+          alert("Failed to upload image: " + err.message);
+        }
+
+        imagePreviewModal.style.display = "none";
+        window.pendingImageFile = null;
+      };
+
+      btnCancelSend.onclick = () => {
+        imagePreviewModal.style.display = "none";
+        window.pendingImageFile = null;
+      };
+
+      function escapeHtml(unsafe) {
+        return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function scrollToBottom(smooth = true) {
+        messagesContainer.scrollTo({
+          top: messagesContainer.scrollHeight,
+          behavior: smooth ? "smooth" : "auto",
+        });
+      }
+
+      messagesContainer.addEventListener("scroll", () => {
+        const dist =
+          messagesContainer.scrollHeight -
+          messagesContainer.scrollTop -
+          messagesContainer.clientHeight;
+        scrollBtn.classList.toggle("show", dist > 150);
+      });
+
+      scrollBtn.onclick = () => scrollToBottom(true);
+
+      setTimeout(() => scrollToBottom(false), 120);
+    </script>
+  </body>
+</html>

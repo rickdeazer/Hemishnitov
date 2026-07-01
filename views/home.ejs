@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1B5A7B" />
+    <title>MMUN</title>
+    <link rel="stylesheet" href="homepage.css" />
+    <link
+      rel="stylesheet" 
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  </head>
+  <body class="body">
+    <div id="HOME-PAGE">
+      <!-- Header Starts Here -->
+      <section id="HEADER">
+        <!--Header Top Div Begins Here-->
+        <div id="HEADER-TOP-DIV">
+          <div id="APP-DETAILS">
+            <div id="HEADER-LOGO"></div>
+          </div>
+          <div id="HEADER-MENU-ICONS">
+            <button class="menu-icon" id="btnsHider">
+              <svg width="48" height="48" viewBox="0 0 48 48">
+                <defs>
+                  <radialGradient id="redGlow" cx="30%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#ff6b6b" />
+                    <stop offset="60%" stop-color="#ff2d2d" />
+                    <stop offset="100%" stop-color="#b30000" />
+                  </radialGradient>
+                </defs>
+
+                <circle cx="24" cy="24" r="22" fill="url(#redGlow)" />
+
+                <line
+                  x1="24"
+                  y1="14"
+                  x2="24"
+                  y2="34"
+                  stroke="white"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="14"
+                  y1="24"
+                  x2="34"
+                  y2="24"
+                  stroke="white"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+
+
+            <div id="addBtnCont" style="width: 40px; display: none">
+              <button class="menu-icon" id="addPostBtn" title="Add Post">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M12 5v14M5 12h14"
+                    stroke="white"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <div style="font-size: 0.6rem">New Post</div>
+            </div>
+
+            <div id="champsBtnCont" style="display: none">
+              <button class="menu-icon" id="champsBtn" title="Stars">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 64 64"
+                >
+                  <defs>
+                    <!-- Gold gradient -->
+                    <linearGradient
+                      id="goldGradient"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stop-color="#FFF4B0" />
+                      <stop offset="35%" stop-color="#FFD700" />
+                      <stop offset="70%" stop-color="#E6B800" />
+                      <stop offset="100%" stop-color="#B8860B" />
+                    </linearGradient>
+
+                    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0.7)" />
+                      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                    </linearGradient>
+                  </defs>
+
+                  <path
+                    d="M20 8h24v10c0 8-6 14-12 14s-12-6-12-14V8z"
+                    fill="url(#goldGradient)"
+                  />
+
+                  <path
+                    d="M20 10h-6c0 8 6 12 10 12"
+                    fill="none"
+                    stroke="url(#goldGradient)"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M44 10h6c0 8-6 12-10 12"
+                    fill="none"
+                    stroke="url(#goldGradient)"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+
+                  <rect
+                    x="28"
+                    y="32"
+                    width="8"
+                    height="8"
+                    fill="url(#goldGradient)"
+                  />
+
+                  <!-- Base -->
+                  <rect
+                    x="22"
+                    y="40"
+                    width="20"
+                    height="6"
+                    rx="2"
+                    fill="#8B5A2B"
+                  />
+                  <rect
+                    x="18"
+                    y="46"
+                    width="28"
+                    height="6"
+                    rx="2"
+                    fill="#5C3A1E"
+                  />
+
+                  <!-- Shine -->
+                  <path 
+                    d="M24 10c0 12 6 18 6 18"
+                    stroke="url(#shine)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+              <div style="font-size: 0.6rem">Visits</div>
+            </div>
+          </div>
+          <div id="HEADER-BTNS">
+            <button
+              id="CHATSH-BTN"
+              class="HEADER-BTNS post"
+            >
+              <span id="mat2"><img class="imgSvg" src="/Assets/postsHomePage.svg" alt=""><div id="MSG-BADGE" style="scale: 0.6; background-color: red;" class="BADGE"></div></span>
+            </button>
+            <button
+              onclick="setAndroidHeaderColor('#651E5E'); window.location.href='/chats'; "
+              id=""
+              class="HEADER-BTNS"
+            >
+              <span id="mat2"
+                ><img class="imgSvg" src="/Assets/chat_24dpGREEN.svg" alt=""></span
+              ><%if(unread){%>
+              <div id="MSG-BADGE" class="BADGE"><%= unread%></div>
+              <%}%>
+            </button>
+
+            <button
+              onclick="setAndroidHeaderColor('#7D1404'); window.location.href='/interests';"
+              id="INTERESTSH-BTN"
+              class="HEADER-BTNS"
+            >
+              <span class="material-symbols-outlined"><img class="imgSvg" src="/Assets/heart_smile_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg" alt=""></span
+              ><%if(newInterest){%>
+              <div id="MSG-BADGE" class="BADGE"><%= newInterest%></div>
+              <%}%>
+            </button>
+            <button
+              onclick=" setAndroidHeaderColor('#5B2A90'); window.location.href='/notics';"
+              id="NOTICS-BTN"
+              class="HEADER-BTNS"
+            >
+              <span class="material-symbols-outlined"><img class="imgSvg" src="/Assets/notifications_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg" alt=""></span>
+            </button>
+            <button
+              onclick=" setAndroidHeaderColor('#6B3A9B');window.location.href='/jobs';"
+              id="NOTICS-BTN"
+              class="HEADER-BTNS"
+            >
+              <span class="material-symbols-outlined"><img class="imgSvg" src="/Assets/business_center_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg" alt=""></span>
+            </button>
+          </div>
+          
+          <div
+            id="USER-DETAILS"
+            onclick="window.location.href = '/userProfile'"
+          >
+            <div id="HEADER-USERNAME"><h3 id="username"><%= user.username %></h3></div>
+            <div id="HEADER-PROFILEPIC" <% if (user.profileLink) {%>
+              style="background: url(<%=user.profileLink%>); background-size:
+              cover;"<%}%>>
+            </div>
+          </div>
+        </div>
+        <!--Header Bottom Div Begins Here-->
+        <div id="HEADER-BOTTOM-DIV">
+          <div id="HEADER-APPNAME"><h2>MMUN</h2></div>
+          <div id="bottomSubdiv">
+            <input
+              type="text"
+              placeholder="..Search for users.."
+              id="HOME-SEARCH"
+            />
+            <span class="material-symbols-outlined" id="searchInputBtn"
+              >search</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Alert & Exit -->
+      <div id="alertDiv">
+        <span>Closing and Refreshing in: <span>5</span></span
+        >Dear <%=user.username%>:
+      </div>
+      <a href="/home"><button id="exit" style="display: none"></button></a>
+
+      <!-- Main Section -->
+       
+        <div id="filters">
+          <div class="options">
+            <div class="optionsTitle"><span>Campus</span></div>
+            <div><select name="institutionSelect" id="institutionSelect"> 
+              <option value="All">--All--</option>
+              <option value="All">Clear campus filter</option>
+               <option value="Africa Nazarene University">Africa Nazarene University</option>
+                  <option value="Aga Khan University">Aga Khan University</option>
+                  <option value="Alupe University">Alupe University</option>
+                  <option value="Amref International University">Amref International University</option>
+                  <option value="Catholic University of Eastern Africa">Catholic University of Eastern Africa</option>
+                  <option value="Chuka University">Chuka University</option>
+                  <option value="Co-operative University of Kenya">Co-operative University of Kenya</option>
+                  <option value="Daystar University">Daystar University</option>
+                  <option value="Dedan Kimathi University of Technology">Dedan Kimathi University of Technology</option>
+                  <option value="Egerton University">Egerton University</option>
+                  <option value="Garissa University">Garissa University</option>
+                  <option value="Gretsa University">Gretsa University</option>
+                  <option value="Jaramogi Oginga Odinga University of Science and Technology">Jaramogi Oginga Odinga University of Science and Technology</option>
+                  <option value="Jomo Kenyatta University of Agriculture and Technology">Jomo Kenyatta University of Agriculture and Technology</option>
+                  <option value="Karatina University">Karatina University</option>
+                  <option value="KCA University">KCA University</option>
+                  <option value="Kenya Methodist University">Kenya Methodist University</option>
+                  <option value="Kenyatta University">Kenyatta University</option>
+                  <option value="Kibabii University">Kibabii University</option>
+                  <option value="Kirinyaga University">Kirinyaga University</option>
+                  <option value="Kisii University">Kisii University</option>
+                  <option value="Laikipia University">Laikipia University</option>
+                  <option value="Machakos University">Machakos University</option>
+                  <option value="Maasai Mara University">Maasai Mara University</option>
+                  <option value="Management University of Africa">Management University of Africa</option>
+                  <option value="Maseno University">Maseno University</option>
+                  <option value="Masinde Muliro University of Science and Technology">Masinde Muliro University of Science and Technology</option>
+                  <option value="Meru University of Science and Technology">Meru University of Science and Technology</option>
+                  <option value="Moi University">Moi University</option>
+                  <option value="Mount Kenya University">Mount Kenya University</option>
+                  <option value="Multimedia University of Kenya">Multimedia University of Kenya</option>
+                  <option value="Murang'a University of Technology">Murang'a University of Technology</option>
+                  <option value="University of Nairobi">Nairobi University</option>
+                  <option value="Open University of Kenya">Open University of Kenya</option>
+                  <option value="Pwani University">Pwani University</option>
+                  <option value="Riara University">Riara University</option>
+                  <option value="Rongo University">Rongo University</option>
+                  <option value="Scott Christian University">Scott Christian University</option>
+                  <option value="South Eastern Kenya University">South Eastern Kenya University</option>
+                  <option value="St. Paul's University">St. Paul's University</option>
+                  <option value="Strathmore University">Strathmore University</option>
+                  <option value="Technical University of Kenya">Technical University of Kenya</option>
+                  <option value="Technical University of Mombasa">Technical University of Mombasa</option>
+                  <option value="Tom Mboya University">Tom Mboya University</option>
+                  <option value="United States International University-Africa">United States International University-Africa</option>
+                  <option value="University of Eldoret">University of Eldoret</option>
+                  <option value="University of Embu">University of Embu</option>
+                  <option value="University of Kabianga">University of Kabianga</option>
+                  <option value="University of Nairobi">University of Nairobi</option>
+                  <option value="Uzima University">Uzima University</option>
+                  <option value="Zetech University">Zetech University</option>
+            </select></div>
+          </div>
+          <div class="options">
+            <div class="optionsTitle"><span>Course</span></div>
+            <div><select name="courseSelect" id="courseSelect">
+              <option value="All">--All--</option>
+                    <option value="All">Clear course filter</option>
+                    <option value="Accounting">Accounting</option>
+                    <option value="Actuarial Science">Actuarial Science</option>
+                    <option value="Agribusiness Management">Agribusiness Management</option>
+                    <option value="Agricultural Biotechnology">Agricultural Biotechnology</option>
+                    <option value="Agricultural Economics and Resource Management">Agricultural Economics and Resource Management</option>
+                    <option value="Animal Health and Production">Animal Health and Production</option>
+                    <option value="Animal Science">Animal Science</option>
+                    <option value="Anthropology">Anthropology</option>
+                    <option value="Bachelor of Arts">Bachelor of Arts</option>
+                    <option value="Bachelor of Business Management (BBM)">Bachelor of Business Management (BBM)</option>
+                    <option value="Bachelor of Education (Arts)">Bachelor of Education (Arts)</option>
+                    <option value="Bachelor of Education (Science)">Bachelor of Education (Science)</option>
+                    <option value="Bachelor of Laws (LLB)">Bachelor of Laws (LLB)</option>
+                    <option value="Biochemistry">Biochemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Biomedical Sciences">Biomedical Sciences</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Business Information Technology">Business Information Technology</option>
+                    <option value="Chemical Engineering">Chemical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Clinical Medicine">Clinical Medicine</option>
+                    <option value="Communication and Journalism">Communication and Journalism</option>
+                    <option value="Communication and Public Relations">Communication and Public Relations</option>
+                    <option value="Community Development">Community Development</option>
+                    <option value="Computer Engineering">Computer Engineering</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Criminology and Criminal Justice">Criminology and Criminal Justice</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Education Arts">Education Arts</option>
+                    <option value="Education Science">Education Science</option>
+                    <option value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
+                    <option value="Environmental Health">Environmental Health</option>
+                    <option value="Environmental Science">Environmental Science</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Food Science and Nutrition">Food Science and Nutrition</option>
+                    <option value="Geography">Geography</option>
+                    <option value="History">History</option>
+                    <option value="Human Resource Management">Human Resource Management</option>
+                    <option value="Industrial Chemistry">Industrial Chemistry</option>
+                    <option value="Information Sciences">Information Sciences</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="International Relations">International Relations</option>
+                    <option value="Journalism and Mass Communication">Journalism and Mass Communication</option>
+                    <option value="Kiswahili">Kiswahili</option>
+                    <option value="Law">Law</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Medicine and Surgery (MBChB)">Medicine and Surgery (MBChB)</option>
+                    <option value="Microbiology">Microbiology</option>
+                    <option value="Music">Music</option>
+                    <option value="Nursing">Nursing</option>
+                    <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
+                    <option value="Peace and Conflict Studies">Peace and Conflict Studies</option>
+                    <option value="Pharmacy">Pharmacy</option>
+                    <option value="Philosophy">Philosophy</option>
+                    <option value="Physical Education">Physical Education</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Physiotherapy">Physiotherapy</option>
+                    <option value="Political Science and Public Administration">Political Science and Public Administration</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Public Health">Public Health</option>
+                    <option value="Religious Studies">Religious Studies</option>
+                    <option value="Social Work">Social Work</option>
+                    <option value="Sociology">Sociology</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="Sports Science">Sports Science</option>
+                    <option value="Statistics">Statistics</option>
+                    <option value="Technology Education">Technology Education</option>
+                    <option value="Theatre Arts">Theatre Arts</option>
+                    <option value="Tourism Management">Tourism Management</option>
+                    <option value="Wildlife Management">Wildlife Management</option>
+            </select></div>
+          </div>
+          <div class="options">
+            <div class="optionsTitle"><span>Year</span></div>
+            <div><select name="yearSelect" id="yearSelect"><option value="All">--All--</option>
+              <option value="All">Clear year filter</option>
+            <option value="First Year">Year One</option>
+            <option value="Second Year">Year Two</option>
+            <option value="Third Year">Year Three</option>
+            <option value="Forth Year">Year Four</option>
+            <option value="Fifth Year">Year Five</option>
+            <option value="Sixth Year">Year Six</option>
+            </select></div>
+          </div>
+        </div>  
+      <section id="mainSection">
+        <div class="MAIN-USERS">
+          <div
+            class="MAIN-USERS"
+            style="position: relative; min-height: 79vh; opacity: 1"
+          >
+            <form method="POST" action="/user">
+              <input type="hidden" name="username" value="Pat" />
+            </form>
+            <div
+              class="MAIN-USERS-IMG"
+              style="
+                background-image: url('uploadsprofileprof_1762354680566_Screenshot (6).png');
+                background-size: cover;
+                background-position: center center;
+              "
+            >
+              <div id="loader" class="loads">
+                <div class="loadB unload"></div>
+              </div>
+              <div class="openComment" style="display: none">
+                <svg
+                  class="neon-arrow"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="#00ff99"
+                >
+                  <path
+                    d="M5 12L12 5L19 12"
+                    stroke="#00ff99"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  ></path>
+                </svg>
+                <span></span>
+              </div>
+            </div>
+            <div class="MAIN-USERS-USERNAME" style="display: none">
+              <span class="Username"></span>
+              <div class="mainSet">
+                <div class="setOne">
+                  <span class="MAIN-USERS-COURSE"></span>
+                  <span class="MAIN-USERS-YEAR"></span>
+                </div>
+                <span class="MAIN-USERS-VIEWS"></span>
+              </div>
+            </div>
+
+            <!-- Comment Section Modal -->
+            <div id="COMMENT-MODAL" class="active">
+              <div id="COMMENT-HEADER">
+                <h3>Comment as <%= user.username %></h3>
+                <button id="CLOSE-COMMENTS"></button>
+              </div>
+              <div id="COMMENT-INPUT">
+                <div id="commentContextMenu" class="context-menu hidden">
+                  <button data-action="reply">💬 Reply</button>
+                  <button data-action="report">🚩 Report</button>
+                  <button data-action="delete" class="danger">🗑 Delete</button>
+                </div>
+                <div id="COMMENT-BODY"></div>
+                <input
+                  type="text"
+                  placeholder="Add a comment..."
+                  id="NEW-COMMENT"
+                />
+                <button id="ADD-COMMENT">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="postsSection">
+               <div class="POSTS-CONTENT">
+                
+                <div id="loader" class="loads">
+                <div class="loadB unload"></div>
+              </div></div>
+      </section>
+
+      <section id="createPostSection" style="display: none">
+        <div class="CREATE-POST">
+          <!-- Header -->
+          <div class="CREATE-POST-HEADER">
+            <button id="cancelCreatePost">✕</button>
+            <h3 id="createPostT">Create Post</h3>
+            <button id="publishPost">Post</button>
+          </div>
+
+          <!-- User -->
+          <div class="CREATE-POST-USER">
+            <div
+              class="user-pic"
+              style="background-image: url('/myprofilepic.jpg')"
+            ></div>
+            <span id="nameT">~ <%=user.username%></span>
+          </div>
+
+          <!-- Text -->
+          <textarea
+            id="postText"
+            placeholder="What’s popping at your Campus? Or is it a whole new vibe? Tell MMUN!”<%=user.username%>?"
+          ></textarea>
+          <div class="neon-divider"></div>
+
+          <!-- Media Preview -->
+          <div id="mediaPreview" class="MEDIA-PREVIEW hidden">
+            <img id="previewImg" />
+            <div id="mediaWrapper"></div>
+          </div>
+
+          <!-- Actions -->
+          <div class="CREATE-POST-ACTIONS">
+            <label for="postMedia" class="media-btn" id="mediaBtn">
+              Click to Upload Image / short Video
+            </label>
+
+            <input
+              type="file"
+              id="postMedia"
+              accept="image/*,video/*"
+              multiple
+              hidden
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="championsSection" style="display: none">
+        <h2>BLOG-VISITS LEADERBOARD <span class="closeBtn" onclick="showPeople()"> X</span></h2>
+
+        <table id="championsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Rating %</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <div id="commentDrawerP" class="comment-drawer">
+        <div id="commentHeaderP">
+          <span>Insights</span>
+          <button id="closeCommentsP">✕</button>
+        </div>
+        <div id="commentListP"></div>
+        <div id="commentInputContainerP">
+          <input
+            type="text"
+            id="newCommentP"
+            placeholder="Write a comment..."
+          />
+          <button id="sendCommentP">Send</button>
+        </div>
+      </div>
+
+      <div id="overlay"></div>
+      <audio id="click" src="/Assets/audio/click.MP3"></audio>
+      <audio id="unClick" src="/Assets/audio/unclick.MP3"></audio>
+    </div>
+    <!-- FINAL Upload Progress Overlay -->
+<div id="uploadProgressOverlay" style="display:none;">
+  <div class="upload-progress-content">
+    <div class="progress-container">
+      <div class="progress-bar-bg">
+        <div id="uploadProgressBar" class="progress-bar-fill"></div>
+      </div>
+      <div id="progress-text">
+        Uploading to MMUN... <span id="uploadPercent">0%</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="loaderB" class="loads unload">
+                <div class="loadB unload"></div>
+              </div>
+  </body>
+  
+    <script src="/dist/intersectionObserver.js"></script>
+    <script src="/dist/androidNotification.js"></script>
+    <script src="/dist/androidHeader.js"></script>
+    <script src="/dist/homepage.js"></script>
+    <script src="/dist/updatesFacilitator.js"></script>
+</html>

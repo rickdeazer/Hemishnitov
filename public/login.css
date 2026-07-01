@@ -1,0 +1,593 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap');
+body {
+  max-width: 100px !important;
+}
+@media (max-width: 12000px) {
+  body {
+    padding: 0px;
+    margin: 0px;
+    background-color: black;
+    box-sizing: border-box;
+  }
+  #incompatibleText {
+    display: none;
+  }
+  #SIGNUP-PAGE {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: scroll;
+  }
+  #TOP-WRAPPER {
+    background: url("/mediafiles/1WhatsApp\ Image\ 2026-06-02\ at\ 13.42.16.jpeg");
+    border: solid 1px black;
+    background-color: white;
+    background-position: 100% 100%;
+    background-size: 200% 200%;
+    animation: backGia 5s ease infinite alternate;
+    background-position: center center;
+    background-repeat: no-repeat;
+    justify-content: flex-start;
+    box-shadow: inset -20px 0px 0px transparent, inset 20px 0px 0px transparent, inset 0px -10px 5px black;
+    transition: all 5s ease;
+  }
+  @keyframes backGia {
+    0%{}    
+    100%{background-size: 100% 100%; background-color: green;}
+  }
+  #HEADER {
+    height: 5rem;
+    align-items: start;
+    display: flex;
+    overflow: hidden;
+    position: fixed;
+    min-width: 100%;
+    top: 0;
+    padding-right: 5px;
+    place-content: space-between;
+    background: linear-gradient(60deg,rgba(2, 80, 2, 0.033),black,rgba(0, 0, 0, 0.947));
+    animation: rotas 10s ease-in-out infinite;
+    z-index: 100;
+    animation-duration: 20s;
+  }
+  @keyframes rotas {
+    0%{}
+    10% {background-color: green;}
+    20%{background-color: cyan}
+    40%{background-color: rgb(0, 145, 255);}
+    50%{background-color: rgb(179, 0, 255);}
+    60%{background-color: rgb(105, 0, 18);}
+    70%{background-color: white;}
+    80%{background-color: yellow;}
+    90%{background-color: black;}
+    100%{}
+  }
+  #HAPPNAMELOGO {
+    width: 170px;
+    padding-top: 5px;
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  #headerLogo {
+    width: 50px;
+    user-select: none;
+    height: 50px;
+    background: radial-gradient(circle, rgba(128, 128, 128, 0.29), rgba(0, 0, 0, 0.389));
+    border-radius: 50%;
+    margin:0 8px;
+    animation: spinlogo 100s linear infinite;
+  }
+  @keyframes spinlogo {
+    0%{transform: rotateZ(0deg);}
+    50%{transform: rotateZ(360deg);}
+    60%{transform: rotateZ(360deg);}
+    100%{transform: rotateZ(0deg);}
+  }
+  #HAPPNAME {
+    font-family: "Bitcount single";
+    font-size: 1.6rem;
+    text-align: start;
+    user-select: none;
+    letter-spacing: 3px;
+    line-height: 1.5rem;
+    user-select: none;
+    font-weight: 800;
+    color: rgba(255, 232, 226, 0.845);
+    text-shadow: 0 0 15px rgb(0, 0, 0);
+    width: max-content;
+  }
+  #HSPACE {
+    width: auto;
+    height: inherit;
+  }
+  #HPAGELINKS {
+    flex: 0 0 150px; /* don’t grow or shrink */
+    display: flex;
+    justify-items: center;
+    gap: 5px;
+    align-items: center;
+    padding-top: 1px;
+    padding-right: 8px;
+    height: 80px;
+  }
+  @keyframes rotas1 {
+    0%{}
+    10% {color: black;}
+    20%{color: cyan}
+    40%{color: black;}
+    50%{color: red; padding-right: 3px;}
+    60%{color: black;}
+    70%{color: yellow;}
+    80%{color: black;}
+    90%{color: black;}
+    100%{}
+  }
+  .HPAGELINKS-ITEMS {
+    text-decoration: none;
+    color:white;
+    animation: rotas1 30s ease-in-out infinite;
+    font-size: 0.7rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    padding-top: 7px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 300;
+  }
+  #HEADER-TOPDIV {
+    display: flex;
+    justify-content: center;
+    color: rgb(6, 82, 6);
+    font-size: 3.4rem;
+    font-style: normal;
+    padding: 0 0 0 0px;
+    align-self: center;
+    max-width: 300px;
+    margin: 0;
+    user-select: none;
+  }
+  #TOPDIV-TEXT {
+    margin-bottom: 0px;
+    margin-top: 110px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: transparent;
+    background: url("/mediafiles/1WhatsApp\ Image\ 2026-06-02\ at\ 13.42.16.jpeg");
+    background-clip: text;
+    background-size: 300% 200%;
+    background-position: 40%;
+    background-color: rgba(255, 255, 255, 0.442);
+    text-shadow: 0 0 1px rgba(8, 98, 19, 0.284);
+    animation: bsc 5s ease infinite alternate;
+  }
+  @keyframes bsc  {
+    0%{}
+    100%{background-position: 90%;}
+    
+  }
+  #HEADER-BOTTOMDIV {
+    display: flex;
+    margin-top: 40px;
+    text-align: center;
+    user-select: none;
+    font-style: italic;
+    font-size: 0.7rem;
+    width: 98%;
+    font-weight: lighter;
+    justify-items: center;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  }
+  #BOTTOMDIV-TEXT {
+    color: white;
+    margin-top: 30px;
+  }
+
+  #BOTTOM-WRAPPER {
+    background-color: black;
+    min-height: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #FLOGO {
+    background: url("/Assets/emoji_people_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg");
+    background-size: cover;
+    width: 250px;
+    align-self: center;
+    z-index: 1;
+    scale: 0.6;
+    justify-self: center;
+    min-height: 220px;
+    animation: solflogo 1s ease 5 alternate;
+  }
+  @keyframes solflogo {
+    0%{}
+    60%{padding-bottom: 5px}
+    100%{}
+  }
+  }
+  #SIGNUP-FORM {
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    display: flex;
+    margin-top: 40px;
+    align-items: start;
+    padding-top: 10px;
+    justify-content: center;
+    bottom: 0px;
+  }
+  #SIGNUP-FORM-WRAPPER {
+    padding: 0%;
+    padding-bottom: 10px;
+    width: 90%;
+    margin-top: 24px;
+    border-radius: 25px;
+    box-shadow: inset 0 0 20px gray;
+    display: flex;
+    background: radial-gradient(circle at top center, rgba(11, 59, 0, 0.477), rgba(55, 47, 118, 0.322),black);
+    flex-direction: column;
+    animation: signupshadow 20s ease infinite;
+    z-index: 1;
+    display: flex;
+    border: solid 1px rgba(245, 245, 245, 0.671);
+  }
+  @keyframes signupshadow {
+    0% {
+    }
+    50% {
+      box-shadow:inset 0px 0 20px rgba(190, 54, 33, 0.477);
+      border: solid 1px rgb(203, 200, 200);
+    }
+    100% {
+    }
+  }
+  #SIGNUP-TEXT {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    user-select: none;
+    letter-spacing: 2px;
+    margin-bottom: 0px;
+    font-size: 30px;
+    color: white;
+  }
+  #ERROR-TEXT {
+    color: rgb(208, 28, 28);
+    font-family: "Trebuchet MS", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    margin-bottom: 0px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  #INPUTS-WRAPPER {
+    background: rgb(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    border: 1px solid rgb(216, 211, 211);
+    height: 150px;
+    padding-bottom: 10px;
+    align-items: end;
+    gap: 15px;
+    justify-content: center;
+    padding-right: 5px;
+    align-self: center;
+    border-radius: 25px;
+    margin-bottom: 10px;
+    justify-self: flex-end;
+    margin-top: 20px;
+  }
+  .SIGNUP-INPUTS {
+    background: linear-gradient(90deg, rgb(202, 200, 200),gray,rgba(72, 22, 22, 0.727));
+    min-width: 60%;
+    outline-offset: 0px;
+    border: none;
+    height: 25px;
+    margin-top: 0px;
+    border-radius: 10px;
+    color: rgb(225, 220, 220);
+    margin-bottom: 0px;
+    text-align: center;
+  }
+  #usernameL {
+    border-top-left-radius: 40%;
+    margin-right: 25px;
+  }
+  #passwordL {
+    border-bottom-left-radius: 40%; 
+  }
+  .viewPasswordBtn {
+    border-radius: 50%;
+    size: auto;
+    
+  }
+  .SIGNUP-INPUTS::placeholder {
+    color: rgb(232, 229, 229);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  .SIGNUP-INPUTS:focus {
+    outline: none;
+    text-align: center;
+    background-color: rgb(253, 175, 175);
+    color: black;
+    border: solid 1px rgb(115, 215, 245);
+  }
+  .SIGNUP-INPUTS:focus::placeholder {
+    color: black;
+  }
+  .SIGNUP-INPUTS-DIVS {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 4px;
+    border-left: solid 2px rgb(137, 138, 137);
+    padding-left: 4px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .SIGNUP-INPUTS-LABELS {
+    color: white;
+    width: 100%;
+    align-self: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-style: italic;
+    font-size: small;
+    text-align: start;
+    user-select: none;
+  }
+  #SUBMIT-BTN {
+    align-self: center;
+    width: 50%;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px black;
+    font-family: Arial, Helvetica, sans-serif;
+    background:radial-gradient(ellipse at bottom center,transparent,rgb(44, 43, 43),black);
+    height: 40px;
+    margin-top: 15px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-align: center;
+    background-color: rgba(255, 0, 0, 0.256);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background-blend-mode: darken;
+    padding: 0px;
+    animation: submitbg 10s ease infinite alternate;
+    border: solid 2px rgb(176, 172, 172);
+  }
+  @keyframes submitbg {
+    0%{}
+    50%{background-color: rgba(0, 128, 0, 0.777); border: solid 2px rgba(0, 128, 0, 0.777); color: gray}
+    100%{background-color: rgba(255, 0, 217, 0.282); border: solid 2px rgba(255, 0, 217, 0.282);}
+  }
+  #SUBMIT-BTN:hover {
+    transform: scale(1.05);
+    border: none;
+    background: linear-gradient(90deg,rgb(0, 136, 255),green);
+    color: rgb(33, 5, 5);
+    border-bottom: solid 2px rgb(37, 20, 20);
+    letter-spacing: 2px;
+    font-weight: lighter;
+    transition: 1s ease-in-out;
+    font-family: Arial, Helvetica, sans-serif;
+    animation: submit 1s ease-in infinite;
+  }
+  @keyframes submit {
+    0% {
+    }
+    50% {
+      background-color: rgb(97, 176, 110);
+      transform: scale(1);
+    }
+    100% {
+    }
+  }
+
+  #BOTTOM-DIVS-RTEXTS {
+    background-color: rgb(0, 0, 0);
+    display: none;
+    gap: 30px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 36%;
+    height: 100%;
+    font-size: 15px;
+    font-weight: light;
+  }
+  #BOTTOM-DIVS-RTEXTS h4 {
+    width: 55%;
+    font-family: Calibri, Courier New, Courier, monospace;
+    color: rgb(73, 140, 233);
+    font-style: italic;
+    text-shadow: 5px -6px 15px rgb(59, 255, 10);
+    min-width: 100px;
+  }
+  @media (max-width: 390px) {
+    #HEADER-BOTTOMDIV {
+      display: flex;
+      text-align: center;
+      font-style: italic;
+      color: rgb(81, 26, 26);
+      font-size: 0.7rem;
+      width: 99%;
+      top: 8px;
+      font-weight: lighter;
+      padding-bottom: 0px;
+      margin-top: 0;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    }
+  }
+.unload {
+  display: none;
+}
+.loads {
+  display: flex;
+  align-items: center;
+  padding: 0 35px;
+  margin: 0 40px;
+  min-width: 100px;
+  justify-content: end;
+  border-radius: 20%;
+  transition: 1s ease;
+  border-bottom: solid 2px rgb(189, 188, 188);
+}
+#loadA {
+  width: 20px;
+  height: 30px;
+  background: none;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  align-self: center;
+  border-bottom: solid 2px rgb(17, 255, 0);
+  border-bottom-style: double;
+  border-top: solid 2px rgb(17, 255, 0);
+  border-top-style: double;
+  animation: load 1.5s ease infinite;
+  position:relative;
+}
+#loadB {
+  width: 20px;
+  height: 30px;
+  background: none;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  align-self: center;
+  border: none;
+  position: relative;
+  border-bottom: solid 2px rgb(17, 255, 0);
+  border-bottom-style: double;
+  border-top: solid 2px rgb(17, 255, 0);
+  border-top-style: double;
+  animation: load 1.5s ease infinite;
+}
+@keyframes load {
+  0% {
+  }
+  65% {
+    transform: rotateZ(-1080deg) scale(1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 0px;
+  }
+  100% {
+  }
+}
+.HPAGELINKS-ITEMS:hover {
+  color: rgb(55, 210, 35);
+  text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-style: double;
+  transition: 0.4s ease-out;
+  border-top: solid 3px rgb(101, 21, 5);
+  text-align: center;
+  border-radius: 20px;
+  padding-left: 5px;
+  animation: zoom 2s ease infinite;
+}
+#HPAGELINKS:hover {
+  border: none;
+}
+@keyframes zoom {
+  0% {
+  }
+  50% {
+    padding: 4px 0;
+    color: antiquewhite;
+    border-top: solid 3px rgb(87, 5, 5);
+    text-decoration-style: none;
+  }
+  100% {
+  }
+}
+.createText {
+  color: rgb(0, 255, 47);
+  width: 100%;
+  text-align: center;
+  user-select: none;
+  text-shadow: 0 0 10px black,
+  0 0 10px black,
+  0 0 10px black,
+  0 0 10px black,;
+  font-style: italic;
+}
+.createText a {
+  color: cyan;
+  background-color: black;
+  border-radius: 15%;
+  text-decoration: none;
+  box-shadow: 0 0 2px cyan;
+  padding: 3px;
+}
+
+.floating-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background: #0d0d0d;
+  display: none;
+}
+
+.floating-text {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+  animation: subtle-float 4s ease-in-out infinite alternate;
+}
+
+@keyframes subtle-float {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -15px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+.viewPasswordBtn {
+  border-radius: 50%;
+  width: min-content;
+  padding: 0;
+  margin-left: 5px;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0.5;
+  scale: 0.8;
+  border: 1px solid black;
+  animation: eyeAnim 1s ease-in-out infinite;
+}
+@keyframes eyeAnim {
+  0% {
+    transform: scale(1);
+    background-color: rgb(255, 255, 255);
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: rgb(255, 255, 255);   
+}};

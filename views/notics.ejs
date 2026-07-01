@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="rgb(77, 4, 4)">
+  <title>Notics</title>
+
+  <link rel="stylesheet" href="notics.css">
+
+  <!-- Material Symbols for header icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+  <div id="NOTICS-PAGE">
+    <section id="HEADER">
+      <div id="HEADER-TOP-DIV">
+        <div id="APP-DETAILS">
+          <div id="HEADER-LOGO"></div>
+          <div id="HEADER-APPNAME"><h2>MMUN</h2></div>
+        </div>  
+
+        <div id="HEADER-BTNS">
+            <button onclick="document.documentElement.classList.toggle('light-mode'); setAndroidHeaderColor(document.documentElement.classList.contains('light-mode') ? '#10330D' : '#5B2A90');" 
+        style="position:fixed; bottom:20px; right:20px; z-index:999; padding:10px; border-radius:50%; background:#9333ea; color:white; border:none;">
+  🌙
+</button>
+          <button onclick="setAndroidHeaderColor('#1B5A1B'); window.location.href='/home'" class="HEADER-BTNS">
+            <img class="imgSvg" src="/Assets/home_24GREEN.svg" alt="">
+          </button>
+          <button onclick="setAndroidHeaderColor('#651E5E'); window.location.href='/jobs'" class="HEADER-BTNS">
+            <img class="imgSvg" src="/Assets/business_center_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg" alt="jobs">
+          </button>
+        </div>
+
+        <div id="USER-DETAILS">
+          <div id="HEADER-USERNAME"><h3><%= user.username %></h3></div>
+          <a href="/userProfile">
+            <div id="HEADER-PROFILEPIC" 
+              <% if (user.profileLink) { %>
+                style="background: url('<%= user.profileLink %>'); background-size: cover; background-position: center;"
+              <% } else { %>
+                style="background: #ccc;"
+              <% } %>>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Section -->
+    <section id="mainSection">
+      <div id="mainSection-HEADER">
+        <div class="mainsection-Header-top tab-bar">
+          <button type="button" class="tab" id="Parties" onclick="showTab('Arenas-BODY')">Arenas</button>
+          <button type="button" class="tab tab-active" id="sentBtn" onclick="showTab('Announcements')">Nounces</button>
+          <button type="button" class="tab" id="receivedBtn" onclick="showTab('Notics-BODY')">Notics</button>
+        </div>
+      </div>
+
+      <div id="BODIES">
+        <!-- Bright Mode Arenas Feed -->
+        <div id="Arenas-BODY" class="CONTAINER">
+          <div class="arenas-container">
+            <div class="mainsection-Header-bottom">
+          <input type="text" id="notic-Search" placeholder="Search...">
+        </div>
+
+            <!-- Arena Post 1 -->
+            <div class="arena-post">
+              <div class="arena-header">
+                <img src="https://www.shutterstock.com/image-photo/smiling-portrait-young-asian-man-600nw-2492067901.jpg" alt="RickDeazer" class="arena-host-pic">
+                <div class="arena-host-info">
+                  <div class="arena-host-name">RickDeazer</div>
+                  <div class="arena-host-disciples">1.2k Disciples • Master Guide</div>
+                </div>
+                <div class="arena-date">25 Jan 2025</div>
+              </div>
+
+              <div class="arena-image">
+                <img src="https://andyblumenthal.wordpress.com/wp-content/uploads/2010/10/slide1.jpg?w=640" alt="Science Congress">
+              </div>
+
+              <div class="arena-content">
+                <h2 class="arena-title">THE NATIONAL SCIENCE CONGRESS</h2>
+                <p class="arena-desc">
+                  A grand summit of minds. Guest speakers unveil cutting-edge tech revelations. Compete, learn, ascend. All seekers of knowledge are summoned.
+                </p>
+              </div>
+
+              <div class="arena-actions">
+                <button class="enter-btn"><span class="disciples-icon">💨</span>Join</button>
+                <button class="inspire-btn"><span class="disciples-icon">💖</span>Inspire </button>
+                <div class="disciples-count">
+                  842
+                </div>
+              </div>
+            </div>
+
+            <!-- Arena Post 2 -->
+            <div class="arena-post">
+              <div class="arena-header">
+                <img src="https://img.freepik.com/free-photo/selfie-portrait-videocall_23-2149186122.jpg?semt=ais_hybrid&w=740&q=80" alt="BAIH" class="arena-host-pic">
+                <div class="arena-host-info">
+                  <div class="arena-host-name">BAIH</div>
+                  <div class="arena-host-disciples">890 Disciples • Celebration Lord</div>
+                </div>
+                <div class="arena-date">2 Feb 2026</div>
+              </div>
+
+              <div class="arena-image">
+                <img src="https://cdn.voyageaustin.com/wp-content/uploads/2021/12/HitchthePhotoTrailerFeaturedPhoto1.jpg" alt="Birthday Party">
+              </div>
+
+              <div class="arena-content">
+                <h2 class="arena-title">MY BIRTHDAY PARTY</h2>
+                <p class="arena-desc">
+                  The annual rite of joy returns. Music thunders through the night. Feasts, dance, unbreakable bonds. My circle — especially Computer Science clan — you are called.
+                </p>
+              </div>
+
+              <div class="arena-actions">
+                <button class="enter-btn">Join</button>
+                <button class="inspire-btn">Inspire</button>
+                <div class="disciples-count">
+                  <span class="disciples-icon">👁️</span> 156
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Notics-BODY (unchanged) -->
+        <div id="Announcements" class="CONTAINER">
+          <div class="announcements-container">
+
+            <!-- Sample Notic 1: Mention in comment -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://www.shutterstock.com/image-photo/smiling-portrait-young-asian-man-600nw-2492067901.jpg');"></div>
+                <div>
+                  <div class="announcement-username">RickDeazer</div>
+                  <div class="text-sm text-gray-600">mentioned you in a comment</div>
+                </div>
+                <div class="announcement-time">3h ago</div>
+              </div>
+              <div class="announcement-body"> check out my new arena post! You'd love this science congress 🔥"
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-blue-600 hover:bg-blue-700">View Arena</button>
+              </div>
+            </div>
+
+            <!-- Sample Notic 2: Friend Request -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://img.freepik.com/free-photo/selfie-portrait-videocall_23-2149186122.jpg?semt=ais_hybrid&w=740&q=80');"></div>
+                <div>
+                  <div class="announcement-username">BAIH</div>
+                  <div class="text-sm text-gray-600">sent you a friend request</div>
+                </div>
+                <div class="announcement-time">5h ago</div>
+              </div>
+              <div class="announcement-body">
+                BAIH wants to connect with you on MMUN.
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-green-600 hover:bg-green-700 mr-3">Accept</button>
+                <button class="keep-btn bg-gray-500 hover:bg-gray-600">Decline</button>
+              </div>
+            </div>
+
+            <!-- Sample Notic 3: Event Reminder -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background: #ccc;"></div>
+                <div>
+                  <div class="announcement-username">System</div>
+                  <div class="text-sm text-gray-600">event reminder</div>
+                </div>
+                <div class="announcement-time">1d ago</div>
+              </div>
+              <div class="announcement-body">
+                Don't forget: You're attending <strong>THE NATIONAL SCIENCE CONGRESS</strong> tomorrow at 10 AM!
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-indigo-600 hover:bg-indigo-700">View Event</button>
+              </div>
+            </div>
+
+            <!-- Sample Notic 4: New Follower -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                <div>
+                  <div class="announcement-username">Sarah_K</div>
+                  <div class="text-sm text-gray-600">started following you</div>
+                </div>
+                <div class="announcement-time">2d ago</div>
+              </div>
+              <div class="announcement-body">
+                Sarah_K is now following your arenas and announcements.
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-blue-600 hover:bg-blue-700">Follow Back</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Announcements (unchanged) -->
+        <div id="Notics-BODY" class="CONTAINER">
+          <div class="announcements-container">
+
+            <!-- Top buttons -->
+            <div class="announcements-header">
+              <button class="btn-kept">Kept</button>
+              <button class="btn-announce">Announce</button>
+              <button class="btn-timetable">Timetable</button>
+            </div>
+
+            <!-- Sample Announcement 1 -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://www.shutterstock.com/image-photo/smiling-portrait-young-asian-man-600nw-2492067901.jpg');"></div>
+                <div>
+                  <div class="announcement-username">RickDeazer</div>
+                </div>
+                <div class="announcement-time">Posted 2h ago</div>
+              </div>
+              <div class="announcement-body">
+                All students are reminded to submit their project proposals by the end of this week. Late submissions will not be accepted. Contact your supervisor if you have any questions.
+              </div>
+              <div class="announcement-footer">
+                <div class="end-time">Ends: 31st Dec 2025</div>
+                <button class="keep-btn">Keep</button>
+              </div>
+            </div>
+
+            <!-- Sample Announcement 2 -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://img.freepik.com/free-photo/selfie-portrait-videocall_23-2149186122.jpg?semt=ais_hybrid&w=740&q=80');"></div>
+                <div>
+                  <div class="announcement-username">BAIH</div>
+                </div>
+                <div class="announcement-time">Posted 5h ago</div>
+              </div>
+              <div class="announcement-body">
+                The Computer Science department will be hosting a guest lecture on Artificial Intelligence and Machine Learning next Tuesday at 2 PM in Lecture Hall 3. Attendance is mandatory for all final-year students.
+              </div>
+              <div class="announcement-footer">
+                <div class="end-time">Ends: 5th Jan 2026</div>
+                <button class="keep-btn kept">Kept</button>
+              </div>
+            </div>
+
+            <!-- Sample Announcement 3 -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background: #ccc;"></div>
+                <div>
+                  <div class="announcement-username">AdminOffice</div>
+                </div>
+                <div class="announcement-time">Posted 1 day ago</div>
+              </div>
+              <div class="announcement-body">
+                Campus will remain closed on 1st January 2026 for New Year holidays. Classes will resume on 2nd January. Enjoy the break responsibly!
+              </div>
+              <div class="announcement-footer">
+                <div class="end-time">Ends: 2nd Jan 2026</div>
+                <button class="keep-btn">Keep</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="feedBackMVP">
+      <h3>NOTE! <span onclick="document.querySelector('#feedBackMVP').style.display='none'">x</span></h3>
+      <div id="x">
+        <h4>MMUN is currently an MVP</h4>
+      <h5>This means some features like this one have been disabled to avoid overwhelming or confusing our users.</h5>
+      </div>
+      <div >
+        <button id="options" onclick="document.getElementById('whatToDo').style.display = 'block'">What was this feature meant to do?</button>
+        <div id="whatToDo" style="display: none">
+          <p> This feature will allow you to post an Arena such as a birthday party or a bash so that other comrades can join you event</p>
+          <p>This feature will also allow you to subscribe to an announcer e.g. your classrep and view announcements from them, or rather become an announcer so people can subscribe to your announcements.</p>
+          <p>We decided to disable this feature for now to avoid overwhelming our users with too many features at once, and to focus on perfecting the core experience of MMUN.</p>
+          <div>
+            <button onclick="document.getElementById('whatToDo').style.display = 'none'">Got it!</button>
+            <button class="voteBtn" id="voteToComeTrue" onclick=" 
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');alert('Thankyou for the vote.'); 
+              sendfeedback('true','notics');
+            ">Bring this feature</button>
+           <button class="voteBtn" id="voteToComeFalse" 
+            onclick="
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');
+              alert('Thanks for voting'); 
+              sendfeedback('false','notics'); 
+            ">
+            Don't bring this feature
+      </button>
+            <button class="voteBtn" id="voteToComeNeutral" 
+            onclick="
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');
+              alert('Thanks for the opinion'); x
+              sendfeedback('improve', 'jobs'); 
+            ">
+            Improve current features</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="/dist/androidNotification.js"></script>
+    <script src="/dist/androidHeader.js"></script>
+    <script>
+    function showTab(containerId) {
+      
+      document.querySelectorAll('.CONTAINER').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(containerId).classList.add('active');
+
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('tab-active'));
+      if (containerId === 'Arenas-BODY') document.getElementById('Parties').classList.add('tab-active');
+      if (containerId === 'Announcements') document.getElementById('sentBtn').classList.add('tab-active');
+      if (containerId === 'Notics-BODY') document.getElementById('receivedBtn').classList.add('tab-active');
+    }
+
+    showTab('Announcements');
+    function sendfeedback(vote,page) {
+        fetch('/feedback/page/vote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ voteData: {vote: vote, page: page} })
+        });}
+  </script>
+
+</body>
+</html>

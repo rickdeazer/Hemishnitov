@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – MMUN | Modern Minds Unifying Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0D1F3C;
+      --blue: #1A3C6E;
+      --accent: #2E75B6;
+      --accent-light: #5BA3D9;
+      --gold: #C9A84C;
+      --bg: #F7F8FA;
+      --surface: #FFFFFF;
+      --text: #1C2B3A;
+      --muted: #5A6A7A;
+      --border: #DDE4EC;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      padding: 56px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 20% 50%, rgba(46,117,182,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(201,168,76,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+    #backBtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: red;
+      border: 1px solid rgba(197, 35, 35, 0.25);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.82rem;
+      padding: 6px 16px;
+      border-radius: 100px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+      align-self: center;
+      text-decoration: none;
+    }
+    #backBtn:hover { background: rgba(232, 14, 14, 0.1); color: #fff; }
+
+    #logoImg {
+      width: 70px; height: 70px;
+      margin-left: 10px;
+      display: inline-flex;
+      align-self: center;
+      border-radius: 40%;
+      box-shadow: 0 0 10px rgb(54,183,114);
+      object-fit: contain;
+      margin-right: 8px;
+    }
+
+    .app-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: white;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .app-subtitle {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      font-weight: 300;
+    }
+
+    .policy-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 100px;
+      margin: 24px 0 16px;
+    }
+
+    .effective-date {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin: 48px 0 40px;
+      box-shadow: 0 2px 16px rgba(13,31,60,0.06);
+    }
+
+    .toc-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toc-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .toc ol {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 8px 24px;
+      counter-reset: toc-counter;
+    }
+
+    .toc li { counter-increment: toc-counter; }
+
+    .toc a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      transition: color 0.2s;
+    }
+
+    .toc a:hover { color: var(--accent); }
+
+    .toc a::before {
+      content: counter(toc-counter, decimal-leading-zero);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent-light);
+      min-width: 24px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(13,31,60,0.04);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    section:nth-child(2)  { animation-delay: 0.05s; }
+    section:nth-child(3)  { animation-delay: 0.10s; }
+    section:nth-child(4)  { animation-delay: 0.15s; }
+    section:nth-child(5)  { animation-delay: 0.20s; }
+    section:nth-child(6)  { animation-delay: 0.25s; }
+    section:nth-child(7)  { animation-delay: 0.30s; }
+    section:nth-child(8)  { animation-delay: 0.35s; }
+    section:nth-child(9)  { animation-delay: 0.40s; }
+    section:nth-child(10) { animation-delay: 0.45s; }
+    section:nth-child(11) { animation-delay: 0.50s; }
+    section:nth-child(12) { animation-delay: 0.55s; }
+    section:nth-child(13) { animation-delay: 0.60s; }
+    section:nth-child(14) { animation-delay: 0.65s; }
+    section:nth-child(15) { animation-delay: 0.70s; }
+    section:nth-child(16) { animation-delay: 0.75s; }
+
+    .section-number {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.45rem;
+      color: var(--navy);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin: 24px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      margin: 12px 0;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-light);
+    }
+
+    ul li strong { color: var(--text); font-weight: 600; }
+
+    a { color: var(--accent); }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(26,60,110,0.04), rgba(46,117,182,0.06));
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    /* ── UPDATE BADGE ── */
+    .update-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(46,117,182,0.08);
+      border: 1px solid rgba(46,117,182,0.2);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+
+    /* ── PROCESSOR TABLE ── */
+    .processor-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 16px 0;
+    }
+    .processor-table th {
+      background: rgba(26,60,110,0.05);
+      color: var(--blue);
+      font-weight: 600;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .processor-table td {
+      padding: 10px 14px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .processor-table tr:last-child td { border-bottom: none; }
+    .processor-table tr:hover td { background: rgba(46,117,182,0.02); }
+
+    /* ── CONTACT SECTION ── */
+    .contact-card {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      border-radius: 14px;
+      padding: 28px 20px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-icon {
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg { width: 24px; height: 24px; fill: white; }
+
+    .contact-info { flex: 1; min-width: 200px; }
+    .contact-info p { color: rgba(255,255,255,0.6); font-size: 0.82rem; margin: 0 0 4px; }
+    .contact-info a { color: white; font-weight: 600; text-decoration: none; font-size: 1rem; }
+    .contact-info a:hover { text-decoration: underline; }
+
+    .contact-region {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.82rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    footer span { color: var(--accent); font-weight: 500; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      section { padding: 28px 20px; }
+      .toc { padding: 24px 20px; }
+      .toc ol { grid-template-columns: 1fr; }
+      .contact-card { flex-direction: column; }
+      header { padding: 40px 20px 36px; }
+      .processor-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    }
+  </style>
+</head>
+<body>
+
+  <header onclick="window.location.href='/home'">
+        <img id="logoImg" src="/Assets/MmunLogoTopPart.png" alt="MMUN Logo" />
+      </div>
+      <div class="app-name">MMUN</div>
+      <div class="app-subtitle">Modern Minds Unifying Network</div>
+      <div class="policy-badge">Privacy Policy</div>
+      <div class="effective-date">Effective Date: March 29, 2026 &nbsp;·&nbsp; Last Updated: April 6, 2026</div>
+    </div>
+  </header>
+
+  <div class="wrapper">
+
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#s1">Introduction</a></li>
+        <li><a href="#s2">Who We Are</a></li>
+        <li><a href="#s3">Information We Collect</a></li>
+        <li><a href="#s4">How We Use Your Information</a></li>
+        <li><a href="#s5">Legal Basis for Processing</a></li>
+        <li><a href="#s6">Sharing of Your Information</a></li>
+        <li><a href="#s7">Third-Party Data Processors</a></li>
+        <li><a href="#s8">Data Storage and Security</a></li>
+        <li><a href="#s9">Cross-Border Data Transfers</a></li>
+        <li><a href="#s10">Data Retention</a></li>
+        <li><a href="#s11">Your Rights</a></li>
+        <li><a href="#s12">Children's Privacy</a></li>
+        <li><a href="#s13">User-Generated Content</a></li>
+        <li><a href="#s14">Non-Student Users</a></li>
+        <li><a href="#s15">Changes to This Policy</a></li>
+        <li><a href="#s16">Governing Law</a></li>
+        <li><a href="#s17">Contact Us</a></li>
+      </ol>
+    </div>
+
+    <!-- 1 -->
+    <section id="s1">
+      <div class="section-number">Section 01</div>
+      <h2>Introduction</h2>
+      <p>Welcome to MMUN (Modern Minds Unifying Network). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, store, and protect your data when you use our social media platform designed for university and college students.</p>
+      <p>By creating an account or using MMUN, you agree to the terms described in this Privacy Policy. Please read it carefully before using the platform.</p>
+    </section>
+
+    <!-- 2 -->
+    <section id="s2">
+      <div class="section-number">Section 02</div>
+      <h2>Who We Are</h2>
+      <p>MMUN (Modern Minds Unifying Network) is a student-focused social media application founded and operated by Ndung'u Patrick Ngotho, operating primarily in Kenya and East Africa. The platform is registered with the Kenya Copyright Board (Registration No. 522922641).</p>
+      <div class="highlight-box">For any privacy-related concerns, you may contact us at: <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a></div>
+    </section>
+
+    <!-- 3 -->
+    <section id="s3">
+      <div class="section-number">Section 03</div>
+      <h2>Information We Collect</h2>
+      <p>We collect only the information necessary to provide you with a safe and functional experience on MMUN.</p>
+
+      <h3>Information You Provide Directly</h3>
+      <ul>
+        <li>Full name and email address (used for account creation and identification)</li>
+        <li>Phone number (used for account verification and security purposes)</li>
+        <li>Profile information such as your university or college affiliation</li>
+        <li>Photos, videos, and files that you choose to upload or share on the platform</li>
+        <li>Any content you post, comment on, or share within the app</li>
+        <li>Business or professional information provided when posting jobs or marketplace listings (applies to non-student users — see Section 14)</li>
+      </ul>
+
+      <h3>Information Collected Automatically</h3>
+      <ul>
+        <li>Device information (e.g. device type, operating system, browser type)</li>
+        <li>Log data such as access times, app features used, and error reports</li>
+        <li>IP address and general usage patterns to improve app performance</li>
+        <li><strong>Cookies and local storage:</strong> We use cookies and browser local storage to maintain your login session, remember your preferences (e.g. theme settings), and keep you securely authenticated. You can clear these via your browser or device settings, though doing so may log you out of the app.</li>
+        <li><strong>WebRTC and IP address disclosure during calls:</strong> MMUN uses WebRTC technology to power audio and video calls. During a live call, your IP address may be visible to the other participant(s) as part of how peer-to-peer connection technology works. This is a technical characteristic of WebRTC, not a data collection practice by MMUN. You should be aware of this before initiating or accepting calls.</li>
+      </ul>
+
+      <h3>Information We Do NOT Collect</h3>
+      <ul>
+        <li>We do not collect precise GPS or real-time location data</li>
+        <li>We do not collect payment or financial information</li>
+        <li>We do not knowingly collect data from individuals under the age of 18</li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section id="s4">
+      <div class="section-number">Section 04</div>
+      <h2>How We Use Your Information</h2>
+      <p>We use the information we collect for the following purposes:</p>
+      <ul>
+        <li>To create and manage your MMUN account</li>
+        <li>To verify your identity and institution through school API integration</li>
+        <li>To enable you to connect, post, and interact with other students</li>
+        <li>To facilitate the sharing of photos, videos, and files on the platform</li>
+        <li>To enable real-time messaging, audio calls, and video calls</li>
+        <li>To send important service-related notifications (e.g. account alerts, policy updates)</li>
+        <li>To maintain session authentication using cookies and local storage</li>
+        <li>To monitor and improve app performance and user experience</li>
+        <li>To enforce our Community Guidelines and Terms of Service</li>
+        <li>To comply with applicable Kenyan and East African laws and regulations</li>
+      </ul>
+    </section>
+
+    <!-- 5 -->
+    <section id="s5">
+      <div class="section-number">Section 05</div>
+      <h2>Legal Basis for Processing Your Data</h2>
+      <p>We process your personal data on the following legal grounds under the Kenya Data Protection Act, 2019:</p>
+      <ul>
+        <li><strong>Contractual necessity:</strong> Processing is required to provide the services you signed up for.</li>
+        <li><strong>Consent:</strong> Where you have given us explicit consent (e.g. uploading profile photos, enabling calls).</li>
+        <li><strong>Legitimate interests:</strong> To improve our platform, prevent fraud, and ensure security.</li>
+        <li><strong>Legal obligation:</strong> Where we are required by Kenyan law or court order to process certain data.</li>
+      </ul>
+    </section>
+
+    <!-- 6 -->
+    <section id="s6">
+      <div class="section-number">Section 06</div>
+      <h2>Sharing of Your Information</h2>
+      <p>MMUN does not sell, rent, or trade your personal information to any third parties. We do not share your data with advertisers or marketing companies.</p>
+      <p>Your data is accessible only to authorised MMUN personnel and the trusted third-party service providers listed in Section 7 (our data processors), who assist us in operating the platform under strict data processing agreements. We may also disclose your information in the following limited circumstances:</p>
+      <ul>
+        <li><strong>Legal compliance:</strong> If required by Kenyan law, court order, or government authority.</li>
+        <li><strong>Safety and security:</strong> To protect the rights, property, or safety of MMUN users or the public.</li>
+        <li><strong>Business transfer:</strong> In the unlikely event of a merger or acquisition, your data may be transferred. You will be notified in advance and your rights under this policy will be maintained.</li>
+      </ul>
+    </section>
+
+    <!-- 7 — NEW -->
+    <section id="s7">
+      <div class="section-number">Section 07</div>
+      <div class="update-badge">New Section</div>
+      <h2>Third-Party Data Processors</h2>
+      <p>To operate MMUN, we use trusted third-party service providers (data processors) who process your data solely on our behalf and under our instructions. These providers are bound by contractual obligations to protect your data in accordance with the Kenya Data Protection Act, 2019.</p>
+      <p>Our current data processors include:</p>
+
+      <table class="processor-table">
+        <thead>
+          <tr>
+            <th>Processor</th>
+            <th>Purpose</th>
+            <th>Data Processed</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Google Firebase / Firebase Auth</strong></td>
+            <td>Authentication, database, file storage, hosting</td>
+            <td>Account credentials, profile data, uploaded media</td>
+            <td>USA / Global (Google LLC)</td>
+          </tr>
+          <tr>
+            <td><strong>WebRTC (browser-native)</strong></td>
+            <td>Peer-to-peer audio and video calls</td>
+            <td>IP addresses of call participants (not stored by MMUN)</td>
+            <td>Peer-to-peer / no central server</td>
+          </tr>
+          <tr>
+            <td><strong>GitHub</strong></td>
+            <td>Source code version control and deployment</td>
+            <td>Application code only — no user personal data</td>
+            <td>USA (GitHub Inc.)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>We will update this table whenever we add or change a data processor. If you have questions about any of these processors, contact us at <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a>.</p>
+    </section>
+
+    <!-- 8 -->
+    <section id="s8">
+      <div class="section-number">Section 08</div>
+      <h2>Data Storage and Security</h2>
+      <p>We take the security of your personal information seriously. We implement reasonable technical and organisational measures to protect your data from unauthorised access, loss, misuse, or alteration.</p>
+      <p>These measures include:</p>
+      <ul>
+        <li>Encrypted storage of sensitive account data</li>
+        <li>Secure authentication tokens stored in cookies and local storage</li>
+        <li>Secure access controls for internal systems</li>
+        <li>Regular security reviews and monitoring</li>
+        <li>Use of HTTPS for all data transmissions</li>
+      </ul>
+      <p>However, please note that no method of electronic transmission or storage is 100% secure. While we strive to protect your information, we cannot guarantee absolute security.</p>
+    </section>
+
+    <!-- 9 — NEW -->
+    <section id="s9">
+      <div class="section-number">Section 09</div>
+      <div class="update-badge">New Section</div>
+      <h2>Cross-Border Data Transfers</h2>
+      <p>Some of our third-party service providers (listed in Section 7), including Google Firebase, operate servers located outside Kenya, including in the United States and other countries. When you use MMUN, your personal data may therefore be transferred to and processed in countries outside Kenya.</p>
+      <p>Where such transfers occur, we ensure they are conducted in compliance with the Kenya Data Protection Act, 2019, including by relying on recognised transfer mechanisms such as contractual obligations with the receiving party to maintain equivalent data protection standards.</p>
+      <div class="highlight-box">By using MMUN and agreeing to this Privacy Policy, you acknowledge and consent to the transfer of your personal data to countries outside Kenya where necessary for the operation of the platform.</div>
+    </section>
+
+    <!-- 10 -->
+    <section id="s10">
+      <div class="section-number">Section 10</div>
+      <h2>Data Retention</h2>
+      <p>We retain your personal information for as long as your account is active or as needed to provide you with our services. You may request deletion of your account and associated data at any time by contacting us at <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a>.</p>
+      <p>Upon account deletion, we will remove your personal data from our active systems within a reasonable time, except where retention is required by Kenyan law or for legitimate business purposes such as fraud prevention.</p>
+    </section>
+
+    <!-- 11 -->
+    <section id="s11">
+      <div class="section-number">Section 11</div>
+      <h2>Your Rights</h2>
+      <p>As a user of MMUN, you have the following rights regarding your personal data under the Kenya Data Protection Act, 2019:</p>
+      <ul>
+        <li><strong>Right to Access:</strong> You may request a copy of the personal data we hold about you.</li>
+        <li><strong>Right to Correction:</strong> You may request that we correct inaccurate or incomplete data.</li>
+        <li><strong>Right to Deletion:</strong> You may request that we delete your personal data (subject to legal obligations).</li>
+        <li><strong>Right to Withdraw Consent:</strong> Where processing is based on consent, you may withdraw it at any time without affecting the lawfulness of prior processing.</li>
+        <li><strong>Right to Object:</strong> You may object to processing based on legitimate interests where your individual circumstances warrant it.</li>
+        <li><strong>Right to Complain:</strong> You have the right to lodge a complaint with the Office of the Data Protection Commissioner of Kenya.</li>
+      </ul>
+      <p>To exercise any of these rights, contact us at <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a>. We will respond within 21 days.</p>
+    </section>
+
+    <!-- 12 -->
+    <section id="s12">
+      <div class="section-number">Section 12</div>
+      <h2>Children's Privacy</h2>
+      <p>MMUN is intended exclusively for university and college students aged 18 and above. We do not knowingly collect personal information from individuals under the age of 18. If we become aware that a user is under 18, we will promptly deactivate their account and delete any associated data.</p>
+      <p>If you believe a minor has registered on our platform, please contact us immediately at <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a>.</p>
+    </section>
+
+    <!-- 13 -->
+    <section id="s13">
+      <div class="section-number">Section 13</div>
+      <h2>User-Generated Content</h2>
+      <p>Any photos, videos, files, or other content you upload to MMUN may be visible to other users of the platform, depending on your privacy settings. You are responsible for the content you share and must ensure it does not violate our Community Guidelines or infringe on the rights of others.</p>
+      <p>By uploading content, you grant MMUN a limited, non-exclusive, royalty-free licence to display and distribute that content within the platform solely for the purpose of providing our services to you and other users. This licence does not permit MMUN to sell, commercialise, or share your content outside the platform. It is sublicensable only to the extent necessary to operate and maintain the platform's infrastructure (e.g. hosting providers). You retain full ownership of all content you upload.</p>
+    </section>
+
+    <!-- 14 — NEW -->
+    <section id="s14">
+      <div class="section-number">Section 14</div>
+      <div class="update-badge">New Section</div>
+      <h2>Non-Student Users</h2>
+      <p>Certain sections of MMUN — specifically the Jobs board and the MABS marketplace — allow individuals and organisations who are not students to post content. This includes businesses, government bodies, companies, and individual sellers.</p>
+      <p>If you are a non-student user posting on MMUN, the following applies to you:</p>
+      <ul>
+        <li>We collect only the information you provide when submitting a listing or job post (e.g. contact details, organisation name, post content).</li>
+        <li>This information will be visible to verified student users of MMUN.</li>
+        <li>You are responsible for ensuring that any personal data you include in your post complies with applicable data protection laws.</li>
+        <li>You hold the same rights as student users with respect to your submitted data — including the right to access, correct, and request deletion of your data by contacting <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a>.</li>
+        <li>MMUN reserves the right to remove listings that violate our Community Guidelines or Terms of Service.</li>
+      </ul>
+    </section>
+
+    <!-- 15 -->
+    <section id="s15">
+      <div class="section-number">Section 15</div>
+      <h2>Changes to This Privacy Policy</h2>
+      <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements. When we make significant changes, we will notify you through the app or via email. The updated policy will be effective from the date it is posted.</p>
+      <p>We encourage you to review this Privacy Policy periodically. Continued use of MMUN after changes are posted constitutes your acceptance of the updated policy.</p>
+    </section>
+
+    <!-- 16 — NEW -->
+    <section id="s16">
+      <div class="section-number">Section 16</div>
+      <div class="update-badge">New Section</div>
+      <h2>Governing Law and Jurisdiction</h2>
+      <p>This Privacy Policy is governed by and construed in accordance with the laws of Kenya, including but not limited to the Kenya Data Protection Act, 2019, the Computer Misuse and Cybercrimes Act, 2018, and any other applicable Kenyan legislation relating to data protection and privacy.</p>
+      <p>Any disputes arising from or relating to this Privacy Policy or the use of MMUN shall be subject to the exclusive jurisdiction of the courts of Kenya. If you are accessing MMUN from outside Kenya, you do so at your own risk and are responsible for compliance with your local laws to the extent they are applicable.</p>
+    </section>
+
+    <!-- 17 -->
+    <section id="s17">
+      <div class="section-number">Section 17</div>
+      <h2>Contact Us</h2>
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy or how we handle your data, please reach out to us:</p>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <div class="contact-info">
+          <p>Email us at</p>
+          <a href="mailto:deazerrick@gmail.com">deazerrick@gmail.com</a>
+        </div>
+        <div class="contact-region">🌍 Kenya / East Africa</div>
+        <button onclick="window.location.href='/about'" style="cursor:pointer;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.8);padding:8px 18px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.82rem;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">About Us</button>
+        <button id="backBtn" onclick="window.history.back()" style="cursor:pointer;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.8);padding:8px 18px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.82rem;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">Back</button>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>© 2026 <span>MMUN – Modern Minds Unifying Network</span>. All rights reserved.</p>
+    <p style="margin-top:6px;">This policy was last updated on April 6, 2026 &nbsp;·&nbsp; Kenya Copyright Board Reg. 522922641</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MMUN – Join the Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1F3C;
+  --blue:#1A3C6E;
+  --accent:#2E75B6;
+  --accent-light: darkblue;
+  --gold:#C9A84C;
+  --bg:#EEF2F8;
+  --surface:#FFFFFF;
+  --text:#1C2B3A;
+  --muted:#364350;
+  --border:#D8E2EE;
+  --success:#2EAA63;
+  --error:#D93025;
+  --warn:#E0853A;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;display:flex;flex-direction:column}
+
+/* ── TOPBAR ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 20px;background:var(--navy);flex-shrink:0;
+  border-bottom:1px solid rgba(255,255,255,0.06);z-index:100;
+}
+.tb-left{display:flex;align-items:center;gap:12px}
+.back-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);
+  color:rgba(255,255,255,0.7);font-size:0.79rem;font-weight:600;
+  padding:7px 13px;border-radius:100px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all 0.18s;text-decoration:none;
+}
+.back-btn:hover{background:rgba(255,255,255,0.14);color:#fff}
+.back-btn svg{width:13px;height:13px;fill:currentColor}
+.brand{display:flex;align-items:center;gap:9px}
+.brand img{width:34px;height:34px;border-radius:38%;box-shadow:0 0 8px rgba(54,183,114,0.55);object-fit:cover}
+.brand-text{font-family:'DM Serif Display',serif;font-size:1.15rem;color:#fff;letter-spacing:-.3px;line-height:1}
+.brand-sub{font-family:'DM Sans',sans-serif;font-size:0.3rem;font-weight:400;color:rgba(255,255,255,0.4);letter-spacing:1.6px;text-transform:uppercase}
+.tb-right{display:flex;align-items:center;gap:10px}
+.step-dots{display:flex;align-items:center;gap:5px}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.18);transition:all 0.3s}
+.dot.active{background:var(--gold);width:20px;border-radius:100px}
+.dot.done{background:var(--success)}
+.step-lbl{font-size:0.72rem;color:rgba(255,255,255,0.4);font-weight:500;white-space:nowrap}
+
+/* ── STAGE ── */
+.stage{flex:1;overflow:hidden;position:relative}
+
+/* ── PAGES ── */
+.page{
+  position:absolute;inset:0;overflow-y:auto;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:28px 16px 48px;
+  background: linear-gradient(red,black,green,black,blue);
+  opacity:0;pointer-events:none;
+}
+.page.active{opacity:1;pointer-events:all}
+
+@keyframes pgIn{from{opacity:0;transform:scale(0.93) translateY(22px)}to{opacity:1;transform:none}}
+@keyframes pgOut{from{opacity:1;transform:none}to{opacity:0;transform:scale(1.05) translateY(-18px)}}
+.page.enter{animation:pgIn 0.42s cubic-bezier(0.22,1,0.36,1) forwards}
+.page.exit{animation:pgOut 0.32s cubic-bezier(0.55,0,1,0.45) forwards}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);border-radius:20px;padding:36px 40px;
+  width:100%;max-width:540px;
+  background: radial-gradient(ellipse at bottom left,#0d1f3c,rgba(255, 255, 255, 0.744),rgba(255, 255, 255, 0.744),rgba(255, 255, 255, 0.744));
+  box-shadow:0 6px 36px rgba(13,31,60,0.1);
+  border:1px solid var(--border);
+}
+.pg-icon{font-size:2rem;margin-bottom:12px;display:block}
+.pg-num{font-size:0.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent-light);margin-bottom:4px}
+.card h2{font-family:'DM Serif Display',serif;font-size:1.55rem;color:var(--navy);margin-bottom:5px;line-height:1.2}
+.card .sub{font-size:0.855rem;color:var(--muted);margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--border);line-height:1.55}
+
+/* ── FIELDS ── */
+.field{margin-bottom:16px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.row-2 .field{margin-bottom:0}
+#loader {
+    place-content: space-between;
+    align-self: center;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+  }
+  #loaderB {
+    justify-content: center;
+    bottom: 50px;
+    left: 47.5%;
+    display: flex;
+    z-index: 10000;
+    width: 50px;
+    height: 50px;
+  }
+  .loadB {
+    width: 10px;
+    height: 20px;
+    background: none;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    align-self: center;
+    border: none;
+    border-bottom: solid 2px var(--accent);
+    border-bottom-style: double;
+    border-top: solid 2px var(--accent);
+    border-top-style: double;
+    animation: load 1.5s ease infinite;
+    background: radial-gradient(#3fc10c,rgba(0, 0, 0, 0),rgba(220, 27, 27, 0.241));
+  }
+  @keyframes load {
+  0% {}
+  65% {
+    transform: rotateZ(-1080deg) scale(1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 0px;
+  }
+  100% {}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+label{display:block;font-size:0.79rem;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:0.2px}
+label .req{color:var(--error);margin-left:2px}
+label .hint{font-weight:400;color:var(--muted);font-size:0.74rem;margin-left:5px}
+
+input[type=text],input[type=email],input[type=tel],input[type=date],
+select,textarea{
+  width:100%;padding:10px 13px;
+  border:1.5px solid var(--border);border-radius:9px;
+  font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text);
+  background:var(--bg);transition:border-color .18s,box-shadow .18s,background .18s;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,117,182,0.11);background:#fff}
+input.err,select.err,textarea.err{border-color:var(--error);box-shadow:0 0 0 3px rgba(217,48,37,0.09)}
+.err-msg{font-size:0.75rem;color:var(--error);margin-top:4px;display:none}
+.err-msg.show{display:block}
+
+.prefilled{border-color:rgba(46,183,114,0.45)!important;background:rgba(46,183,114,0.04)!important}
+.pf-tag{display:inline-flex;align-items:center;gap:4px;font-size:0.69rem;font-weight:700;color:var(--success);background:rgba(46,183,114,0.1);border:1px solid rgba(46,183,114,0.25);padding:1px 7px;border-radius:100px;margin-left:5px}
+
+textarea{resize:vertical;min-height:88px}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A6A7A'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-size:19px;padding-right:34px;cursor:pointer;-webkit-appearance:none; appearance: none;}
+
+/* ── PROFILE CARD ── */
+.profile-card{
+  display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);
+  border-radius:14px;padding:15px 18px;margin-bottom:18px;
+}
+.profile-card img{width:50px;height:50px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);object-fit:cover;flex-shrink:0}
+.p-info .p-name{font-weight:700;color:#fff;font-size:0.95rem}
+.p-info .p-meta{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:2px}
+.p-info .p-role-tag{display:inline-block;margin-top:5px;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.35);padding:2px 8px;border-radius:100px}
+
+/* ── WHY BOX ── */
+.why{background:linear-gradient(135deg,rgba(26,60,110,0.04),rgba(46,117,182,0.07));border-left:3px solid var(--accent);border-radius:0 9px 9px 0;padding:12px 15px;margin:14px 0;font-size:0.83rem;color:var(--blue);font-weight:500;line-height:1.5}
+
+/* ── CONSENT ITEMS ── */
+.consent-list{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.consent-item{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:12px 14px;border:1.5px solid var(--border);
+  border-radius:11px;cursor:pointer;transition:all .18s;background:radial-gradient(circle at top left, transparent, transparent, rgba(0, 65, 139, 0.448),white);
+}
+.consent-item:hover{border-color:var(--accent-light);}
+.consent-item.on{border-color:var(--accent);background:rgba(46,117,182,0.04)}
+.consent-item.required-c{border-left:3px solid var(--error)}
+.consent-item.required-c.on{border-left-color:var(--success)}
+.consent-item input[type=checkbox]{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:var(--accent);cursor:pointer}
+.c-body strong{display:block;font-size:0.84rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.c-body span{font-size:0.79rem;color:var(--muted);line-height:1.45}
+
+/* ── ROLE GRID ── */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.role-card{
+  border:1.5px solid var(--border);border-radius:12px;padding:13px;
+  cursor:pointer;transition:all .18s;position:relative;background:var(--bg);
+}
+.role-card:hover{border-color:var(--accent-light);background:#fff}
+.role-card.sel{border-color:var(--accent);background:rgba(46,117,182,0.05)}
+.role-card input[type=radio]{position:absolute;opacity:0;width:0;height:0}
+.r-icon{font-size:1.45rem;margin-bottom:5px}
+.r-name{font-size:0.84rem;font-weight:700;color:var(--navy)}
+.r-tag{font-size:0.69rem;color:var(--accent);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin-top:2px}
+.r-ck{
+  position:absolute;top:9px;right:9px;width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .18s;
+}
+.role-card.sel .r-ck{border-color:var(--accent);background:var(--accent)}
+.role-card.sel .r-ck::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff}
+
+.sub-row{display:none;flex-wrap:wrap;gap:6px;margin-top:10px}
+.sub-row.show{display:flex}
+.sub-btn{
+  padding:5px 13px;border-radius:100px;border:1.5px solid var(--border);
+  background:var(--bg);font-family:'DM Sans',sans-serif;font-size:0.79rem;font-weight:600;
+  color:var(--muted);cursor:pointer;transition:all .18s;
+}
+.sub-btn:hover{border-color:var(--accent-light);color:var(--accent)}
+.sub-btn.on{border-color:var(--accent);background:var(--accent);color:#fff}
+
+.role-desc{
+  display:none;background:linear-gradient(135deg,rgba(26,60,110,0.04),rgba(46,117,182,0.07));
+  border:1px solid rgba(46,117,182,0.14);border-radius:11px;padding:14px 16px;margin-top:11px;
+}
+.role-desc h4{font-size:0.83rem;font-weight:700;color:var(--navy);margin-bottom:7px}
+.role-desc ul{list-style:none;padding:0}
+.role-desc li{font-size:0.8rem;color:var(--muted);padding-left:14px;position:relative;margin-bottom:4px}
+.role-desc li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent-light)}
+
+/* ── SKILLS TAGS ── */
+.skill-row{display:flex;gap:7px;margin-bottom:7px}
+.skill-row input{flex:1}
+.skill-row button{
+  padding:9px 15px;background:var(--accent);color:#fff;border:none;border-radius:9px;
+  font-family:'DM Sans',sans-serif;font-size:0.84rem;font-weight:600;cursor:pointer;
+  white-space:nowrap;transition:background .18s;
+}
+.skill-row button:hover{background:var(--blue)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;min-height:28px}
+.tag{
+  display:flex;align-items:center;gap:5px;background:rgba(46,117,182,0.09);
+  border:1px solid rgba(46,117,182,0.2);border-radius:100px;padding:3px 11px;
+  font-size:0.78rem;font-weight:600;color:var(--accent);
+}
+.tag button{background:none;border:none;cursor:pointer;color:var(--accent);font-size:1rem;line-height:1;padding:0;display:flex;align-items:center}
+
+/* ── DAY BUTTONS ── */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:6px}
+.day{
+  padding:7px 3px;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--bg);font-family:'DM Sans',sans-serif;font-size:0.73rem;
+  font-weight:600;color:var(--muted);cursor:pointer;text-align:center;transition:all .18s;
+}
+.day.on{border-color:var(--accent);background:var(--accent);color:#fff}
+
+/* ── SIGNATURE ── */
+.sig-wrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:#FAFBFD}
+.sig-head{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:rgba(13,31,60,0.03);border-bottom:1px solid var(--border)}
+.sig-head span{font-size:0.76rem;color:var(--muted)}
+.ai-badge{
+  display:flex;align-items:center;gap:4px;background:rgba(201,168,76,0.12);
+  border:1px solid rgba(201,168,76,0.35);color:#8B6914;font-size:0.68rem;
+  font-weight:700;letter-spacing:.4px;padding:3px 9px;border-radius:100px;
+}
+.ai-badge::before{content:'✦';font-size:0.58rem}
+canvas#sig{display:block;width:100%;height:140px;cursor:crosshair;touch-action:none}
+.sig-foot{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid var(--border)}
+.sig-foot span{font-size:0.74rem;color:var(--muted);font-style:italic}
+.clear-btn{
+  font-size:0.77rem;font-weight:600;color:var(--error);
+  background:rgba(217,48,37,0.07);border:1px solid rgba(217,48,37,0.2);
+  border-radius:8px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;
+}
+.clear-btn:hover{background:rgba(217,48,37,0.14)}
+
+/* ── NAV BUTTONS ── */
+.nav{display:flex;align-items:center;gap:9px;margin-top:24px}
+.btn-next{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:1;
+  background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border:none;
+  border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:700;
+  padding:13px 24px;cursor:pointer;box-shadow:0 4px 18px rgba(13,31,60,0.2);transition:all .22s;
+}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(13,31,60,0.27)}
+.btn-next:active{transform:none}
+.btn-next:disabled{opacity:0.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-next svg{width:15px;height:15px;fill:#fff}
+.btn-prev{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg);color:var(--muted);border:1.5px solid var(--border);
+  border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.84rem;
+  font-weight:600;padding:12px 20px;cursor:pointer;transition:all .18s;
+}
+.btn-prev:hover{border-color:var(--accent-light);color:var(--accent)}
+.btn-prev svg{width:13px;height:13px;fill:currentColor}
+
+/* ── SUBMIT STATES ── */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  background:var(--navy);color:#fff;font-size:0.78rem;font-weight:500;
+  padding:8px 18px;border-radius:100px;border:1px solid rgba(91,163,217,0.3);
+  box-shadow:0 4px 18px rgba(13,31,60,0.22);
+  display:flex;align-items:center;gap:6px;opacity:0;pointer-events:none;
+  transition:opacity 0.25s;z-index:9999;white-space:nowrap;
+}
+#toast.show{opacity:1}
+#toast svg{width:12px;height:12px;fill:var(--success);flex-shrink:0}
+
+/* ── SUCCESS ── */
+#successPage .card{text-align:center}
+.s-icon{font-size:3.2rem;display:block;margin-bottom:14px}
+
+/* ── LOADING OVERLAY ── */
+#loadingOverlay{
+  display:none;position:fixed;inset:0;background:rgba(13,31,60,0.6);
+  z-index:9998;align-items:center;justify-content:center;backdrop-filter:blur(2px);
+}
+#loadingOverlay.show{display:flex}
+.loading-card{background:#fff;border-radius:16px;padding:28px 36px;text-align:center}
+.loading-card .sp{width: 50px;height:50px;border:3px double transparent;border-top-color:var(--accent); display: flex; align-items: center; justify-content: center; border-radius: 50%;border-right: solid 10px transparent; animation:spin 5s linear infinite;margin:0 auto 14px}
+.loading-card p{font-size:0.88rem;color:var(--muted);font-weight:500}
+
+/* ── RESPONSIVE ── */
+@media(max-width:580px){
+  .card{padding:24px 18px;border-radius:15px}
+  .row-2{grid-template-columns:1fr}
+  .role-grid{grid-template-columns:1fr}
+  .days{grid-template-columns:repeat(4,1fr)}
+  .tb-right .step-lbl{display:none}
+}
+</style>
+</head>
+<body>
+
+
+<!-- TOPBAR -->
+<div class="topbar">
+<!-- LOADING OVERLAY -->
+  <div class="tb-left">
+    <button class="back-btn" onclick="exit()">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back
+    </button>
+    <div class="brand">
+      <img src="/Assets/MmunLogoTopPart.png" alt="MMUN" onerror="this.style.display='none'"/>
+      <div><div class="brand-text">MMUN</div><div class="brand-sub">Join our Specialists Team</div></div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="step-dots" id="stepDots"></div>
+    <span class="step-lbl" id="stepLbl"></span>
+  </div>
+</div>
+
+<!-- STAGE -->
+<div class="stage" id="stage">
+
+  <!-- PAGE 0: CONSENT -->
+  <div class="page active enter" id="p0">
+    <div class="card">
+      <span class="pg-icon">🔐</span>
+      <div class="pg-num">Step 1 of 5</div>
+      <h2>Use your MMUN account</h2>
+      <p class="sub">We'll pull your profile details to pre-fill this application. Review them on the next step — you can edit anything before submitting.</p>
+
+      <div class="profile-card">
+        <img id="previewImg" src="" alt="Profile" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%231A3C6E%22/><text x=%2250%%22 y=%2255%%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22>?</text></svg>'"/>
+        <div class="p-info">
+          <div class="p-name" id="previewName">Loading your profile…</div>
+          <div class="p-meta" id="previewMeta"></div>
+          <div class="p-role-tag" id="previewRole">MMUN Member</div>
+        </div>
+      </div>
+
+      <div class="why">
+        🔒 <strong>What we access:</strong> Your username, profile photo, institution, course, academic year, phone, and birth date. We never access your password, private messages, or hidden social links.
+      </div>
+
+      <div class="consent-list" id="consentList">
+        <label class="consent-item required-c" onclick="toggleConsent(this)">
+          <input type="checkbox" id="consentPrefill" onclick="toggleConsent(this.parentElement)"/>
+          <div class="c-body">
+            <strong>Use my MMUN account to pre-fill this form <span style="color:var(--error)">*</span></strong>
+            <span>I authorise MMUN to read my profile data (name, institution, course, year, phone, DOB) for this application only.</span>
+          </div>
+        </label>
+        <label class="consent-item" onclick="toggleConsent(this)">
+          <input type="checkbox" id="consentSave" checked onclick="toggleConsent(this.parentElement)"/>
+          <div class="c-body on">
+            <strong>Save my progress on this device</strong>
+            <span>Your draft will be saved locally so you don't lose progress if you close the browser or go offline.</span>
+          </div>
+        </label>
+      </div>
+
+      <div id="consentErr" class="err-msg" style="margin-top:10px">You must authorise account access to continue.</div>
+
+      <div class="nav" style="margin-top:20px">
+        <button class="btn-next" onclick="goNext(0)">
+          Continue <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 1: ROLE -->
+  <div class="page" id="p1">
+    <div class="card">
+      <span class="pg-icon">🎯</span>
+      <div class="pg-num">Step 2 of 5</div>
+      <h2>Choose your role</h2>
+      <p class="sub">Select what you're applying for. Your responsibilities will be shown so you know exactly what you're signing up for before you proceed.</p>
+
+      <div class="role-grid" id="roleGrid"></div>
+
+      <!-- Specialization rows -->
+      <div class="sub-row" id="devSubs">
+        <span style="font-size:0.77rem;font-weight:600;color:var(--muted);align-self:center;margin-right:3px">Spec:</span>
+        <button class="sub-btn" data-v="Frontend" onclick="setSub(this,'devSubs')">Frontend</button>
+        <button class="sub-btn" data-v="Backend" onclick="setSub(this,'devSubs')">Backend</button>
+        <button class="sub-btn" data-v="Full Stack" onclick="setSub(this,'devSubs')">Full Stack</button>
+        <button class="sub-btn" data-v="Mobile (Flutter / RN)" onclick="setSub(this,'devSubs')">Mobile</button>
+      </div>
+      <div class="sub-row" id="desSubs">
+        <span style="font-size:0.77rem;font-weight:600;color:var(--muted);align-self:center;margin-right:3px">Spec:</span>
+        <button class="sub-btn" data-v="UI Design" onclick="setSub(this,'desSubs')">UI Design</button>
+        <button class="sub-btn" data-v="UX Research" onclick="setSub(this,'desSubs')">UX Research</button>
+        <button class="sub-btn" data-v="Branding / Graphics" onclick="setSub(this,'desSubs')">Branding</button>
+      </div>
+      <div class="sub-row" id="mktSubs">
+        <span style="font-size:0.77rem;font-weight:600;color:var(--muted);align-self:center;margin-right:3px">Spec:</span>
+        <button class="sub-btn" data-v="Social Media" onclick="setSub(this,'mktSubs')">Social Media</button>
+        <button class="sub-btn" data-v="Content Creation" onclick="setSub(this,'mktSubs')">Content Creation</button>
+        <button class="sub-btn" data-v="Growth & Analytics" onclick="setSub(this,'mktSubs')">Growth</button>
+        <button class="sub-btn" data-v="Ads & Monetization" onclick="setSub(this,'mktSubs')">Ads & Monetization</button>
+      </div>
+
+      <div class="role-desc" id="roleDesc">
+        <h4 id="rdTitle"></h4>
+        <ul id="rdList"></ul>
+      </div>
+
+      <div id="roleErr" class="err-msg" style="margin-top:8px">Please select a role to continue.</div>
+
+      <div class="nav">
+        <button class="btn-prev" onclick="goPrev(1)">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back
+        </button>
+        <button class="btn-next" onclick="goNext(1)">
+          Next <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: CONFIRM / EDIT PROFILE DETAILS -->
+  <div class="page" id="p2">
+    <div class="card">
+      <span class="pg-icon">👤</span>
+      <div class="pg-num">Step 3 of 5</div>
+      <h2>Confirm your details</h2>
+      <p class="sub">We've pulled these from your MMUN account. Review every field — edit anything that's wrong or incomplete. Fields marked <span style="color:var(--success);font-weight:700">green</span> were pre-filled.</p>
+
+      <div class="row-2">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="First name" autocomplete="given-name"/>
+          <div class="err-msg" id="e-firstName">Required</div>
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="Last name" autocomplete="family-name"/>
+          <div class="err-msg" id="e-lastName">Required</div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:13px">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="your@email.com" autocomplete="email"/>
+        <div class="err-msg" id="e-email">Enter a valid email address</div>
+      </div>
+
+      <div class="row-2" style="margin-top:13px">
+        <div class="field">
+          <label>Phone / WhatsApp <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="+254 7XX XXX XXX"/>
+          <div class="err-msg" id="e-phone">Required</div>
+        </div>
+        <div class="field">
+          <label>Date of Birth <span class="req">*</span></label>
+          <input type="date" id="dob"/>
+          <div class="err-msg" id="e-dob">Required</div>
+        </div>
+      </div>
+
+      <div class="row-2" style="margin-top:13px">
+        <div class="field">
+          <label>Institution <span class="req">*</span></label>
+          <input type="text" id="institution" placeholder="e.g. Moi University"/>
+          <div class="err-msg" id="e-institution">Required</div>
+        </div>
+        <div class="field">
+          <label>Course / Programme <span class="req">*</span></label>
+          <input type="text" id="programme" placeholder="e.g. Computer Science"/>
+          <div class="err-msg" id="e-programme">Required</div>
+        </div>
+      </div>
+
+      <div class="row-2" style="margin-top:13px">
+        <div class="field">
+          <label>Academic Year <span class="req">*</span></label>
+          <select id="acYear">
+            <option value="">Select…</option>
+            <option value="First Year">First Year</option>
+            <option value="Second Year">Second Year</option>
+            <option value="Third Year">Third Year</option>
+            <option value="Fourth Year">Fourth Year</option>
+            <option value="Fifth Year">Fifth Year</option>
+            <option value="Postgraduate">Postgraduate</option>
+            <option value="Graduated">Graduated</option>
+          </select>
+          <div class="err-msg" id="e-acYear">Required</div>
+        </div>
+        <div class="field">
+          <label>Gender <span class="req">*</span></label>
+          <select id="gender">
+            <option value="">Select…</option>
+            <option>Male</option><option>Female</option>
+            <option>Non-binary</option><option>Prefer not to say</option>
+          </select>
+          <div class="err-msg" id="e-gender">Required</div>
+        </div>
+      </div>
+
+      <div class="nav" style="margin-top:22px">
+        <button class="btn-prev" onclick="goPrev(2)">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back
+        </button>
+        <button class="btn-next" onclick="goNext(2)">
+          Next <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: SKILLS + MOTIVATION -->
+  <div class="page" id="p3">
+    <div class="card">
+      <span class="pg-icon">⚡</span>
+      <div class="pg-num">Step 4 of 5</div>
+      <h2>Skills & commitment</h2>
+      <p class="sub">Show us what you bring. Be specific — generic answers won't stand out.</p>
+
+      <div class="field">
+        <label>Your proficient skills <span class="req">*</span> <span class="hint">— type one, press Add or Enter</span></label>
+        <div class="skill-row">
+          <input type="text" id="skillInput" placeholder="e.g. Figma, React.js, Canva, SEO…"/>
+          <button type="button" onclick="addSkill()">+ Add</button>
+        </div>
+        <div class="tags" id="tagsWrap"></div>
+        <div class="err-msg" id="e-skills">Add at least one skill</div>
+      </div>
+
+      <div class="row-2" style="margin-top:14px">
+        <div class="field">
+          <label>Proficiency level <span class="req">*</span></label>
+          <select id="skillLevel">
+            <option value="">Select…</option>
+            <option>Beginner – still learning</option>
+            <option>Intermediate – works independently</option>
+            <option>Advanced – fast, confident delivery</option>
+            <option>Expert – can teach others</option>
+          </select>
+          <div class="err-msg" id="e-skillLevel">Required</div>
+        </div>
+        <div class="field">
+          <label>Hours/week available <span class="req">*</span></label>
+          <select id="hours">
+            <option value="">Select…</option>
+            <option>1 – 3 hrs</option>
+            <option>4 – 6 hrs</option>
+            <option>7 – 10 hrs</option>
+            <option>10+ hrs</option>
+          </select>
+          <div class="err-msg" id="e-hours">Required</div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:14px">
+        <label>Portfolio / GitHub <span class="hint">(optional — strongly recommended)</span></label>
+        <input type="text" id="portfolio" placeholder="https://github.com/you or yoursite.com"/>
+      </div>
+
+      <div class="field" style="margin-top:14px">
+        <label>Why do you want to join MMUN? <span class="req">*</span></label>
+        <textarea id="motivation" placeholder="What genuinely excites you about this? Why are you the right fit for this role?"></textarea>
+        <div class="err-msg" id="e-motivation">Required — please write at least a sentence</div>
+      </div>
+
+      <div class="field" style="margin-top:14px">
+        <label>Days you're most available</label>
+        <div class="days" id="daysWrap">
+          <button type="button" class="day" onclick="toggleDay(this)">Mon</button>
+          <button type="button" class="day" onclick="toggleDay(this)">Tue</button>
+          <button type="button" class="day" onclick="toggleDay(this)">Wed</button>
+          <button type="button" class="day" onclick="toggleDay(this)">Thu</button>
+          <button type="button" class="day" onclick="toggleDay(this)">Fri</button>
+          <button type="button" class="day" onclick="toggleDay(this)">Sat</button>
+          <button type="button" class="day" onclick="toggleDay(this)">Sun</button>
+        </div>
+      </div>
+
+      <div class="nav" style="margin-top:22px">
+        <button class="btn-prev" onclick="goPrev(3)">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back
+        </button>
+        <button class="btn-next" onclick="goNext(3)">
+          Next <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: ROLE-BASED CONSENTS + SIGNATURE -->
+  <div class="page" id="p4">
+    <div class="card">
+      <span class="pg-icon">📜</span>
+      <div class="pg-num">Step 5 of 5</div>
+      <h2>Agreements & signature</h2>
+      <p class="sub">Read and agree to each item, then sign below. You cannot submit without completing this page.</p>
+
+      <div class="consent-list" id="compList">
+        <!-- Injected dynamically based on role -->
+      </div>
+      <div id="compErr" class="err-msg" style="margin-top:8px">Please agree to all required items above.</div>
+
+      <div style="margin-top:22px">
+        <label style="margin-bottom:9px;display:block">Draw your signature <span class="req">*</span></label>
+        <div class="sig-wrap">
+          <div class="sig-head">
+            <span>Sign using your mouse or finger</span>
+            <div class="ai-badge">Digital Signature powered by Tochenic AI</div>
+          </div>
+          <canvas id="sig"></canvas>
+          <div class="sig-foot">
+            <span>Confirms that all information is accurate and you agree to the terms above.</span>
+            <button type="button" class="clear-btn" onclick="clearSig()">✕ Clear</button>
+          </div>
+        </div>
+        <div class="err-msg" id="e-sig" style="margin-top:5px">Please draw your signature before submitting.</div>
+      </div>
+
+      <div class="field" style="margin-top:16px">
+        <label>Full legal name (typed) <span class="req">*</span> <span class="hint">— must match your registered name</span></label>
+        <input type="text" id="legalName" placeholder="Type your full name as it appears on your ID"/>
+        <div class="err-msg" id="e-legalName">Required</div>
+      </div>
+
+      <div class="nav" style="margin-top:22px">
+        <button class="btn-prev" onclick="goPrev(4)">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back
+        </button>
+        <button class="btn-next" id="submitBtn" onclick="submitForm()" style="background:linear-gradient(135deg,#1a6e3a,var(--success))">
+          Submit Application <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="page" id="successPage">
+    <div class="card">
+      <span class="s-icon">🎉</span>
+      <h2>Application submitted!</h2>
+      <p class="sub" style="border:none;padding:0;margin-top:6px">Your application and signed agreement have been received. We'll review everything and reach out via your provided contact. Welcome to the process, future MMUN team member.</p>
+      <div style="margin-top:26px">
+        <button class="btn-next" onclick="window.location.href='/home'" style="margin:0 auto;max-width:220px">
+          Go home <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div id="loadingOverlay">
+  <div class="loading-card">
+    
+    <div class="sp">
+  <div id="loaderB" class="loads unload">
+                <div class="loadB unload"></div>
+              </div></div>
+    <p id="loadingMsg">Submitting your application…</p>
+  </div>
+</div>
+<!-- TOAST -->
+<div id="toast">
+  <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+  Draft saved
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// ROLES
+// ─────────────────────────────────────────
+
+const ROLES = [
+  {
+    id:'design',icon:'🎨',name:'Design Specialist',tag:'UI / UX / Branding',sub:'desSubs',
+    desc:{title:'Design Specialist — Your responsibilities:',points:[
+      'Design every app screen: wireframes, mockups and interactive prototypes',
+      'Build and maintain a consistent design system (colors, type, spacing)',
+      'Collaborate with developers to ensure pixel-perfect implementation',
+      'Research competitor student apps and improve our UX continuously',
+    ]},
+    consents:[
+      {id:'cc-ip',req:true,title:'Design Asset Ownership',body:'All design assets, mockups, prototypes and visual materials I create in this role are owned by MMUN.'},
+      {id:'cc-tools',req:true,title:'Licensed Tool Usage',body:'I will only use design tools (Figma, Adobe, etc.) that I am legitimately licensed to use, and will not pirate software on behalf of MMUN.'},
+    ]
+  },
+  {
+    id:'features',icon:'💡',name:'Feature Specialist',tag:'Product / Research',sub:null,
+    desc:{title:'Feature Specialist — Your responsibilities:',points:[
+      'Research what features students need and translate them into feature briefs',
+      'Study competitor apps and identify gaps MMUN can fill',
+      'Prioritize features by student value and technical feasibility',
+      'Gather beta feedback and iterate with the dev and design teams',
+    ]},
+    consents:[
+      {id:'cc-research',req:true,title:'Ethical Research Conduct',body:'I will conduct user research ethically — no misleading participants, fabricating data, or sharing participant identities without consent.'},
+    ]
+  },
+  {
+    id:'stakeholders',icon:'🤝',name:'Shares & Stakeholders',tag:'Strategy / Advisory',sub:null,
+    desc:{title:'Shares & Stakeholders — Your responsibilities:',points:[
+      'Provide strategic direction and high-level guidance to the core team',
+      'Represent investor and advisor interests in key product decisions',
+      'Help unlock resources, networks, and external partnerships',
+      'Hold the team accountable to long-term goals and vision',
+    ]},
+    consents:[
+      {id:'cc-conflict',req:true,title:'Conflict of Interest Disclosure',body:'I will disclose any financial or professional conflicts of interest that may influence my decisions as a stakeholder.'},
+      {id:'cc-fiduciary',req:true,title:'Fiduciary Responsibility',body:'I will act in the best interests of MMUN and its users, not solely for personal gain.'},
+    ]
+  },
+  {
+    id:'marketing',icon:'📣',name:'Marketing & Monetization',tag:'Growth / Content / Ads',sub:'mktSubs',
+    desc:{title:'Marketing & Monetization — Your responsibilities:',points:[
+      'Build and manage MMUN\'s social media presence and content calendar',
+      'Plan and execute on-campus campaigns and launch events',
+      'Research monetization strategies (ads, subscriptions, partnerships)',
+      'Track growth KPIs and report on user acquisition weekly',
+    ]},
+    consents:[
+      {id:'cc-honest',req:true,title:'Honest Marketing',body:'I will not use misleading, exaggerated or false claims when marketing MMUN to students or partners.'},
+      {id:'cc-brand',req:true,title:'Brand Voice Consistency',body:'All content I publish on behalf of MMUN will go through the founder\'s approval and remain consistent with the official brand voice.'},
+    ]
+  },
+  {
+    id:'developer',icon:'💻',name:'Developer',tag:'Frontend / Backend / Full Stack / Mobile',sub:'devSubs',
+    desc:{title:'Developer — Your responsibilities:',points:[
+      'Build and maintain the MMUN app across web and/or mobile platforms',
+      'Implement UI designs accurately from the Design Specialist team',
+      'Develop secure backend APIs, databases, and server infrastructure',
+      'Write clean, documented, testable code and handle bugs promptly',
+    ]},
+    consents:[
+      {id:'cc-ai',req:true,title:'Responsible Use of AI Tools',body:'I will use AI coding tools (GitHub Copilot, ChatGPT, Claude, etc.) responsibly. I will review all AI-generated code before committing, will not blindly ship AI output, and will not use AI to introduce vulnerabilities or deceptive logic into the codebase.'},
+      {id:'cc-security',req:true,title:'Security & Data Handling',body:'I will follow secure coding practices. I will never expose user data, hardcode secrets, or bypass authentication logic — even in development or testing environments.'},
+      {id:'cc-code-own',req:true,title:'Code Ownership & No External Repos',body:'All code I write for MMUN belongs to MMUN. I will not push project code to personal or external repositories without explicit written permission.'},
+    ]
+  },
+  {
+    id:'feedback',icon:'📋',name:'Feedback Coordinator',tag:'User Research / QA',sub:null,
+    desc:{title:'Feedback Coordinator — Your responsibilities:',points:[
+      'Run surveys, user interviews, and beta testing sessions with students',
+      'Collect, categorize and analyze bug reports and feature requests',
+      'Present clear, actionable feedback reports to the team weekly',
+      'Act as the authentic voice of the user in all internal discussions',
+    ]},
+    consents:[
+      {id:'cc-privacy',req:true,title:'User Data Privacy',body:'I will anonymize feedback where appropriate and never share individual user responses without their explicit consent.'},
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+// SHARED CONSENTS (all roles)
+// ─────────────────────────────────────────
+const SHARED_CONSENTS = [
+  {id:'cc-nda',req:true,title:'Confidentiality & Non-Disclosure',body:'I will keep all MMUN internal information — ideas, code, strategies, financials, and communications — strictly confidential during and after my time on the team.'},
+  {id:'cc-ip-gen',req:true,title:'Intellectual Property',body:'All work I produce in my role belongs to MMUN. I waive any personal ownership claim over deliverables created for this team.'},
+  {id:'cc-commit',req:true,title:'Commitment & Accountability',body:'I will honour my stated availability and communicate proactively if I cannot meet a deadline. Repeated no-shows without notice may result in removal.'},
+  {id:'cc-conduct',req:true,title:'Code of Conduct',body:'I will treat all teammates with respect. No harassment, discrimination, or hostile behaviour. Misconduct may result in immediate removal.'},
+  {id:'cc-accuracy',req:true,title:'Data Accuracy & Consent',body:'All information I have provided is true. I consent to MMUN storing it for team management. My data will not be sold to third parties.'},
+];
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+let currentPage = 0;
+const TOTAL_PAGES = 5;
+let selectedRole = null;
+let selectedSub = null;
+let skills = [];
+let hasSig = false;
+let accountData = null; // from backend
+let sigBlob = null;
+
+// ─────────────────────────────────────────
+// DOTS
+// ─────────────────────────────────────────
+function renderDots() {
+  const wrap = document.getElementById('stepDots');
+  wrap.innerHTML = '';
+  for (let i = 0; i < TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === currentPage ? ' active' : i < currentPage ? ' done' : '');
+    wrap.appendChild(d);
+  }
+  const labels = ['Consent','Role','Your Details','Skills','Sign & Submit'];
+  document.getElementById('stepLbl').textContent = labels[currentPage] || '';
+}
+
+// ─────────────────────────────────────────
+// RENDER ROLES
+// ─────────────────────────────────────────
+const grid = document.getElementById('roleGrid');
+ROLES.forEach(r => {
+  const c = document.createElement('div');
+  c.className = 'role-card'; c.dataset.id = r.id;
+  c.innerHTML = `<input type="radio" name="role" value="${r.id}"/>
+    <div class="r-ck"></div>
+    <div class="r-icon">${r.icon}</div>
+    <div class="r-name">${r.name}</div>
+    <div class="r-tag">${r.tag}</div>`;
+  c.onclick = () => pickRole(r.id);
+  grid.appendChild(c);
+});
+
+function pickRole(id) {
+  selectedRole = id;
+  selectedSub = null;
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('sel'));
+  document.querySelector(`.role-card[data-id="${id}"]`).classList.add('sel');
+  document.querySelectorAll('.sub-row').forEach(s => s.classList.remove('show'));
+  const r = ROLES.find(x => x.id === id);
+  if (r.sub) document.getElementById(r.sub).classList.add('show');
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('rdTitle').textContent = r.desc.title;
+  document.getElementById('rdList').innerHTML = r.desc.points.map(p => `<li>${p}</li>`).join('');
+  document.getElementById('roleDesc').style.display = 'block';
+  document.getElementById('roleErr').classList.remove('show');
+  buildConsents();
+  autoSave();
+}
+
+function setSub(btn, rowId) {
+  document.querySelectorAll(`#${rowId} .sub-btn`).forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  selectedSub = btn.dataset.v;
+  autoSave();
+}
+
+// ─────────────────────────────────────────
+// BUILD ROLE-BASED CONSENTS
+// ─────────────────────────────────────────
+function buildConsents() {
+  if (!selectedRole) return;
+  const r = ROLES.find(x => x.id === selectedRole);
+  const all = [...(r.consents || []), ...SHARED_CONSENTS];
+  const list = document.getElementById('compList');
+  list.innerHTML = '';
+  all.forEach(c => {
+    const lbl = document.createElement('label');
+    lbl.className = 'consent-item' + (c.req ? ' required-c' : '');
+    lbl.setAttribute('onclick', 'toggleConsent(this)');
+    lbl.innerHTML = `<input type="checkbox" onclick="toggleConsent(this.parentElement)" id="${c.id}" ${c.req ? 'data-req="true"' : ''}/>
+      <div class="c-body">
+        <strong>${c.title}${c.req ? ' <span style="color:var(--error)">*</span>' : ''}</strong>
+        <span>${c.body}</span>
+      </div>`;
+    list.appendChild(lbl);
+  });
+}
+
+// ─────────────────────────────────────────
+// CONSENT TOGGLE
+// ─────────────────────────────────────────
+function toggleConsent(label) {
+  const cb = label.querySelector('input');
+  if (cb) { cb.checked = !cb.checked; label.classList.toggle('on', cb.checked); }
+}
+
+// ─────────────────────────────────────────
+// SKILLS
+// ─────────────────────────────────────────
+document.getElementById('skillInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); addSkill(); }
+});
+
+function addSkill() {
+  const inp = document.getElementById('skillInput');
+  const v = inp.value.trim();
+  if (!v) return;
+  if (skills.map(s => s.toLowerCase()).includes(v.toLowerCase())) { inp.value = ''; return; }
+  if (skills.length >= 20) { showToast('Maximum 20 skills'); return; }
+  skills.push(v);
+  renderTags();
+  inp.value = '';
+  document.getElementById('e-skills').classList.remove('show');
+  autoSave();
+}
+
+function removeSkill(s) {
+  skills = skills.filter(x => x !== s);
+  renderTags();
+  autoSave();
+}
+
+function renderTags() {
+  document.getElementById('tagsWrap').innerHTML = skills.map(s =>
+    `<div class="tag">${escHtml(s)}<button type="button" onclick="removeSkill('${s.replace(/'/g, "\\'")}')">×</button></div>`
+  ).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─────────────────────────────────────────
+// DAYS
+// ─────────────────────────────────────────
+function toggleDay(btn) { btn.classList.toggle('on'); autoSave(); }
+
+// ─────────────────────────────────────────
+// SIGNATURE
+// ─────────────────────────────────────────
+const canvas = document.getElementById('sig');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+
+function resizeSig() {
+  const r = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const prevData = hasSig ? canvas.toDataURL() : null;
+  canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = '#0D1F3C'; ctx.lineWidth = 2.2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (prevData && hasSig) {
+    const img = new Image(); img.src = prevData;
+    img.onload = () => ctx.drawImage(img, 0, 0, r.width, r.height);
+  }
+}
+window.addEventListener('resize', resizeSig);
+function exit(){
+  let editBeacon = localStorage.getItem('editAuthBeacon') || null;
+  if(editBeacon){
+    window.location.href = "/home";
+    localStorage.removeItem("editAuthBeacon");
+  } else {
+    window.history.back()
+  }
+  
+}
+function getP(e) {
+  const r = canvas.getBoundingClientRect();
+  if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+canvas.addEventListener('mousedown', e => { drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; document.getElementById('e-sig').classList.remove('show'); });
+canvas.addEventListener('mouseup', () => { drawing = false; captureBlob(); });
+canvas.addEventListener('mouseleave', () => { drawing = false; });
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; }, { passive: false });
+canvas.addEventListener('touchend', () => { drawing = false; captureBlob(); });
+
+function captureBlob() {
+  canvas.toBlob(b => { sigBlob = b; }, 'image/png');
+}
+
+function clearSig() {
+  const r = canvas.getBoundingClientRect();
+  ctx.clearRect(0, 0, r.width, r.height);
+  hasSig = false; sigBlob = null;
+}
+
+// ─────────────────────────────────────────
+// VALIDATION PER PAGE
+// ─────────────────────────────────────────
+function validatePage(page) {
+  if (page === 0) {
+    const ok = document.getElementById('consentPrefill').checked;
+    document.getElementById('consentErr').classList.toggle('show', !ok);
+    return ok;
+  }
+  if (page === 1) {
+    if (!selectedRole) { document.getElementById('roleErr').classList.add('show'); return false; }
+    return true;
+  }
+  if (page === 2) {
+    let ok = true;
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const fields = [
+      { id: 'firstName', check: v => v.trim().length > 0 },
+      { id: 'lastName', check: v => v.trim().length > 0 },
+      { id: 'email', check: v => emailRe.test(v.trim()), msg: 'Enter a valid email address' },
+      { id: 'phone', check: v => v.trim().length >= 7 },
+      { id: 'dob', check: v => v.trim().length > 0 },
+      { id: 'institution', check: v => v.trim().length > 0 },
+      { id: 'programme', check: v => v.trim().length > 0 },
+      { id: 'acYear', check: v => v.trim().length > 0 },
+      { id: 'gender', check: v => v.trim().length > 0 },
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const errEl = document.getElementById(`e-${f.id}`);
+      if (!f.check(el.value)) {
+        el.classList.add('err');
+        if (errEl) errEl.classList.add('show');
+        ok = false;
+      } else {
+        el.classList.remove('err');
+        if (errEl) errEl.classList.remove('show');
+      }
+    });
+    if (!ok) scrollToFirst('.err');
+    return ok;
+  }
+  if (page === 3) {
+    let ok = true;
+    if (skills.length === 0) { document.getElementById('e-skills').classList.add('show'); ok = false; }
+    const simple = ['skillLevel','hours','motivation'];
+    simple.forEach(id => {
+      const el = document.getElementById(id);
+      const errEl = document.getElementById(`e-${id}`);
+      if (!el.value.trim()) { el.classList.add('err'); errEl && errEl.classList.add('show'); ok = false; }
+      else { el.classList.remove('err'); errEl && errEl.classList.remove('show'); }
+    });
+    // motivation min length
+    const mot = document.getElementById('motivation');
+    if (mot.value.trim().length < 20) { mot.classList.add('err'); document.getElementById('e-motivation').classList.add('show'); ok = false; }
+    if (!ok) scrollToFirst('.err');
+    return ok;
+  }
+  if (page === 4) {
+    let ok = true;
+    // All required checkboxes
+    const required = document.querySelectorAll('#compList [data-req="true"]');
+    let allChecked = true;
+    required.forEach(cb => { if (!cb.checked) allChecked = false; });
+    if (!allChecked) { document.getElementById('compErr').classList.add('show'); ok = false; }
+    else document.getElementById('compErr').classList.remove('show');
+    // Signature
+    if (!hasSig) { document.getElementById('e-sig').classList.add('show'); ok = false; }
+    else document.getElementById('e-sig').classList.remove('show');
+    // Legal name
+    const ln = document.getElementById('legalName');
+    const lnErr = document.getElementById('e-legalName');
+    if (!ln.value.trim()) { ln.classList.add('err'); lnErr.classList.add('show'); ok = false; }
+    else { ln.classList.remove('err'); lnErr.classList.remove('show'); }
+    return ok;
+  }
+  return true;
+}
+
+function scrollToFirst(selector) {
+  const el = document.querySelector('.page.active ' + selector);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ─────────────────────────────────────────
+// PAGE NAVIGATION
+// ─────────────────────────────────────────
+function goTo(next) {
+  const cur = document.getElementById(`p${currentPage}`);
+  const nxt = document.getElementById(`p${next}`);
+  cur.classList.add('exit');
+  cur.addEventListener('animationend', () => {
+    cur.classList.remove('active', 'exit');
+    cur.style.opacity = '0'; cur.style.pointerEvents = 'none';
+  }, { once: true });
+  setTimeout(() => {
+    nxt.style.opacity = ''; nxt.style.pointerEvents = '';
+    nxt.classList.add('active', 'enter');
+    nxt.scrollTop = 0;
+    nxt.addEventListener('animationend', () => nxt.classList.remove('enter'), { once: true });
+  }, 200);
+  currentPage = next;
+  renderDots();
+}
+
+function goNext(page) {
+  if (!validatePage(page)) return;
+  if (page === 0) { applyPrefill(); }
+  goTo(page + 1);
+  autoSave();
+}
+
+function goPrev(page) {
+  if (page > 0) goTo(page - 1);
+}
+
+// ─────────────────────────────────────────
+// PREFILL FROM BACKEND DATA
+// ─────────────────────────────────────────
+function applyPrefill() {
+  if (!accountData) return;
+  const pf = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val) { el.value = val; el.classList.add('prefilled'); }
+  };
+
+  // DOB
+  if (accountData.birthYear && accountData.birthMonth && accountData.birthDay) {
+    const m = String(accountData.birthMonth).padStart(2, '0');
+    const d = String(accountData.birthDay).padStart(2, '0');
+    pf('dob', `${accountData.birthYear}-${m}-${d}`);
+  }
+
+  // Gender
+  pf('gender', accountData.gender);
+
+  // Contact
+  pf('phone', accountData.whatsappNumber || accountData.phone);
+
+  // Academic
+  pf('institution', accountData.Institution);
+  pf('programme', accountData.course);
+
+  // Username as first name
+  pf('firstName', accountData.username);
+  pf('legalName', accountData.username);
+
+  // Year — handles DB typos like "Forth Year"
+  const yearMap = {
+    'First Year':  'First Year',  'Year 1': 'First Year',
+    'Second Year': 'Second Year', 'Year 2': 'Second Year',
+    'Third Year':  'Third Year',  'Year 3': 'Third Year',
+    'Fourth Year': 'Fourth Year', 'Year 4': 'Fourth Year', 'Forth Year': 'Fourth Year',
+    'Fifth Year':  'Fifth Year',  'Year 5': 'Fifth Year',
+    'Postgraduate': 'Postgraduate',
+    'Graduated': 'Graduated',
+  };
+  const mappedYear = yearMap[accountData.year] || accountData.year;
+  const acYr = document.getElementById('acYear');
+  for (let opt of acYr.options) {
+    if (opt.value === mappedYear) { acYr.value = mappedYear; acYr.classList.add('prefilled'); break; }
+  }
+}
+// ─────────────────────────────────────────
+// FETCH ACCOUNT DATA
+// ─────────────────────────────────────────
+async function loadAccount() {
+  try {
+    const res = await fetch('/profile', { credentials: 'include' });
+    if (!res.ok) throw new Error('Not authenticated');
+    const data = await res.json();
+    accountData = data;
+    // Populate preview
+    const img = document.getElementById('previewImg');
+    img.src = data.profileLink || '';
+    document.getElementById('previewName').textContent = data.username || 'MMUN Member';
+    document.getElementById('previewMeta').textContent =
+      [data.Institution, data.course, data.year].filter(Boolean).join(' · ');
+    document.getElementById('previewRole').textContent = data.Role || 'Student';
+  } catch (e) {
+    document.getElementById('previewName').textContent = 'Could not load profile';
+    document.getElementById('previewMeta').textContent = 'Make sure you are logged in';
+  }
+}
+
+// ─────────────────────────────────────────
+// AUTO-SAVE (localStorage)
+// ─────────────────────────────────────────
+function gather() {
+  const days = [];
+  document.querySelectorAll('.day.on').forEach(b => days.push(b.textContent));
+  return {
+    firstName: document.getElementById('firstName')?.value || '',
+    lastName: document.getElementById('lastName')?.value || '',
+    email: document.getElementById('email')?.value || '',
+    phone: document.getElementById('phone')?.value || '',
+    dob: document.getElementById('dob')?.value || '',
+    gender: document.getElementById('gender')?.value || '',
+    institution: document.getElementById('institution')?.value || '',
+    programme: document.getElementById('programme')?.value || '',
+    acYear: document.getElementById('acYear')?.value || '',
+    selectedRole, selectedSub, skills,
+    skillLevel: document.getElementById('skillLevel')?.value || '',
+    hours: document.getElementById('hours')?.value || '',
+    portfolio: document.getElementById('portfolio')?.value || '',
+    motivation: document.getElementById('motivation')?.value || '',
+    days,
+    legalName: document.getElementById('legalName')?.value || '',
+    currentPage,
+  };
+}
+
+let saveTimer;
+function autoSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    if (!document.getElementById('consentSave')?.checked) return;
+    try { localStorage.setItem('mmun_app_v2', JSON.stringify(gather())); showToast('Draft saved'); } catch(e) {}
+  }, 700);
+}
+
+function restoreDraft(d) {
+  const s = (id, v) => { const el = document.getElementById(id); if (el && v) el.value = v; };
+  s('firstName',d.firstName); s('lastName',d.lastName); s('email',d.email);
+  s('phone',d.phone); s('dob',d.dob); s('gender',d.gender);
+  s('institution',d.institution); s('programme',d.programme); s('acYear',d.acYear);
+  s('skillLevel',d.skillLevel); s('hours',d.hours); s('portfolio',d.portfolio);
+  s('motivation',d.motivation); s('legalName',d.legalName);
+  if (d.skills) { skills = d.skills; renderTags(); }
+  if (d.selectedRole) setTimeout(() => pickRole(d.selectedRole), 50);
+  if (d.selectedSub) setTimeout(() => {
+    document.querySelectorAll('.sub-btn').forEach(b => { if (b.dataset.v === d.selectedSub) { b.click(); } });
+  }, 150);
+  if (d.days) document.querySelectorAll('.day').forEach(b => { if (d.days.includes(b.textContent)) b.classList.add('on'); });
+}
+
+// ─────────────────────────────────────────
+// SUBMIT
+// ─────────────────────────────────────────
+async function submitForm() {
+  if (!validatePage(4)) return;
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Uploading signature…';
+
+  showLoading('Uploading your signature…');
+
+  let signatureUrl = null;
+
+  try {
+    // 1. Upload signature PNG to backend → ImageKit
+    if (!sigBlob) {
+      // Capture fresh blob
+      await new Promise(resolve => canvas.toBlob(b => { sigBlob = b; resolve(); }, 'image/png'));
+    }
+    const formData = new FormData();
+    formData.append('image', sigBlob, `sig_${Date.now()}.png`);
+
+    const uploadRes = await fetch('/upload-signature', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+    });
+
+    if (!uploadRes.ok) {
+      const err = await uploadRes.json().catch(() => ({}));
+      throw new Error(err.message || 'Signature upload failed');
+    }
+    const uploadData = await uploadRes.json();
+    if (!uploadData.success || !uploadData.url) throw new Error('Signature upload returned no URL');
+    signatureUrl = uploadData.url;
+
+    // 2. Submit application
+    showLoading('Submitting your application…');
+    btn.innerHTML = '<div class="spinner"></div> Submitting…';
+
+    const days = [];
+    document.querySelectorAll('.day.on').forEach(b => days.push(b.textContent));
+
+    const payload = {
+      // Personal
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      dob: document.getElementById('dob').value,
+      gender: document.getElementById('gender').value,
+      // Academic
+      institution: document.getElementById('institution').value.trim(),
+      programme: document.getElementById('programme').value.trim(),
+      acYear: document.getElementById('acYear').value,
+      // Role
+      role: selectedRole,
+      roleSpecialization: selectedSub || null,
+      // Skills
+      skills,
+      skillLevel: document.getElementById('skillLevel').value,
+      hoursPerWeek: document.getElementById('hours').value,
+      portfolio: document.getElementById('portfolio').value.trim(),
+      motivation: document.getElementById('motivation').value.trim(),
+      availableDays: days,
+      // Signature
+      signatureUrl,
+      legalName: document.getElementById('legalName').value.trim(),
+      submittedAt: new Date().toISOString(),
+    };
+
+    const submitRes = await fetch('/apply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(payload),
+    });
+
+    const result = await submitRes.json().catch(() => ({}));
+
+    if (!submitRes.ok) {
+      throw new Error(result.message || `Server error (${submitRes.status})`);
+    }
+
+    // 3. Success
+    localStorage.removeItem('mmun_app_v2');
+    hideLoading();
+    showSuccess();
+
+  } catch (err) {
+    hideLoading();
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Application <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>';
+    // If offline — save locally and queue
+    if (!navigator.onLine) {
+      const cached = { ...gather(), signatureDataUrl: canvas.toDataURL('image/png') };
+      localStorage.setItem('mmun_pending_submit', JSON.stringify(cached));
+      showToast('Saved offline — will auto-submit when you reconnect');
+      window.addEventListener('online', retrySubmit, { once: true });
+    } else {
+      alert(`Submission failed: ${err.message}\n\nYour draft is saved — please try again.`);
+    }
+  }
+}
+
+async function retrySubmit() {
+  const pending = localStorage.getItem('mmun_pending_submit');
+  if (!pending) return;
+  try {
+    // Re-attempt via the normal flow — user needs to re-sign if page was refreshed
+    // But payload data is preserved in draft
+    showToast('Back online! Please re-submit your application.');
+  } catch(e) {}
+}
+
+function showSuccess() {
+  const cur = document.getElementById(`p${currentPage}`);
+  cur.classList.add('exit');
+  cur.addEventListener('animationend', () => { cur.classList.remove('active', 'exit'); }, { once: true });
+  setTimeout(() => {
+    const s = document.getElementById('successPage');
+    s.classList.add('active', 'enter');
+    s.addEventListener('animationend', () => s.classList.remove('enter'), { once: true });
+  }, 220);
+  document.getElementById('stepDots').innerHTML = '';
+  document.getElementById('stepLbl').textContent = '✓ Done';
+}
+
+// ─────────────────────────────────────────
+// UI HELPERS
+// ─────────────────────────────────────────
+function showLoading(msg) {
+  document.getElementById('loadingMsg').textContent = msg || 'Please wait…';
+  document.getElementById('loadingOverlay').classList.add('show');
+}
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('show'); }
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (msg) t.childNodes[1].textContent = ' ' + msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  renderDots();
+  resizeSig();
+  loadAccount();
+  const alrdyApplied = `<%=status.existing%>`
+  if(alrdyApplied == "true"){
+    showSuccess();
+  }
+
+  // Restore draft
+  try {
+    const d = localStorage.getItem('mmun_app_v2');
+    if (d) restoreDraft(JSON.parse(d));
+  } catch(e) {}
+
+  // Auto-save on all inputs
+  document.addEventListener('input', autoSave);
+  document.addEventListener('change', autoSave);
+
+  // Clear errors on fix
+  document.querySelectorAll('input,select,textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('err');
+      const errEl = document.getElementById(`e-${el.id}`);
+      if (errEl) errEl.classList.remove('show');
+    });
+  });
+});
+
+</script>
+</body>
+</html>
