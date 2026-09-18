@@ -87,6 +87,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    background-color: var(--yellowish);
     height: 100%;
     background-color: var(--bg-primary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -100,6 +101,7 @@
     justify-self: center;
     align-items: center;
     max-width: 1000px;
+    height: 100vh;
     background: none;
     width: 100vw;
   }
@@ -233,6 +235,7 @@
   #mainSection {
     height: calc(100vh - 66px);
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     width: 100%;
     margin-top: 60px;
@@ -506,7 +509,7 @@
   border: solid 1px var(--accent-green);
   border-radius: 20px;
   padding-right: auto;
-  height: 25px;
+  height: 23px;
   padding-left: 5px;
   font-size: 1ch;
   background-color: rgb(236, 242, 249);
@@ -702,7 +705,7 @@
 #createBlocks1 {
   display: flex;
   flex-direction: row;
-  margin-top: 5px;
+  margin-top: 3px;
   height: 35px;
 }
 #createBlocks1 #createBlocks11 {
@@ -836,8 +839,9 @@
  #bottomCreateBlock5{
   color: black;
   min-height: 200px;
+  background-color: var(--yellowish);
   gap: 8px;
-  margin-left: 5px;
+  padding-left: 5px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;

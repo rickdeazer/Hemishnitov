@@ -69,12 +69,12 @@
               <button class="major1btns">Saved</button>
               <input type="text" id="searchArena" placeholder="Search.." >
               <button class="major1btns">Attending</button>
-              <button class="major1btns">Create</button>
+              <button id="createArenaBtn" class="major1btns">Create</button>
             </div>
 
 
             <div id="arenaMajor2" class="majorClass">
-              <div class="dataBlocks create">
+              <div class="dataBlocks">
                 <div class="dataBlock">
 
                 <div class="block1">
@@ -242,7 +242,7 @@
                     </div>
 
                   </div>
-                  <div class="specialGuests">
+                  <div class="specialGuests hidden">
                     <label for="specialGs">Special Guests names: </label><br><input placeholder="guest 1, guest 2, guest 3 ..."  id="specialGs" type="text">
                   </div>
                 </div>
@@ -463,6 +463,15 @@
           },
           body: JSON.stringify({ voteData: {vote: vote, page: page} })
         });}
+      const createArena = document.getElementById('createArenaBtn');
+      const arenaMainPage = document.getElementById('arenaMajor2');
+      const closeCreatePage = document.getElementById('createBlocks12');
+      createArena.addEventListener('click',()=>{
+        arenaMainPage.classList.add('createMode');
+      });
+      closeCreatePage.addEventListener('click', ()=>{
+        arenaMainPage.classList.toggle('createMode');
+      })
   </script>
 
 </body>
