@@ -55,8 +55,8 @@
     <section id="mainSection">
       <div id="mainSection-HEADER">
         <div class="mainsection-Header-top tab-bar">
-          <button type="button" class="tab" id="Parties" onclick="showTab('Arenas-BODY')">Arenas</button>
-          <button type="button" class="tab tab-active" id="sentBtn" onclick="showTab('Announcements')">Nounces</button>
+          <button type="button" class="tab tab-active" id="Parties" onclick="showTab('Arenas-BODY')">Arenas</button>
+          <button type="button" class="tab " id="sentBtn" onclick="showTab('Announcements')">Nounces</button>
           <button type="button" class="tab" id="receivedBtn" onclick="showTab('Notics-BODY')">Notics</button>
         </div>
       </div>
@@ -65,72 +65,191 @@
         <!-- Bright Mode Arenas Feed -->
         <div id="Arenas-BODY" class="CONTAINER">
           <div class="arenas-container">
-            <div class="mainsection-Header-bottom">
-          <input type="text" id="notic-Search" placeholder="Search...">
-        </div>
-
-            <!-- Arena Post 1 -->
-            <div class="arena-post">
-              <div class="arena-header">
-                <img src="https://www.shutterstock.com/image-photo/smiling-portrait-young-asian-man-600nw-2492067901.jpg" alt="RickDeazer" class="arena-host-pic">
-                <div class="arena-host-info">
-                  <div class="arena-host-name">RickDeazer</div>
-                  <div class="arena-host-disciples">1.2k Disciples • Master Guide</div>
-                </div>
-                <div class="arena-date">25 Jan 2025</div>
-              </div>
-
-              <div class="arena-image">
-                <img src="https://andyblumenthal.wordpress.com/wp-content/uploads/2010/10/slide1.jpg?w=640" alt="Science Congress">
-              </div>
-
-              <div class="arena-content">
-                <h2 class="arena-title">THE NATIONAL SCIENCE CONGRESS</h2>
-                <p class="arena-desc">
-                  A grand summit of minds. Guest speakers unveil cutting-edge tech revelations. Compete, learn, ascend. All seekers of knowledge are summoned.
-                </p>
-              </div>
-
-              <div class="arena-actions">
-                <button class="enter-btn"><span class="disciples-icon">💨</span>Join</button>
-                <button class="inspire-btn"><span class="disciples-icon">💖</span>Inspire </button>
-                <div class="disciples-count">
-                  842
-                </div>
-              </div>
+            <div id="arenaMajor1" class="majorClass">
+              <button class="major1btns">Saved</button>
+              <input type="text" id="searchArena" placeholder="Search.." >
+              <button class="major1btns">Attending</button>
+              <button class="major1btns">Create</button>
             </div>
 
-            <!-- Arena Post 2 -->
-            <div class="arena-post">
-              <div class="arena-header">
-                <img src="https://img.freepik.com/free-photo/selfie-portrait-videocall_23-2149186122.jpg?semt=ais_hybrid&w=740&q=80" alt="BAIH" class="arena-host-pic">
-                <div class="arena-host-info">
-                  <div class="arena-host-name">BAIH</div>
-                  <div class="arena-host-disciples">890 Disciples • Celebration Lord</div>
+
+            <div id="arenaMajor2" class="majorClass">
+              <div class="dataBlocks create">
+                <div class="dataBlock">
+
+                <div class="block1">
+                  <img src="/uploads/profile/1769451493625-344507759-colorMMUNlogo.png" alt="" class="userPic">
+                  <h3 class="arenaTitle">HELLO WORLD THIS IS RICK, HELLO WORLD THIS IS RICKDEAZER OF THE AEROSPACE ORGANIZATION</h3>
                 </div>
-                <div class="arena-date">2 Feb 2026</div>
-              </div>
 
-              <div class="arena-image">
-                <img src="https://cdn.voyageaustin.com/wp-content/uploads/2021/12/HitchthePhotoTrailerFeaturedPhoto1.jpg" alt="Birthday Party">
-              </div>
+                <div class="block2">
+                  <div class="block21">
+                    <div class="arenaLabel">Host:</div>
+                    <div class="arenaDetail">RickDeazer</div>
 
-              <div class="arena-content">
-                <h2 class="arena-title">MY BIRTHDAY PARTY</h2>
-                <p class="arena-desc">
-                  The annual rite of joy returns. Music thunders through the night. Feasts, dance, unbreakable bonds. My circle — especially Computer Science clan — you are called.
-                </p>
-              </div>
+                    <div class="arenaLabel">Date:</div>
+                    <div class="arenaDetail">14th of November</div>
 
-              <div class="arena-actions">
-                <button class="enter-btn">Join</button>
-                <button class="inspire-btn">Inspire</button>
-                <div class="disciples-count">
-                  <span class="disciples-icon">👁️</span> 156
+                    <div class="arenaLabel">Time:</div>
+                    <div class="arenaDetail">10:00am
+                      =>
+                      10:00pm
+                    </div>
+                    <div class="arenaLabel">Venue:</div>
+                    <div class="arenaDetail">Students Centre</div>
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
                 </div>
+
+                <div class="block3">
+                  <div class="block31">
+                    <h4 class="arena-description">We higly welcome you to this auspicious event where major guests and alumni from the school of engineering will be joining us for the 50years of celebrating our togetherness and celebration. engineering will be joining us for the 50years of celebrating our togetherness and celebration.</h4>
+                  </div>
+                  <div class="block32">
+                    <div class="block321">
+                      <h4 class="arenaCounts">Joined: 200</h4>
+                      <h4 class="arenaCounts">Likes: 200</h4>
+                    </div>
+                    <div class="block322">
+                      <button class="arenaCtions" id="joinArena">Joined</button>
+                    <button class="arenaCtions" id="likeArena">Liked</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="dataBlock">
+
+                <div class="block1">
+                  <img src="/uploads/profile/1776869959458-346603031-Beige-and-Green-Organic-Watercolor-Personal-Instagram-Post-(1).png" alt="" class="userPic">
+                  <h3   class="arenaTitle">HELLO WORLD THIS IS RICK, HELLO WORLD THIS IS RICKDEAZER OF THE AEROSPACE ORGANIZATION</h3>
+                </div>
+
+                <div class="block2">
+                  <div class="block21">
+                    <div class="arenaLabel">Host:</div>
+                    <div class="arenaDetail">RickDeazer</div>
+
+                    <div class="arenaLabel">Date:</div>
+                    <div class="arenaDetail">14th of November</div>
+
+                    <div class="arenaLabel">Time:</div>
+                    <div class="arenaDetail">10:00am
+                      =>
+                      10:00pm
+                    </div>
+                    <div class="arenaLabel">Venue:</div>
+                    <div class="arenaDetail">Students Centre</div>
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                </div>
+
+                <div class="block3">
+                  <div class="block31">
+                    <h4 class="arena-description">We higly welcome you to this auspicious event where major guests and alumni from the school of engineering will be joining us for the 50years of celebrating our togetherness and celebration. engineering will be joining us for the 50years of celebrating our togetherness and celebration.</h4>
+                  </div>
+                  <div class="block32">
+                    <button class="arenaCtions" id="joinArena">Join </button>
+                    <button class="arenaCtions" id="likeArena">Like</button>
+                  </div>
+                </div>
+
+              </div>
+              </div>
+              <div class="createArena">
+
+
+                <div class="createBlocks" id="createBlocks1">
+                  <h3 id="createBlocks11">EASILY CREATE AN ARENA AND WE'LL HOST</h3>
+                  <h2 id="createBlocks12">X</h2>
+                </div>
+
+
+
+                <div class="createBlocks" id="createBlocks2">
+                <div id="createBlocks21">
+                  <label for="arenaTitle">TITLE:</label>
+                  <textarea rows="1" type="text" name="arenaTitle" placeholder=""></textarea>
+                </div>
+
+                <button id="postArenabtn" class="btn createBlocks22">POST</button>
+                </div>
+
+
+                <div class="createBlocks" id="addedAssetsBlock">
+                  <div class="arenaAddedImageBlocks">
+                    <div class="cancelAddedImage">\</div>
+                    <img src="" alt="" class="previewAddedImage">
+                  </div>
+                  <div class="arenaAddedImageBlocks">
+                    <div class="cancelAddedImage">\</div>
+                    <img src="" alt="" class="previewAddedImage">
+                  </div>
+                  <div class="arenaAddedImageBlocks">
+                    <div class="cancelAddedImage">\</div>
+                    <img src="" alt="" class="previewAddedImage">
+                  </div>
+                </div>
+
+
+                <div id="createCentralBlock" class="createBlocks">
+                  <button class="addNewItemBtn">ADD IMAGES</button>
+                  <h3 class="newItemsAdded">3/6 IMAGES ADDED</h3>
+                </div>
+
+
+                <div id="bottomCreateBlock5" class="createBlocks">
+                  <div class="bottomBlock1">
+                    <h4>??Answer these 6 relevant questions</h4>
+                  </div>
+
+                  <div class="bottomBlock2">
+                    <div class="arenaDataField"><label for="CDate">Date of Event:</label><input type="date" id="CDate"></div>
+                    <div class="arenaDataField"><label for="CVenue">Venue/ Where to happen:</label><input type="text" id="CVenue"></div>
+                    <div class="arenaDataField"><label for="CSpan">Time of event: <span style="font-weight: bold;">  FROM:</span></label><div class="smallTime">
+                      <input class="timeToAttend" id="CSpan" type="time">
+                    <label for="TO" class="timeToAttendLabel">TO:</label><input id="TO" class="timeToAttend" type="time">
+                    </div>
+                    </div>
+                    <div class="arenaDataField"><label for="CTarget">Whom do you target: </label><input id="CTarget" type="text"></div>
+                    <div class="arenaDataField"><label for="CMinAttendance">Attendance Cap: MIN</label><input type="text" id="CMinAttendance"></div>
+                    <div class="arenaDataField"><label for="CJBefore">Should Join Before:</label><input id="CJBefore" type="text"></div>
+                    <div class="arenaDataField"><label for="CEDetail">Describe the event in detail:</label><input type="text" id="CEDetail"></div>
+                  </div>
+
+                  <div id="bottomBay5" class="bottomBlocks">
+                    <h2 class="specialGstxt">Are there any special guests?</h2>
+
+                    <div class="buttonDivider">
+                      <button class="option dotyes">YES</button>
+                    <button class="option dotno">NO</button>
+                    </div>
+
+                  </div>
+                  <div class="specialGuests">
+                    <label for="specialGs">Special Guests names: </label><br><input placeholder="guest 1, guest 2, guest 3 ..."  id="specialGs" type="text">
+                  </div>
+                </div>
+
+
               </div>
             </div>
-
           </div>
         </div>
 
@@ -335,7 +454,7 @@
       if (containerId === 'Notics-BODY') document.getElementById('receivedBtn').classList.add('tab-active');
     }
 
-    showTab('Announcements');
+    showTab('Arenas-BODY');
     function sendfeedback(vote,page) {
         fetch('/feedback/page/vote', {
           method: 'POST',

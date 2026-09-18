@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="rgb(77, 4, 4)">
+  <title>Notics</title>
+
+  <link rel="stylesheet" href="notics.css">
+
+  <!-- Material Symbols for header icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+  <div id="NOTICS-PAGE">
+    <section id="HEADER">
+      <div id="HEADER-TOP-DIV">
+        <div id="APP-DETAILS">
+          <div id="HEADER-LOGO"></div>
+          <div id="HEADER-APPNAME"><h2>MMUN</h2></div>
+        </div>  
+
+        <div id="HEADER-BTNS">
+            <button onclick="document.documentElement.classList.toggle('light-mode'); setAndroidHeaderColor(document.documentElement.classList.contains('light-mode') ? '#10330D' : '#5B2A90');" 
+        style="position:fixed; bottom:20px; right:20px; z-index:999; padding:10px; border-radius:50%; background:#9333ea; color:white; border:none;">
+  🌙
+</button>
+          <button onclick="setAndroidHeaderColor('#1B5A1B'); window.location.href='/home'" class="HEADER-BTNS">
+            <img class="imgSvg" src="/Assets/home_24GREEN.svg" alt="">
+          </button>
+          <button onclick="setAndroidHeaderColor('#651E5E'); window.location.href='/jobs'" class="HEADER-BTNS">
+            <img class="imgSvg" src="/Assets/business_center_24dp_75FB4C_FILL0_wght400_GRAD0_opsz24.svg" alt="jobs">
+          </button>
+        </div>
+
+        <div id="USER-DETAILS">
+          <div id="HEADER-USERNAME"><h3>RickDeazer</h3></div>
+          <a href="/userProfile">
+            <div id="HEADER-PROFILEPIC" 
+              
+                style="background: url('https://ik.imagekit.io/MMUN/profile/1777581783894-4326557-animals-9533774_1280_1copBv1yA.webp'); background-size: cover; background-position: center;"
+              >
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Section -->
+    <section id="mainSection">
+      <div id="mainSection-HEADER">
+        <div class="mainsection-Header-top tab-bar">
+          <button type="button" class="tab tab-active" id="Parties" onclick="showTab('Arenas-BODY')">Arenas</button>
+          <button type="button" class="tab " id="sentBtn" onclick="showTab('Announcements')">Nounces</button>
+          <button type="button" class="tab" id="receivedBtn" onclick="showTab('Notics-BODY')">Notics</button>
+        </div>
+      </div>
+
+      <div id="BODIES">
+        <!-- Bright Mode Arenas Feed -->
+        <div id="Arenas-BODY" class="CONTAINER">
+          <div class="arenas-container">
+            <div id="arenaMajor1" class="majorClass">
+              <button class="major1btns">Saved</button>
+              <input type="text" id="searchArena" placeholder="Search.." >
+              <button class="major1btns">Attending</button>
+              <button class="major1btns">Create</button>
+            </div>
+
+
+            <div id="arenaMajor2" class="majorClass">
+              <div class="dataBlocks create">
+                <div class="dataBlock">
+
+                <div class="block1">
+                  <img src="/uploads/profile/1769451493625-344507759-colorMMUNlogo.png" alt="" class="userPic">
+                  <h3 class="arenaTitle">HELLO WORLD THIS IS RICK, HELLO WORLD THIS IS RICKDEAZER OF THE AEROSPACE ORGANIZATION</h3>
+                </div>
+
+                <div class="block2">
+                  <div class="block21">
+                    <div class="arenaLabel">Host:</div>
+                    <div class="arenaDetail">RickDeazer</div>
+
+                    <div class="arenaLabel">Date:</div>
+                    <div class="arenaDetail">14th of November</div>
+
+                    <div class="arenaLabel">Time:</div>
+                    <div class="arenaDetail">10:00am
+                      =>
+                      10:00pm
+                    </div>
+                    <div class="arenaLabel">Venue:</div>
+                    <div class="arenaDetail">Students Centre</div>
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                </div>
+
+                <div class="block3">
+                  <div class="block31">
+                    <h4 class="arena-description">We higly welcome you to this auspicious event where major guests and alumni from the school of engineering will be joining us for the 50years of celebrating our togetherness and celebration. engineering will be joining us for the 50years of celebrating our togetherness and celebration.</h4>
+                  </div>
+                  <div class="block32">
+                    <div class="block321">
+                      <h4 class="arenaCounts">Joined: 200</h4>
+                      <h4 class="arenaCounts">Likes: 200</h4>
+                    </div>
+                    <div class="block322">
+                      <button class="arenaCtions" id="joinArena">Joined</button>
+                    <button class="arenaCtions" id="likeArena">Liked</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="dataBlock">
+
+                <div class="block1">
+                  <img src="/uploads/profile/1776869959458-346603031-Beige-and-Green-Organic-Watercolor-Personal-Instagram-Post-(1).png" alt="" class="userPic">
+                  <h3   class="arenaTitle">HELLO WORLD THIS IS RICK, HELLO WORLD THIS IS RICKDEAZER OF THE AEROSPACE ORGANIZATION</h3>
+                </div>
+
+                <div class="block2">
+                  <div class="block21">
+                    <div class="arenaLabel">Host:</div>
+                    <div class="arenaDetail">RickDeazer</div>
+
+                    <div class="arenaLabel">Date:</div>
+                    <div class="arenaDetail">14th of November</div>
+
+                    <div class="arenaLabel">Time:</div>
+                    <div class="arenaDetail">10:00am
+                      =>
+                      10:00pm
+                    </div>
+                    <div class="arenaLabel">Venue:</div>
+                    <div class="arenaDetail">Students Centre</div>
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                  <div class="block22">
+
+                  </div>
+                </div>
+
+                <div class="block3">
+                  <div class="block31">
+                    <h4 class="arena-description">We higly welcome you to this auspicious event where major guests and alumni from the school of engineering will be joining us for the 50years of celebrating our togetherness and celebration. engineering will be joining us for the 50years of celebrating our togetherness and celebration.</h4>
+                  </div>
+                  <div class="block32">
+                    <button class="arenaCtions" id="joinArena">Join </button>
+                    <button class="arenaCtions" id="likeArena">Like</button>
+                  </div>
+                </div>
+
+              </div>
+              </div>
+              <div class="createArena">
+
+
+                <div class="createBlocks" id="createBlocks1">
+                  <h3 id="createBlocks11">EASILY CREATE AN ARENA AND WE'LL HOST</h3>
+                  <h2 id="createBlocks12">X</h2>
+                </div>
+
+
+
+                <div class="createBlocks" id="createBlocks2">
+                <div id="createBlocks21">
+                  <label for="arenaTitle">TITLE:</label>
+                  <textarea rows="1" type="text" name="arenaTitle" placeholder=""></textarea>
+                </div>
+
+                <button id="postArenabtn" class="btn createBlocks22">POST</button>
+                </div>
+
+
+                <div class="createBlocks" id="addedAssetsBlock">
+                  <div class="arenaAddedImageBlocks">
+                    <div class="cancelAddedImage">\</div>
+                    <img src="" alt="" class="previewAddedImage">
+                  </div>
+                  <div class="arenaAddedImageBlocks">
+                    <div class="cancelAddedImage">\</div>
+                    <img src="" alt="" class="previewAddedImage">
+                  </div>
+                  <div class="arenaAddedImageBlocks">
+                    <div class="cancelAddedImage">\</div>
+                    <img src="" alt="" class="previewAddedImage">
+                  </div>
+                </div>
+
+
+                <div id="createCentralBlock" class="createBlocks">
+                  <button class="addNewItemBtn">ADD IMAGES</button>
+                  <h3 class="newItemsAdded">3/6 IMAGES ADDED</h3>
+                </div>
+
+
+                <div id="bottomCreateBlock5" class="createBlocks">
+                  <div class="bottomBlock1">
+                    <h4>??Answer these 6 relevant questions</h4>
+                  </div>
+
+                  <div class="bottomBlock2">
+                    <div class="arenaDataField"><label for="CDate">Date of Event:</label><input type="date" id="CDate"></div>
+                    <div class="arenaDataField"><label for="CVenue">Venue/ Where to happen:</label><input type="text" id="CVenue"></div>
+                    <div class="arenaDataField"><label for="CSpan">Time of event: <span style="font-weight: bold;">  FROM:</span></label><div class="smallTime">
+                      <input class="timeToAttend" id="CSpan" type="time">
+                    <label for="TO" class="timeToAttendLabel">TO:</label><input id="TO" class="timeToAttend" type="time">
+                    </div>
+                    </div>
+                    <div class="arenaDataField"><label for="CTarget">Whom do you target: </label><input id="CTarget" type="text"></div>
+                    <div class="arenaDataField"><label for="CMinAttendance">Attendance Cap: MIN</label><input type="text" id="CMinAttendance"></div>
+                    <div class="arenaDataField"><label for="CJBefore">Should Join Before:</label><input id="CJBefore" type="text"></div>
+                    <div class="arenaDataField"><label for="CEDetail">Describe the event in detail:</label><input type="text" id="CEDetail"></div>
+                  </div>
+
+                  <div id="bottomBay5" class="bottomBlocks">
+                    <h2 class="specialGstxt">Are there any special guests?</h2>
+
+                    <div class="buttonDivider">
+                      <button class="option dotyes">YES</button>
+                    <button class="option dotno">NO</button>
+                    </div>
+
+                  </div>
+                  <div class="specialGuests">
+                    <label for="specialGs">Special Guests names: </label><br><input placeholder="guest 1, guest 2, guest 3 ..."  id="specialGs" type="text">
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notics-BODY (unchanged) -->
+        <div id="Announcements" class="CONTAINER">
+          <div class="announcements-container">
+
+            <!-- Sample Notic 1: Mention in comment -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://www.shutterstock.com/image-photo/smiling-portrait-young-asian-man-600nw-2492067901.jpg');"></div>
+                <div>
+                  <div class="announcement-username">RickDeazer</div>
+                  <div class="text-sm text-gray-600">mentioned you in a comment</div>
+                </div>
+                <div class="announcement-time">3h ago</div>
+              </div>
+              <div class="announcement-body"> check out my new arena post! You'd love this science congress 🔥"
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-blue-600 hover:bg-blue-700">View Arena</button>
+              </div>
+            </div>
+
+            <!-- Sample Notic 2: Friend Request -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://img.freepik.com/free-photo/selfie-portrait-videocall_23-2149186122.jpg?semt=ais_hybrid&w=740&q=80');"></div>
+                <div>
+                  <div class="announcement-username">BAIH</div>
+                  <div class="text-sm text-gray-600">sent you a friend request</div>
+                </div>
+                <div class="announcement-time">5h ago</div>
+              </div>
+              <div class="announcement-body">
+                BAIH wants to connect with you on MMUN.
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-green-600 hover:bg-green-700 mr-3">Accept</button>
+                <button class="keep-btn bg-gray-500 hover:bg-gray-600">Decline</button>
+              </div>
+            </div>
+
+            <!-- Sample Notic 3: Event Reminder -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background: #ccc;"></div>
+                <div>
+                  <div class="announcement-username">System</div>
+                  <div class="text-sm text-gray-600">event reminder</div>
+                </div>
+                <div class="announcement-time">1d ago</div>
+              </div>
+              <div class="announcement-body">
+                Don't forget: You're attending <strong>THE NATIONAL SCIENCE CONGRESS</strong> tomorrow at 10 AM!
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-indigo-600 hover:bg-indigo-700">View Event</button>
+              </div>
+            </div>
+
+            <!-- Sample Notic 4: New Follower -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                <div>
+                  <div class="announcement-username">Sarah_K</div>
+                  <div class="text-sm text-gray-600">started following you</div>
+                </div>
+                <div class="announcement-time">2d ago</div>
+              </div>
+              <div class="announcement-body">
+                Sarah_K is now following your arenas and announcements.
+              </div>
+              <div class="announcement-footer">
+                <button class="keep-btn bg-blue-600 hover:bg-blue-700">Follow Back</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Announcements (unchanged) -->
+        <div id="Notics-BODY" class="CONTAINER">
+          <div class="announcements-container">
+
+            <!-- Top buttons -->
+            <div class="announcements-header">
+              <button class="btn-kept">Kept</button>
+              <button class="btn-announce">Announce</button>
+              <button class="btn-timetable">Timetable</button>
+            </div>
+
+            <!-- Sample Announcement 1 -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://www.shutterstock.com/image-photo/smiling-portrait-young-asian-man-600nw-2492067901.jpg');"></div>
+                <div>
+                  <div class="announcement-username">RickDeazer</div>
+                </div>
+                <div class="announcement-time">Posted 2h ago</div>
+              </div>
+              <div class="announcement-body">
+                All students are reminded to submit their project proposals by the end of this week. Late submissions will not be accepted. Contact your supervisor if you have any questions.
+              </div>
+              <div class="announcement-footer">
+                <div class="end-time">Ends: 31st Dec 2025</div>
+                <button class="keep-btn">Keep</button>
+              </div>
+            </div>
+
+            <!-- Sample Announcement 2 -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background-image: url('https://img.freepik.com/free-photo/selfie-portrait-videocall_23-2149186122.jpg?semt=ais_hybrid&w=740&q=80');"></div>
+                <div>
+                  <div class="announcement-username">BAIH</div>
+                </div>
+                <div class="announcement-time">Posted 5h ago</div>
+              </div>
+              <div class="announcement-body">
+                The Computer Science department will be hosting a guest lecture on Artificial Intelligence and Machine Learning next Tuesday at 2 PM in Lecture Hall 3. Attendance is mandatory for all final-year students.
+              </div>
+              <div class="announcement-footer">
+                <div class="end-time">Ends: 5th Jan 2026</div>
+                <button class="keep-btn kept">Kept</button>
+              </div>
+            </div>
+
+            <!-- Sample Announcement 3 -->
+            <div class="announcement-post">
+              <div class="announcement-header">
+                <div class="announcement-profile" style="background: #ccc;"></div>
+                <div>
+                  <div class="announcement-username">AdminOffice</div>
+                </div>
+                <div class="announcement-time">Posted 1 day ago</div>
+              </div>
+              <div class="announcement-body">
+                Campus will remain closed on 1st January 2026 for New Year holidays. Classes will resume on 2nd January. Enjoy the break responsibly!
+              </div>
+              <div class="announcement-footer">
+                <div class="end-time">Ends: 2nd Jan 2026</div>
+                <button class="keep-btn">Keep</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="feedBackMVP">
+      <h3>NOTE! <span onclick="document.querySelector('#feedBackMVP').style.display='none'">x</span></h3>
+      <div id="x">
+        <h4>MMUN is currently an MVP</h4>
+      <h5>This means some features like this one have been disabled to avoid overwhelming or confusing our users.</h5>
+      </div>
+      <div >
+        <button id="options" onclick="document.getElementById('whatToDo').style.display = 'block'">What was this feature meant to do?</button>
+        <div id="whatToDo" style="display: none">
+          <p> This feature will allow you to post an Arena such as a birthday party or a bash so that other comrades can join you event</p>
+          <p>This feature will also allow you to subscribe to an announcer e.g. your classrep and view announcements from them, or rather become an announcer so people can subscribe to your announcements.</p>
+          <p>We decided to disable this feature for now to avoid overwhelming our users with too many features at once, and to focus on perfecting the core experience of MMUN.</p>
+          <div>
+            <button onclick="document.getElementById('whatToDo').style.display = 'none'">Got it!</button>
+            <button class="voteBtn" id="voteToComeTrue" onclick=" 
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');alert('Thankyou for the vote.'); 
+              sendfeedback('true','notics');
+            ">Bring this feature</button>
+           <button class="voteBtn" id="voteToComeFalse" 
+            onclick="
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');
+              alert('Thanks for voting'); 
+              sendfeedback('false','notics'); 
+            ">
+            Don't bring this feature
+      </button>
+            <button class="voteBtn" id="voteToComeNeutral" 
+            onclick="
+              document.querySelectorAll('.voteBtn').forEach(btn => btn.style.display='none');
+              alert('Thanks for the opinion'); x
+              sendfeedback('improve', 'jobs'); 
+            ">
+            Improve current features</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="/dist/androidNotification.js"></script>
+    <script src="/dist/androidHeader.js"></script>
+    <script>
+    function showTab(containerId) {
+      
+      document.querySelectorAll('.CONTAINER').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(containerId).classList.add('active');
+
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('tab-active'));
+      if (containerId === 'Arenas-BODY') document.getElementById('Parties').classList.add('tab-active');
+      if (containerId === 'Announcements') document.getElementById('sentBtn').classList.add('tab-active');
+      if (containerId === 'Notics-BODY') document.getElementById('receivedBtn').classList.add('tab-active');
+    }
+
+    showTab('Arenas-BODY');
+    function sendfeedback(vote,page) {
+        fetch('/feedback/page/vote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ voteData: {vote: vote, page: page} })
+        });}
+  </script>
+
+</body>
+</html>
