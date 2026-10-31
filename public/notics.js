@@ -1,173 +1,35 @@
-/* ============================================================
-   notics.js  –  PRODUCTION VERSION
-   ============================================================ */
-
-"use strict";
-
-/* ── Shared helpers ─────────────────────────────────────── */
-
-async function _post(url, body = {}) {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`POST ${url} → ${res.status}`);
-  return res.json();
-}
-
-async function _del(url) {
-  const res = await fetch(url, { method: "DELETE" });
-  if (!res.ok) throw new Error(`DELETE ${url} → ${res.status}`);
-  return res.json();
-}
-
-function _makeModal(id, innerHTML) {
-  let m = document.getElementById(id);
-  if (!m) {
-    m = document.createElement("div");
-    m.id = id;
-    m.style.cssText =
-      "display:none; position:fixed; inset:0; z-index:10000;" +
-      "align-items:center; justify-content:center;" +
-      "background:rgba(8,2,12,0.94);";
-    m.innerHTML = innerHTML;
-    document.body.appendChild(m);
-  }
-  return m;
-}
-
-function _showModal(id) {
-  const m = document.getElementById(id);
-  if (m) m.style.display = "flex";
-}
-
-function _hideModal(id) {
-  const m = document.getElementById(id);
-  if (m) m.style.display = "none";
-}
-
-/* ── Notics (system / social notifications) ─────────────── */
-
-const Notics = (() => {
-
-  function viewArena(btn, arenaId) {
-    Arenas.viewArena(btn, arenaId);
-  }
-
-  function viewFriendRequest(btn, senderId) {
-    alert(`Viewing friend request from: ${senderId}`);
-  }
-
-  function viewEvent(btn, arenaId) {
-    Arenas.viewArena(btn, arenaId);
-  }
-
-  async function followBack(btn, targetUserId) {
-    btn.disabled = true;
-    try {
-      await _post(`/follow/${targetUserId}`);
-      btn.textContent = "Following";
-    } catch {
-      alert("Could not follow back.");
-    } finally {
-      btn.disabled = false;
-    }
-  }
-
-  function init() { /* no top-level bindings needed for Notics */ }
-
-  return { viewArena, viewFriendRequest, viewEvent, followBack, init };
-})();
-
-/* ── Arenas ─────────────────────────────────────────────── */
-
-const Arenas = (() => {
-
-  async function viewArena(btn, arenaId) {
-    try {
-      const res = await fetch(`/arenas/${arenaId}`);
-      if (!res.ok) throw new Error("Failed to fetch arena details.");
-      const arena = await res.json();
-
-      const html = `
+"use strict";async function _post(s,c={}){const r=await fetch(s,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(c)});if(!r.ok)throw new Error(`POST ${s} \u2192 ${r.status}`);return r.json()}async function _del(s){const c=await fetch(s,{method:"DELETE"});if(!c.ok)throw new Error(`DELETE ${s} \u2192 ${c.status}`);return c.json()}function _makeModal(s,c){let r=document.getElementById(s);return r||(r=document.createElement("div"),r.id=s,r.style.cssText="display:none; position:fixed; inset:0; z-index:10000;align-items:center; justify-content:center;background:rgba(8,2,12,0.94);",r.innerHTML=c,document.body.appendChild(r)),r}function _showModal(s){const c=document.getElementById(s);c&&(c.style.display="flex")}function _hideModal(s){const c=document.getElementById(s);c&&(c.style.display="none")}const Notics=(()=>{function s(m,b){Arenas.viewArena(m,b)}function c(m,b){alert(`Viewing friend request from: ${b}`)}function r(m,b){Arenas.viewArena(m,b)}async function h(m,b){m.disabled=!0;try{await _post(`/follow/${b}`),m.textContent="Following"}catch{alert("Could not follow back.")}finally{m.disabled=!1}}function f(){}return{viewArena:s,viewFriendRequest:c,viewEvent:r,followBack:h,init:f}})(),Arenas=(()=>{async function s(l,p){try{const a=await fetch(`/arenas/${p}`);if(!a.ok)throw new Error("Failed to fetch arena details.");const d=await a.json(),g=`
         <div class="arena-modal">
           <div class="modal-content" style="max-width:480px;">
             <div class="modal-header">
-              <div class="modal-title">🏟️ ${arena.title}</div>
-              <button class="close-btn" onclick="Arenas.closeArenaModal()">✕</button>
+              <div class="modal-title">\u{1F3DF}\uFE0F ${d.title}</div>
+              <button class="close-btn" onclick="Arenas.closeArenaModal()">\u2715</button>
             </div>
             <div class="modal-body">
-              <p>${arena.description}</p>
-              <p><strong>Attendees:</strong> <span class="attendee-count">${arena.attendees}</span></p>
-              <p><strong>Inspired:</strong> <span class="inspire-count">${arena.inspired}</span></p>
+              <p>${d.description}</p>
+              <p><strong>Attendees:</strong> <span class="attendee-count">${d.attendees}</span></p>
+              <p><strong>Inspired:</strong> <span class="inspire-count">${d.inspired}</span></p>
             </div>
             <div class="modal-footer">
               <button class="btn-cancel" onclick="Arenas.closeArenaModal()">Close</button>
-              <button class="btn-action" onclick="Arenas.joinArena(this, '${arena._id}')">Join Arena</button>
-              <button class="btn-action${arena.userInspired ? " inspired" : ""}"
-                      onclick="Arenas.toggleInspire(this, '${arena._id}')">
-                ${arena.userInspired ? "Inspired" : "Inspire"}
+              <button class="btn-action" onclick="Arenas.joinArena(this, '${d._id}')">Join Arena</button>
+              <button class="btn-action${d.userInspired?" inspired":""}"
+                      onclick="Arenas.toggleInspire(this, '${d._id}')">
+                ${d.userInspired?"Inspired":"Inspire"}
               </button>
             </div>
           </div>
-        </div>`;
-
-      _makeModal("arena-view-modal", html);
-      _showModal("arena-view-modal");
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  function closeArenaModal() {
-    _hideModal("arena-view-modal");
-  }
-
-  async function joinArena(btn, arenaId) {
-    btn.disabled = true;
-    try {
-      await _post(`/arenas/${arenaId}/join`);
-      const countEl = document.querySelector(".arena-modal .attendee-count");
-      if (countEl) countEl.textContent = parseInt(countEl.textContent) + 1;
-      btn.textContent = "Joined!";
-    } catch {
-      alert("Could not join arena.");
-      btn.disabled = false;
-    }
-  }
-
-  async function toggleInspire(btn, arenaId) {
-    const isInspired = btn.classList.contains("inspired");
-    try {
-      if (isInspired) {
-        await _del(`/arenas/${arenaId}/inspire`);
-      } else {
-        await _post(`/arenas/${arenaId}/inspire`);
-      }
-      btn.classList.toggle("inspired");
-      btn.textContent = isInspired ? "Inspire" : "Inspired";
-      const countEl = document.querySelector(".arena-modal .inspire-count");
-      if (countEl) {
-        countEl.textContent = parseInt(countEl.textContent) + (isInspired ? -1 : 1);
-      }
-    } catch {
-      alert("Failed to toggle inspire.");
-    }
-  }
-
-  function openPostModal() {
-    const html = `
+        </div>`;_makeModal("arena-view-modal",g),_showModal("arena-view-modal")}catch(a){alert(a.message)}}function c(){_hideModal("arena-view-modal")}async function r(l,p){l.disabled=!0;try{await _post(`/arenas/${p}/join`);const a=document.querySelector(".arena-modal .attendee-count");a&&(a.textContent=parseInt(a.textContent)+1),l.textContent="Joined!"}catch{alert("Could not join arena."),l.disabled=!1}}async function h(l,p){const a=l.classList.contains("inspired");try{a?await _del(`/arenas/${p}/inspire`):await _post(`/arenas/${p}/inspire`),l.classList.toggle("inspired"),l.textContent=a?"Inspire":"Inspired";const d=document.querySelector(".arena-modal .inspire-count");d&&(d.textContent=parseInt(d.textContent)+(a?-1:1))}catch{alert("Failed to toggle inspire.")}}function f(){_makeModal("arena-post-modal",`
       <div class="arena-modal small-popup">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">🏟️ Post New Arena</div>
-            <button class="close-btn" onclick="Arenas.closePostModal()">✕</button>
+            <div class="modal-title">\u{1F3DF}\uFE0F Post New Arena</div>
+            <button class="close-btn" onclick="Arenas.closePostModal()">\u2715</button>
           </div>
           <div class="modal-body">
             <input type="text" id="arena-title" placeholder="Arena Title"
                    style="width:100%; padding:10px; margin-bottom:10px;">
-            <textarea id="arena-desc" rows="4" placeholder="Description…"
+            <textarea id="arena-desc" rows="4" placeholder="Description\u2026"
                       style="width:100%; padding:10px;"></textarea>
             <div id="arena-error" style="color:red; display:none; margin-top:10px;"></div>
           </div>
@@ -176,132 +38,22 @@ const Arenas = (() => {
             <button class="btn-action" onclick="Arenas.submitArena()">Post Arena</button>
           </div>
         </div>
-      </div>`;
-
-    _makeModal("arena-post-modal", html);
-    _showModal("arena-post-modal");
-  }
-
-  function closePostModal() {
-    _hideModal("arena-post-modal");
-  }
-
-  async function submitArena() {
-    const title   = document.getElementById("arena-title").value.trim();
-    const desc    = document.getElementById("arena-desc").value.trim();
-    const errorEl = document.getElementById("arena-error");
-    const btn     = document.querySelector("#arena-post-modal .btn-action");
-
-    errorEl.style.display = "none";
-
-    if (!title) {
-      errorEl.textContent = "Title is required.";
-      errorEl.style.display = "block";
-      return;
-    }
-    if (!desc) {
-      errorEl.textContent = "Description is required.";
-      errorEl.style.display = "block";
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = "Posting…";
-
-    try {
-      const newArena = await _post("/arenas", { title, description: desc });
-      if (!newArena._id) throw new Error("Arena not created.");
-      closePostModal();
-      Nounces.showToast("Arena posted successfully!", "success");
-      // Optionally: dynamically prepend a new arena card here
-    } catch (err) {
-      errorEl.textContent = err.message;
-      errorEl.style.display = "block";
-      btn.disabled = false;
-      btn.textContent = "Post Arena";
-    }
-  }
-
-  function init() {
-    const postBtn = document.querySelector(".btn-post-arena");
-    if (postBtn && !postBtn.dataset.wired) {
-      postBtn.addEventListener("click", openPostModal);
-      postBtn.dataset.wired = "true";
-    }
-  }
-
-  return {
-    viewArena,
-    closeArenaModal,
-    joinArena,
-    toggleInspire,
-    openPostModal,
-    closePostModal,
-    submitArena,
-    init,
-  };
-})();
-
-/* ── Nounces (announcements, subscriptions, timetables) ──── */
-
-const Nounces = (() => {
-
-  /* ── Toast ── */
-  function showToast(message, type = "info") {
-    const toast = document.createElement("div");
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.classList.add("visible"), 10);
-    setTimeout(() => toast.remove(), 3000);
-  }
-
-  /* ── Keep / Unkeep ── */
-  async function toggleKeep(btn) {
-    const id = btn.dataset.announcementId;
-    if (!id) return;
-    const isKept = btn.classList.contains("kept");
-    btn.disabled = true;
-    try {
-      if (isKept) {
-        await _del(`/announcements/${id}/keep`);
-        btn.classList.remove("kept");
-        btn.textContent = "Keep";
-      } else {
-        await _post(`/announcements/${id}/keep`);
-        btn.classList.add("kept");
-        btn.textContent = "Kept";
-      }
-    } catch {
-      alert("Could not update keep status.");
-    } finally {
-      btn.disabled = false;
-    }
-  }
-
-  /* ── Announce options (opens the announcement modal) ── */
-  function showAnnounceOptions() {
-    openAnnounceModal();
-  }
-
-  /* ── Announcement modal ── */
-  function openAnnounceModal() {
-    const html = `
+      </div>`),_showModal("arena-post-modal")}function m(){_hideModal("arena-post-modal")}async function b(){const l=document.getElementById("arena-title").value.trim(),p=document.getElementById("arena-desc").value.trim(),a=document.getElementById("arena-error"),d=document.querySelector("#arena-post-modal .btn-action");if(a.style.display="none",!l){a.textContent="Title is required.",a.style.display="block";return}if(!p){a.textContent="Description is required.",a.style.display="block";return}d.disabled=!0,d.textContent="Posting\u2026";try{if(!(await _post("/arenas",{title:l,description:p}))._id)throw new Error("Arena not created.");m(),Nounces.showToast("Arena posted successfully!","success")}catch(g){a.textContent=g.message,a.style.display="block",d.disabled=!1,d.textContent="Post Arena"}}function k(){const l=document.querySelector(".btn-post-arena");l&&!l.dataset.wired&&(l.addEventListener("click",f),l.dataset.wired="true")}return{viewArena:s,closeArenaModal:c,joinArena:r,toggleInspire:h,openPostModal:f,closePostModal:m,submitArena:b,init:k}})(),Nounces=(()=>{function s(e,t="info"){const n=document.createElement("div");n.className=`toast toast-${t}`,n.textContent=e,document.body.appendChild(n),setTimeout(()=>n.classList.add("visible"),10),setTimeout(()=>n.remove(),3e3)}async function c(e){const t=e.dataset.announcementId;if(!t)return;const n=e.classList.contains("kept");e.disabled=!0;try{n?(await _del(`/announcements/${t}/keep`),e.classList.remove("kept"),e.textContent="Keep"):(await _post(`/announcements/${t}/keep`),e.classList.add("kept"),e.textContent="Kept")}catch{alert("Could not update keep status.")}finally{e.disabled=!1}}function r(){h()}function h(){_makeModal("announce-modal",`
       <div class="announce-modal small-popup">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">📢 New Announcement</div>
-            <button class="close-btn" onclick="Nounces.closeAnnounceModal()">✕</button>
+            <div class="modal-title">\u{1F4E2} New Announcement</div>
+            <button class="close-btn" onclick="Nounces.closeAnnounceModal()">\u2715</button>
           </div>
           <div class="modal-body">
             <input type="text" id="ann-title" placeholder="Announcement title" maxlength="100">
-            <textarea id="ann-body" rows="5" placeholder="Write your announcement here…"></textarea>
+            <textarea id="ann-body" rows="5" placeholder="Write your announcement here\u2026"></textarea>
             <div class="ends-on">
               <label>Ends on</label>
               <input type="datetime-local" id="ann-ends">
             </div>
             <label class="custom-file-btn">
-              📎 Attach image (optional)
+              \u{1F4CE} Attach image (optional)
               <input type="file" id="ann-image" accept="image/*"
                      onchange="Nounces.handleAnnImageChange()">
             </label>
@@ -313,146 +65,36 @@ const Nounces = (() => {
           </div>
           <div class="modal-footer">
             <button class="btn-cancel" onclick="Nounces.closeAnnounceModal()">Cancel</button>
-            <button class="btn-post-announce" onclick="Nounces.submitAnnouncement()">📢 Post</button>
+            <button class="btn-post-announce" onclick="Nounces.submitAnnouncement()">\u{1F4E2} Post</button>
           </div>
         </div>
-      </div>`;
-
-    _makeModal("announce-modal", html);
-    _showModal("announce-modal");
-  }
-
-  function closeAnnounceModal() {
-    _hideModal("announce-modal");
-  }
-
-  /* ── Image preview helpers ── */
-  function handleAnnImageChange() {
-    const fileInput    = document.getElementById("ann-image");
-    const previewWrap  = document.getElementById("ann-preview");
-    const previewImg   = document.getElementById("ann-preview-img");
-    if (!fileInput || !previewWrap || !previewImg) return;
-
-    const file = fileInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        previewImg.src = e.target.result;
-        previewWrap.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    } else {
-      previewWrap.style.display = "none";
-      previewImg.src = "";
-    }
-  }
-
-  function removeAnnImage() {
-    const fileInput   = document.getElementById("ann-image");
-    const previewWrap = document.getElementById("ann-preview");
-    const previewImg  = document.getElementById("ann-preview-img");
-    if (!fileInput || !previewWrap || !previewImg) return;
-    fileInput.value = "";
-    previewWrap.style.display = "none";
-    previewImg.src = "";
-  }
-
-  /* ── Submit announcement ── */
-  async function submitAnnouncement() {
-    const title     = document.getElementById("ann-title").value.trim();
-    const body      = document.getElementById("ann-body").value.trim();
-    const endsAt    = document.getElementById("ann-ends").value;
-    const imgFile   = document.getElementById("ann-image").files[0];
-    const errorEl   = document.getElementById("ann-error");
-    const submitBtn = document.querySelector(".btn-post-announce");
-
-    errorEl.style.display = "none";
-
-    if (!body) {
-      errorEl.textContent = "Announcement text cannot be empty.";
-      errorEl.style.display = "block";
-      return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Posting…";
-
-    try {
-      const fd = new FormData();
-      fd.append("title",  title);
-      fd.append("body",   body);
-      fd.append("endsAt", endsAt);
-      if (imgFile) fd.append("image", imgFile);
-
-      const res = await fetch("/announcements", { method: "POST", body: fd });
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to post.");
-      }
-
-      const newAnn = await res.json();
-      closeAnnounceModal();
-      appendToFeed(newAnn);
-      showToast("Announcement posted successfully!", "success");
-    } catch (err) {
-      console.error("Submit Announcement Error:", err);
-      errorEl.textContent = `Could not post announcement: ${err.message}`;
-      errorEl.style.display = "block";
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "📢 Post";
-    }
-  }
-
-  /* ── Append new announcement card to feed ── */
-  function appendToFeed(ann) {
-    const feed = document.getElementById("announcements-feed");
-    if (!feed) return;
-
-    const card = document.createElement("div");
-    card.className = "announcement-post";
-    card.dataset.announcementId = ann._id;
-    card.innerHTML = `
+      </div>`),_showModal("announce-modal")}function f(){_hideModal("announce-modal")}function m(){const e=document.getElementById("ann-image"),t=document.getElementById("ann-preview"),n=document.getElementById("ann-preview-img");if(!e||!t||!n)return;const o=e.files[0];if(o){const i=new FileReader;i.onload=u=>{n.src=u.target.result,t.style.display="block"},i.readAsDataURL(o)}else t.style.display="none",n.src=""}function b(){const e=document.getElementById("ann-image"),t=document.getElementById("ann-preview"),n=document.getElementById("ann-preview-img");!e||!t||!n||(e.value="",t.style.display="none",n.src="")}async function k(){const e=document.getElementById("ann-title").value.trim(),t=document.getElementById("ann-body").value.trim(),n=document.getElementById("ann-ends").value,o=document.getElementById("ann-image").files[0],i=document.getElementById("ann-error"),u=document.querySelector(".btn-post-announce");if(i.style.display="none",!t){i.textContent="Announcement text cannot be empty.",i.style.display="block";return}u.disabled=!0,u.textContent="Posting\u2026";try{const y=new FormData;y.append("title",e),y.append("body",t),y.append("endsAt",n),o&&y.append("image",o);const v=await fetch("/announcements",{method:"POST",body:y});if(!v.ok){const C=await v.json();throw new Error(C.error||"Failed to post.")}const w=await v.json();f(),l(w),s("Announcement posted successfully!","success")}catch(y){console.error("Submit Announcement Error:",y),i.textContent=`Could not post announcement: ${y.message}`,i.style.display="block"}finally{u.disabled=!1,u.textContent="\u{1F4E2} Post"}}function l(e){const t=document.getElementById("announcements-feed");if(!t)return;const n=document.createElement("div");n.className="announcement-post",n.dataset.announcementId=e._id,n.innerHTML=`
       <div class="announcement-header">
         <div class="announcement-profile"
-             style="background-image:url('${ann.author.profileLink || "/mediafiles/defaultProfile.png"}');"></div>
+             style="background-image:url('${e.author.profileLink||"/mediafiles/defaultProfile.png"}');"></div>
         <div>
-          <div class="announcement-username">${ann.author.username}</div>
+          <div class="announcement-username">${e.author.username}</div>
           <div class="announcement-time">Posted just now</div>
         </div>
       </div>
       <div class="announcement-body">
-        ${ann.title
-          ? `<h3 style="font-weight:bold;font-size:1.2rem;margin-bottom:8px;
-                        color:var(--accent-magenta);">${ann.title}</h3>`
-          : ""}
-        <p style="line-height:1.6;">${ann.body}</p>
-        ${ann.image
-          ? `<img src="${ann.image}" alt="Announcement image"
-                  style="max-width:100%;margin-top:10px;border-radius:8px;">`
-          : ""}
+        ${e.title?`<h3 style="font-weight:bold;font-size:1.2rem;margin-bottom:8px;
+                        color:var(--accent-magenta);">${e.title}</h3>`:""}
+        <p style="line-height:1.6;">${e.body}</p>
+        ${e.image?`<img src="${e.image}" alt="Announcement image"
+                  style="max-width:100%;margin-top:10px;border-radius:8px;">`:""}
       </div>
       <div class="announcement-footer">
         <div class="end-time">
-          Ends: ${ann.endsAt ? new Date(ann.endsAt).toDateString() : "N/A"}
+          Ends: ${e.endsAt?new Date(e.endsAt).toDateString():"N/A"}
         </div>
-        <button class="keep-btn" data-announcement-id="${ann._id}">Keep</button>
-      </div>`;
-
-    const keepBtn = card.querySelector(".keep-btn");
-    if (keepBtn) keepBtn.onclick = function () { Nounces.toggleKeep(this); };
-
-    feed.prepend(card);
-  }
-
-  /* ── Subscribe to announcer ── */
-  function showSubscribeModal() {
-    const html = `
+        <button class="keep-btn" data-announcement-id="${e._id}">Keep</button>
+      </div>`;const o=n.querySelector(".keep-btn");o&&(o.onclick=function(){Nounces.toggleKeep(this)}),t.prepend(n)}function p(){_makeModal("subscribe-modal",`
       <div class="announce-modal small-popup">
         <div class="modal-content" style="max-width:380px;">
           <div class="modal-header">
-            <div class="modal-title">🔖 Subscribe to Announcer</div>
-            <button class="close-btn" onclick="Nounces.closeSubscribeModal()">✕</button>
+            <div class="modal-title">\u{1F516} Subscribe to Announcer</div>
+            <button class="close-btn" onclick="Nounces.closeSubscribeModal()">\u2715</button>
           </div>
           <div class="modal-body">
             <input type="text" id="subscribe-username"
@@ -464,159 +106,41 @@ const Nounces = (() => {
             <button class="btn-post-announce" onclick="Nounces.subscribeToUser()">Subscribe</button>
           </div>
         </div>
-      </div>`;
-
-    _makeModal("subscribe-modal", html);
-    _showModal("subscribe-modal");
-  }
-
-  function closeSubscribeModal() {
-    _hideModal("subscribe-modal");
-  }
-
-  async function subscribeToUser() {
-    const username = document.getElementById("subscribe-username").value.trim();
-    const errorEl  = document.getElementById("subscribe-error");
-
-    errorEl.style.display = "none";
-
-    if (!username) {
-      errorEl.textContent = "Please enter a username.";
-      errorEl.style.display = "block";
-      return;
-    }
-    try {
-      await _post("/subscribe/announcer", { username });
-      closeSubscribeModal();
-      showToast(`Successfully subscribed to ${username}!`, "success");
-    } catch {
-      errorEl.textContent = "Failed to subscribe. User may not exist.";
-      errorEl.style.display = "block";
-    }
-  }
-
-  /* ── Filter kept announcements ── */
-  function filterKept() {
-    const feed      = document.getElementById("announcements-feed");
-    const keptView  = document.getElementById("kept-view");
-    const timetableView = document.getElementById("timetable-view");
-    if (!feed || !keptView) return;
-
-    feed.style.display = "none";
-    if (timetableView) timetableView.style.display = "none";
-    keptView.style.display = "block";
-    keptView.innerHTML = "";
-
-    const keptBtns = feed.querySelectorAll(".announcement-post .keep-btn.kept");
-    if (!keptBtns.length) {
-      keptView.innerHTML =
-        `<div style="text-align:center;color:gray;padding:40px;">
+      </div>`),_showModal("subscribe-modal")}function a(){_hideModal("subscribe-modal")}async function d(){const e=document.getElementById("subscribe-username").value.trim(),t=document.getElementById("subscribe-error");if(t.style.display="none",!e){t.textContent="Please enter a username.",t.style.display="block";return}try{await _post("/subscribe/announcer",{username:e}),a(),s(`Successfully subscribed to ${e}!`,"success")}catch{t.textContent="Failed to subscribe. User may not exist.",t.style.display="block"}}function g(){const e=document.getElementById("announcements-feed"),t=document.getElementById("kept-view"),n=document.getElementById("timetable-view");if(!e||!t)return;e.style.display="none",n&&(n.style.display="none"),t.style.display="block",t.innerHTML="";const o=e.querySelectorAll(".announcement-post .keep-btn.kept");if(!o.length){t.innerHTML=`<div style="text-align:center;color:gray;padding:40px;">
            You haven't kept any announcements yet.
-         </div>`;
-      return;
-    }
-
-    keptBtns.forEach((btn) => {
-      const card = btn.closest(".announcement-post").cloneNode(true);
-      card.querySelector(".keep-btn").onclick = function () {
-        Nounces.toggleKeep(this);
-      };
-      keptView.appendChild(card);
-    });
-  }
-
-  /* ── Timetable view ── */
-  async function showTimetable(btn) {
-    const feed          = document.getElementById("announcements-feed");
-    const keptView      = document.getElementById("kept-view");
-    const timetableView = document.getElementById("timetable-view");
-    if (!feed || !keptView || !timetableView) return;
-
-    // Toggle off if already active
-    if (btn && btn.classList.contains("active")) {
-      feed.style.display          = "block";
-      keptView.style.display      = "none";
-      timetableView.style.display = "none";
-      btn.classList.remove("active");
-      return;
-    }
-
-    feed.style.display          = "none";
-    keptView.style.display      = "none";
-    timetableView.style.display = "block";
-    if (btn) btn.classList.add("active");
-
-    timetableView.innerHTML =
-      `<div class="loading-spinner">Loading Timetables…</div>`;
-
-    const addBtn = document.createElement("button");
-    addBtn.textContent = "+ Add Timetable";
-    addBtn.className   = "option-btn announce-btn";
-    addBtn.style.cssText =
-      "margin-bottom:20px;width:100%;border-radius:12px;padding:12px;";
-    addBtn.onclick = () => Nounces.openTimetableModal();
-
-    try {
-      const res        = await fetch("/timetables");
-      if (!res.ok) throw new Error("Failed to load timetables.");
-      const timetables = await res.json();
-
-      timetableView.innerHTML = "";
-      timetableView.appendChild(addBtn);
-
-      if (!timetables.length) {
-        timetableView.innerHTML +=
-          `<div style="text-align:center;color:gray;padding:40px;
-                       font-family:'Lora';">No timetables found.</div>`;
-        return;
-      }
-
-      timetables.forEach((t) => {
-        const card = document.createElement("div");
-        card.className = "announcement-post";
-        card.innerHTML = `
+         </div>`;return}o.forEach(i=>{const u=i.closest(".announcement-post").cloneNode(!0);u.querySelector(".keep-btn").onclick=function(){Nounces.toggleKeep(this)},t.appendChild(u)})}async function x(e){const t=document.getElementById("announcements-feed"),n=document.getElementById("kept-view"),o=document.getElementById("timetable-view");if(!t||!n||!o)return;if(e&&e.classList.contains("active")){t.style.display="block",n.style.display="none",o.style.display="none",e.classList.remove("active");return}t.style.display="none",n.style.display="none",o.style.display="block",e&&e.classList.add("active"),o.innerHTML='<div class="loading-spinner">Loading Timetables\u2026</div>';const i=document.createElement("button");i.textContent="+ Add Timetable",i.className="option-btn announce-btn",i.style.cssText="margin-bottom:20px;width:100%;border-radius:12px;padding:12px;",i.onclick=()=>Nounces.openTimetableModal();try{const u=await fetch("/timetables");if(!u.ok)throw new Error("Failed to load timetables.");const y=await u.json();if(o.innerHTML="",o.appendChild(i),!y.length){o.innerHTML+=`<div style="text-align:center;color:gray;padding:40px;
+                       font-family:'Lora';">No timetables found.</div>`;return}y.forEach(v=>{const w=document.createElement("div");w.className="announcement-post",w.innerHTML=`
           <div class="announcement-header">
             <div class="announcement-profile"
-                 style="background-image:url('${t.author.profileLink || "/mediafiles/defaultProfile.png"}');"></div>
+                 style="background-image:url('${v.author.profileLink||"/mediafiles/defaultProfile.png"}');"></div>
             <div>
-              <div class="announcement-username">${t.author.username}</div>
+              <div class="announcement-username">${v.author.username}</div>
               <div class="announcement-time">
-                Posted ${new Date(t.postedDate).toDateString()}
+                Posted ${new Date(v.postedDate).toDateString()}
               </div>
             </div>
           </div>
           <div class="announcement-body">
             <h3 style="font-weight:bold;font-size:1.2rem;margin-bottom:8px;
-                       color:var(--accent-magenta);">${t.title}</h3>
-            <p style="line-height:1.6;">${t.description}</p>
+                       color:var(--accent-magenta);">${v.title}</h3>
+            <p style="line-height:1.6;">${v.description}</p>
           </div>
           <div class="announcement-footer">
             <div class="end-time">
-              Runs till: ${t.runsTill ? new Date(t.runsTill).toDateString() : "N/A"}
+              Runs till: ${v.runsTill?new Date(v.runsTill).toDateString():"N/A"}
             </div>
-          </div>`;
-        timetableView.appendChild(card);
-      });
-    } catch (err) {
-      timetableView.innerHTML =
-        `<div style="color:red;text-align:center;padding:40px;">
-           ${err.message}
-         </div>`;
-    }
-  }
-
-  /* ── Timetable modal ── */
-  function openTimetableModal() {
-    const html = `
+          </div>`,o.appendChild(w)})}catch(u){o.innerHTML=`<div style="color:red;text-align:center;padding:40px;">
+           ${u.message}
+         </div>`}}function A(){_makeModal("timetable-modal",`
       <div class="announce-modal small-popup">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">📅 New Timetable</div>
-            <button class="close-btn" onclick="Nounces.closeTimetableModal()">✕</button>
+            <div class="modal-title">\u{1F4C5} New Timetable</div>
+            <button class="close-btn" onclick="Nounces.closeTimetableModal()">\u2715</button>
           </div>
           <div class="modal-body">
             <input type="text" id="tt-title" placeholder="Timetable Title">
-            <textarea id="tt-desc" rows="4" placeholder="Description…"></textarea>
+            <textarea id="tt-desc" rows="4" placeholder="Description\u2026"></textarea>
             <div class="ends-on">
               <label>Runs till</label>
               <input type="date" id="tt-runs">
@@ -628,91 +152,4 @@ const Nounces = (() => {
             <button class="btn-post-announce" onclick="Nounces.submitTimetable()">Post Timetable</button>
           </div>
         </div>
-      </div>`;
-
-    _makeModal("timetable-modal", html);
-    _showModal("timetable-modal");
-  }
-
-  function closeTimetableModal() {
-    _hideModal("timetable-modal");
-  }
-
-  async function submitTimetable() {
-    const title       = document.getElementById("tt-title").value.trim();
-    const description = document.getElementById("tt-desc").value.trim();
-    const runsTill    = document.getElementById("tt-runs").value;
-    const errorEl     = document.getElementById("tt-error");
-    const submitBtn   = document.querySelector("#timetable-modal .btn-post-announce");
-
-    errorEl.style.display = "none";
-
-    if (!title) {
-      errorEl.textContent = "Title is required.";
-      errorEl.style.display = "block";
-      return;
-    }
-
-    submitBtn.disabled    = true;
-    submitBtn.textContent = "Posting…";
-
-    try {
-      await _post("/timetables", { title, description, runsTill });
-      closeTimetableModal();
-      showToast("Timetable posted!", "success");
-      await showTimetable(document.querySelector(".btn-timetable")); // refresh view
-    } catch {
-      errorEl.textContent = "Failed to post timetable.";
-      errorEl.style.display = "block";
-    } finally {
-      submitBtn.disabled    = false;
-      submitBtn.textContent = "Post Timetable";
-    }
-  }
-
-  /* ── Init ── */
-  function init() {
-    const bindings = {
-      ".btn-kept":      filterKept,
-      ".btn-announce":  showAnnounceOptions,
-      ".btn-subscribe": showSubscribeModal,
-      ".btn-timetable": (e) => showTimetable(e.currentTarget),
-    };
-
-    Object.entries(bindings).forEach(([sel, fn]) => {
-      const el = document.querySelector(sel);
-      if (el && !el.dataset.wired) {
-        el.addEventListener("click", fn);
-        el.dataset.wired = "true";
-      }
-    });
-  }
-
-  return {
-    showToast,
-    toggleKeep,
-    showAnnounceOptions,
-    openAnnounceModal,
-    closeAnnounceModal,
-    handleAnnImageChange,
-    removeAnnImage,
-    submitAnnouncement,
-    appendToFeed,
-    showSubscribeModal,
-    closeSubscribeModal,
-    subscribeToUser,
-    filterKept,
-    showTimetable,
-    openTimetableModal,
-    closeTimetableModal,
-    submitTimetable,
-    init,
-  };
-})();
-
-/* ── Bootstrap ──────────────────────────────────────────── */
-
-document.addEventListener("DOMContentLoaded", () => {
-  Arenas.init();
-  Nounces.init();
-});
+      </div>`),_showModal("timetable-modal")}function E(){_hideModal("timetable-modal")}async function I(){const e=document.getElementById("tt-title").value.trim(),t=document.getElementById("tt-desc").value.trim(),n=document.getElementById("tt-runs").value,o=document.getElementById("tt-error"),i=document.querySelector("#timetable-modal .btn-post-announce");if(o.style.display="none",!e){o.textContent="Title is required.",o.style.display="block";return}i.disabled=!0,i.textContent="Posting\u2026";try{await _post("/timetables",{title:e,description:t,runsTill:n}),E(),s("Timetable posted!","success"),await x(document.querySelector(".btn-timetable"))}catch{o.textContent="Failed to post timetable.",o.style.display="block"}finally{i.disabled=!1,i.textContent="Post Timetable"}}function T(){Object.entries({".btn-kept":g,".btn-announce":r,".btn-subscribe":p,".btn-timetable":t=>x(t.currentTarget)}).forEach(([t,n])=>{const o=document.querySelector(t);o&&!o.dataset.wired&&(o.addEventListener("click",n),o.dataset.wired="true")})}return{showToast:s,toggleKeep:c,showAnnounceOptions:r,openAnnounceModal:h,closeAnnounceModal:f,handleAnnImageChange:m,removeAnnImage:b,submitAnnouncement:k,appendToFeed:l,showSubscribeModal:p,closeSubscribeModal:a,subscribeToUser:d,filterKept:g,showTimetable:x,openTimetableModal:A,closeTimetableModal:E,submitTimetable:I,init:T}})();document.addEventListener("DOMContentLoaded",()=>{Arenas.init(),Nounces.init()});

@@ -16,7 +16,7 @@ export function getWeekStart() {
 
 export function computeScore(user, now, weekStart) {
   let score = 0;
-
+  
   // 1. POPULARITY — viewsCount sqrt-scaled (0–60 pts)
   const views    = Math.min(user.viewsCount || 0, 500);
   score += (Math.sqrt(views) / Math.sqrt(500)) * 60;

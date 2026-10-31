@@ -1526,10 +1526,6 @@ app.get("/api/call-history", authenticate, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch call history" });
   }
 });
-
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server Started on http://0.0.0.0:${PORT}`);
-});
 app.get('/.well-known/assetlinks.json', (req, res) => {
   const assetLinks = [
     {
@@ -1591,4 +1587,8 @@ app.patch("/updateYear", authenticate, async (req, res) => {
     console.error("Year update error:", error);
     res.status(500).json({ success: false });
   }
+});
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server Started on http://0.0.0.0:${PORT}`);
 });

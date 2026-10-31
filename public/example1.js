@@ -1,4 +1,4 @@
-const allData = `
+const r=`
 @import url('https://fonts.googleapis.com/css2?family=Akronim&family=Almendra+Display&family=Bellefair&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Kranky&family=Lora:ital,wght@0,400..700;1,400..700&family=Offside&family=Oleo+Script:wght@400;700&family=Rubik+Scribble&family=Rubik+Wet+Paint&family=Stack+Sans+Notch:wght@200..700&family=Trade+Winds&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Ysabeau+SC:wght@1..1000&display=swap');
       * {
         box-sizing: border-box;
@@ -651,7 +651,7 @@ const allData = `
         height: inherit;
       }
       #showTonner span::after {
-        content: " 🔒";
+        content: " \u{1F512}";
       }
       @keyframes backt {
         0%{}        
@@ -792,13 +792,4 @@ const allData = `
         border-radius: 4px;
         margin: 5px;
       }
-`
-const newData = [];
-const splitData = allData.split('}');
-import clipboard from "clipboardy";
-splitData.forEach(data => {
-    data = data;
-    newData.push(data)
-});
-const compiled = (newData.join('}/*|||$=$|||*/'));
-clipboard.write(compiled)
+`,t=[],i=r.split("}");import o from"clipboardy";i.forEach(e=>{e=e,t.push(e)});const a=t.join("}/*|||$=$|||*/");o.write(a);

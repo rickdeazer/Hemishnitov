@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon run",
-    "start": "node index.js",
+    "start": "esbuild public/*.js --minify --outdir=public/dist && nodemon run",
     "build": "esbuild public/*.js --minify --outdir=public/dist"
   },
   "dependencies": {
