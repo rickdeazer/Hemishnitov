@@ -1,2 +1,257 @@
-const img=document.querySelector(".profile-photo"),imgDiv=document.querySelector(".editable-photo"),followersCountSpan=document.getElementById("followersCount"),viewsCountSpan=document.getElementById("viewsCount"),mainUser=localStorage.getItem("mainUser")||"<%= user.username %>",foreignUserClicked="<%= user.username %>";let state="false",closer=()=>{[img.className,imgDiv.className]=img.classList.contains("clickedPhoto")?["profile-photo","editable-photo"]:["clickedPhoto",""]};img.addEventListener("click",()=>{state=="true"?(state="neutral",img.style.transform="rotateY(-180deg)"):state=="false"?(state="true",closer()):(state="false",closer(),setTimeout(()=>{img.style.transform="rotateY(0)"},500))});const submitBtn=document.getElementById("submit"),savingSpan=document.getElementById("saving");let username=localStorage.getItem("mainUser")||"<%= user.username %>";const changedImages=[],changedFields={};document.querySelectorAll(".item, .editable-photo").forEach(e=>{const t=e.querySelector(".edit-icon"),a=e.querySelector(".photo-input"),o=e.querySelector("img"),c=e.dataset.field||o.dataset.field||(o.alt&&o.alt.includes("profile")?"profile":"gallery"),s=e.dataset.index!==void 0?parseInt(e.dataset.index,10):null;t?.addEventListener("click",()=>{a.click()}),a?.addEventListener("change",i=>{const n=i.target.files[0];if(!n)return;const u=new FileReader;if(u.onload=d=>{o.src=d.target.result},u.readAsDataURL(n),c==="profile"){const d=changedImages.findIndex(r=>r.field==="prof"&&r.index===null),l={field:"prof",index:null,file:n};d>=0?changedImages[d]=l:changedImages.push(l)}else{const d=changedImages.findIndex(r=>r.field==="gallery"&&r.index===s),l={field:"gallery",index:s,file:n};d>=0?changedImages[d]=l:changedImages.push(l)}})});let aboutMeBox=document.getElementById("aboutMe"),aboutYouBox=document.getElementById("aboutYou"),courseInput=document.getElementById("course"),exit=document.getElementById("exit"),yearInput=document.getElementById("year"),sloganSpan=document.getElementById("sloganValue");function computeChangedText(){const e={};let t=aboutMeBox.value.trim(),a=aboutYouBox.value.trim(),o=courseInput.value.trim(),c=yearInput.value.trim(),s=sloganSpan.innerText.trim();return aboutMeBox.dataset.modified==="true"&&(e.aboutMe=t),aboutYouBox.dataset.modified==="true"&&(e.aboutYou=a),courseInput.dataset.modified==="true"&&(e.course=o),yearInput.dataset.modified==="true"&&(e.year=c),sloganSpan.dataset.modified==="true"&&(e.slogan=s),e}[aboutMeBox,aboutYouBox,courseInput,yearInput].forEach(e=>{e.addEventListener("input",()=>e.dataset.modified="true")}),sloganSpan.addEventListener("input",()=>sloganSpan.dataset.modified="true");async function uploadChangedImages(){if(changedImages.length===0)return{ok:!0,message:"no images changed"};const e=new FormData;e.append("username",username);for(const o of changedImages)o.field==="prof"?e.append("prof_main",o.file):o.field==="gallery"&&e.append(`gallery_${o.index}`,o.file);return await(await fetch("/profile/update/pics",{method:"POST",body:e})).json()}async function updateChangedText(){const e=computeChangedText();return Object.keys(e).length===0?{ok:!0,message:"no text changed"}:(e.username=username,await(await fetch("/profile/update/text",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(e)})).json())}submitBtn.addEventListener("click",async()=>{const e=document.getElementById("submit"),t=document.getElementById("items"),a=document.querySelectorAll(".edit-icon"),o=document.getElementById("year"),c=document.getElementById("course");a.forEach(i=>{i.classList.add("unhide")});const s=[];if(changedImages.length>0&&s.push(uploadChangedImages()),(aboutMeBox.dataset.modified==="true"||aboutYouBox.dataset.modified==="true"||courseInput.dataset.modified==="true"||yearInput.dataset.modified==="true"||sloganSpan.dataset.modified==="true")&&s.push(updateChangedText()),s.length===0)alert("Make atleast 1 change to update.");else{exit.hidden=!1,e.classList.add("anim"),t.style.display="flex";const i=await Promise.all(s);document.getElementById("submit").style.display="none",document.querySelectorAll(".desc-box").forEach(n=>{n.disabled=!0}),a.forEach(n=>{n.classList.remove("unhide")}),alert(i.map(n=>n.message||JSON.stringify(n)).join(`
-`)),e.classList.remove("anim"),t.style.display="none",changedImages.length=0,[aboutMeBox,aboutYouBox,courseInput,yearInput].forEach(n=>n.dataset.modified="false"),sloganSpan.dataset.modified="false"}});const textareas=document.querySelectorAll(".desc-box");textareas.forEach(e=>{e.style.height=e.scrollHeight+"px",e.addEventListener("input",()=>{e.style.height="auto",e.style.height=e.scrollHeight+"px"})}),document.getElementById("Edit").addEventListener("click",()=>{const e=document.querySelectorAll(".edit-icon");exit.hidden=!0,e.forEach(t=>{t.classList.add("unhide")}),document.getElementById("submit").style.display="flex",document.getElementById("course").disabled=!1,document.getElementById("year").disabled=!1,document.querySelectorAll(".desc-box").forEach(t=>{t.disabled=!1})});async function fetchCounts(){const t=await(await fetch("/getFollowStatus",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({from:mainUser,to:foreignUserClicked})})).json();followersCountSpan.innerText=t.followersCount||0;const o=await(await fetch("/viewProfile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({viewedUser:foreignUserClicked,whoViewed:mainUser})})).json();viewsCountSpan.innerText=o.viewsCount||0}fetchCounts();async function loadFollowers(){const t=await(await fetch("/getFollowStatus",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({from:mainUser,to:foreignUserClicked})})).json();followersCountSpan.innerText=t.followersCount||0}loadFollowers();
+
+      const img = document.querySelector('.profile-photo');
+      const imgDiv = document.querySelector('.editable-photo');
+
+const followersCountSpan = document.getElementById("followersCount");
+const viewsCountSpan = document.getElementById("viewsCount");
+const mainUser = localStorage.getItem("mainUser") || "<%= user.username %>";
+const foreignUserClicked = "<%= user.username %>";
+let state = "false";
+let closer = ()=>{
+  [img.className, imgDiv.className] = img.classList.contains('clickedPhoto') 
+          ? ['profile-photo', 'editable-photo'] 
+          : ['clickedPhoto', ''];
+}
+      img.addEventListener('click', () => {
+        if (state == "true"){
+          state = "neutral";
+          img.style.transform = "rotateY(-180deg)"
+        }else if(state == "false"){
+          state = "true";
+          closer()
+        } else{
+          state = "false";
+          closer()
+          setTimeout(() => {
+            img.style.transform = "rotateY(0)"
+          }, 500);
+        }
+      });
+
+      const submitBtn = document.getElementById("submit");
+      const savingSpan = document.getElementById("saving");
+      let username = localStorage.getItem("mainUser") || "<%= user.username %>";
+      const changedImages = [];
+      const changedFields = {};
+      document
+        .querySelectorAll(".item, .editable-photo")
+        .forEach((container) => {
+          const editIcon = container.querySelector(".edit-icon");
+          const fileInput = container.querySelector(".photo-input");
+          const img = container.querySelector("img");
+
+          const field =
+            container.dataset.field ||
+            img.dataset.field ||
+            (img.alt && img.alt.includes("profile") ? "profile" : "gallery");
+          const index =
+            container.dataset.index !== undefined
+              ? parseInt(container.dataset.index, 10)
+              : null;
+
+          editIcon?.addEventListener("click", () => {
+            fileInput.click();
+          });
+
+          fileInput?.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            if (field === "profile") {
+              const idx = changedImages.findIndex(
+                (ci) => ci.field === "prof" && ci.index === null
+              );
+              const obj = { field: "prof", index: null, file };
+              if (idx >= 0) changedImages[idx] = obj;
+              else changedImages.push(obj);
+            } else {
+              const idx = changedImages.findIndex(
+                (ci) => ci.field === "gallery" && ci.index === index
+              );
+              const obj = { field: "gallery", index, file };
+              if (idx >= 0) changedImages[idx] = obj;
+              else changedImages.push(obj);
+            }
+          });
+        });
+
+      let aboutMeBox = document.getElementById("aboutMe");
+      let aboutYouBox = document.getElementById("aboutYou");
+      let courseInput = document.getElementById("course");
+      let exit = document.getElementById('exit')
+      let yearInput = document.getElementById("year");
+      let sloganSpan = document.getElementById("sloganValue");
+      function computeChangedText() {
+        const changed = {};
+
+        let aboutMeVal = aboutMeBox.value.trim();
+        let aboutYouVal = aboutYouBox.value.trim();
+        let courseVal = courseInput.value.trim();
+        let yearVal = yearInput.value.trim();
+        let sloganVal = sloganSpan.innerText.trim();
+
+        if (aboutMeBox.dataset.modified === "true")
+          changed.aboutMe = aboutMeVal;
+        if (aboutYouBox.dataset.modified === "true")
+          changed.aboutYou = aboutYouVal;
+        if (courseInput.dataset.modified === "true") changed.course = courseVal;
+        if (yearInput.dataset.modified === "true") changed.year = yearVal;
+        if (sloganSpan.dataset.modified === "true") changed.slogan = sloganVal;
+
+        return changed;
+      }
+
+      [aboutMeBox, aboutYouBox, courseInput, yearInput].forEach((el) => {
+        el.addEventListener("input", () => (el.dataset.modified = "true"));
+      });
+      sloganSpan.addEventListener(
+        "input",
+        () => (sloganSpan.dataset.modified = "true")
+      );
+
+      async function uploadChangedImages() {
+        if (changedImages.length === 0)
+          return { ok: true, message: "no images changed" };
+
+        const formData = new FormData();
+        formData.append("username", username);
+
+        for (const ci of changedImages) {
+          if (ci.field === "prof") {
+            formData.append(`prof_main`, ci.file);
+          } else if (ci.field === "gallery") {
+            formData.append(`gallery_${ci.index}`, ci.file);
+          }
+        }
+
+        const res = await fetch("/profile/update/pics", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        return data;
+      }
+      async function updateChangedText() {
+        const changed = computeChangedText();
+        if (Object.keys(changed).length === 0)
+          return { ok: true, message: "no text changed" };
+
+        changed.username = username; 
+
+        const res = await fetch("/profile/update/text", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(changed),
+        });
+        const data = await res.json();
+        return data;
+      }
+
+      submitBtn.addEventListener("click", async () => {
+          const submitBn = document.getElementById("submit")
+          const items = document.getElementById("items")
+          const edits = document.querySelectorAll('.edit-icon')
+          const year = document.getElementById('year')
+          const course = document.getElementById('course')
+          edits.forEach((edit)=>{
+          edit.classList.add('unhide')
+        })
+        const promises = [];
+        if (changedImages.length > 0) promises.push(uploadChangedImages());
+        if (
+          aboutMeBox.dataset.modified === "true" ||
+          aboutYouBox.dataset.modified === "true" ||
+          courseInput.dataset.modified === "true" ||
+          yearInput.dataset.modified === "true" ||
+          sloganSpan.dataset.modified === "true"
+        ) {
+          promises.push(updateChangedText());
+        }
+
+        if (promises.length === 0) {
+          alert("Make atleast 1 change to update.");
+        } else {
+          exit.hidden=false;
+          submitBn.classList.add('anim')
+          items.style.display = 'flex'
+          const results = await Promise.all(promises);
+          document.getElementById('submit').style.display = 'none'
+          document.querySelectorAll('.desc-box').forEach((item)=>{
+          item.disabled = true});
+          edits.forEach((edit)=>{
+          edit.classList.remove('unhide')
+          });
+          alert(results.map((r) => r.message || JSON.stringify(r)).join("\n"));
+          submitBn.classList.remove('anim')
+          items.style.display = 'none'
+          changedImages.length = 0;
+          [aboutMeBox, aboutYouBox, courseInput, yearInput].forEach(
+            (el) => (el.dataset.modified = "false")
+          );
+          sloganSpan.dataset.modified = "false";
+        }
+      });
+      const textareas = document.querySelectorAll(".desc-box");
+      textareas.forEach((t) => {
+        t.style.height = t.scrollHeight + "px";
+        t.addEventListener("input", () => {
+          t.style.height = "auto";
+          t.style.height = t.scrollHeight + "px";
+        });
+      });
+      document.getElementById('Edit').addEventListener('click',()=>{
+        const edits = document.querySelectorAll('.edit-icon')
+        exit.hidden=true;
+        edits.forEach((edit)=>{
+          edit.classList.add('unhide')
+        })
+        document.getElementById('submit').style.display = 'flex'
+        document.getElementById('course').disabled=false
+        document.getElementById('year').disabled=false
+        document.querySelectorAll('.desc-box').forEach((item)=>{
+          item.disabled = false
+        })
+      })
+
+async function fetchCounts() {
+    const res = await fetch("/getFollowStatus", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ from: mainUser, to: foreignUserClicked })
+    });
+    const data = await res.json();
+    followersCountSpan.innerText = data.followersCount || 0;
+    
+    const res2 = await fetch("/viewProfile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ viewedUser: foreignUserClicked, whoViewed: mainUser })
+    });
+    const data2 = await res2.json();
+    viewsCountSpan.innerText = data2.viewsCount || 0;
+}
+fetchCounts();
+
+async function loadFollowers() {
+        const res = await fetch("/getFollowStatus", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                from: mainUser, 
+                to: foreignUserClicked 
+            })
+        });
+        const data = await res.json();
+        followersCountSpan.innerText = data.followersCount || 0;
+}
+loadFollowers();
+
+
+
+    

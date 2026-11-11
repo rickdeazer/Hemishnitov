@@ -1,1 +1,86 @@
-import{userModel as i,interests as d}from"./models.js";import o from"bcrypt";import c from"dotenv";c.config();const u=Number(process.env.saltRounds)||10,l=async(e,a,s)=>{let r=!1;try{if(r=await i.findOne({username:e}),r)return{statusCode:409,success:!1,isExisting:!0,message:"Username is already taken."};const t=await o.hash(a,u),n=await i.create({username:e,password:t,phone:s});return await d.create({from:e,to:"Admin Control",status:"interested"}),{statusCode:200,success:!0,isExisting:!1,data:n}}catch(t){return t.code===11e3?{statusCode:409,success:!1,isExisting:!0,message:"User already exists"}:(console.error("Validation error:",t),{success:!1,error:t})}},f=async(e,a)=>{const s=await i.findOne({username:e});return s?await o.compare(a,s.password)?{statusCode:200,status:"success",message:"Valid credentials",user:{id:s._id,username:s.username,phone:s.phone,profileLink:s.profileLink}}:{statusCode:401,status:"failed",message:"Invalid credentials"}:{statusCode:401,status:"failed",message:"Invalid user"}};export{l as validate,f as findUser};
+import { userModel, interests } from "./models.js";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
+const salt = Number(process.env.saltRounds) || 10;
+
+const validate = async (username, password, phone) => {
+  let isExisting = false;
+  try {
+    // Check if the username exists
+    isExisting = await userModel.findOne({ username: username });
+
+    if (isExisting) {
+      return {
+        statusCode: 409,
+        success: false,
+        isExisting: true,
+        message: "Username is already taken.",
+      };
+    }
+
+    // Save new user
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const savedUser = await userModel.create({
+      username,
+      password: hashedPassword,
+      phone,
+    });
+    await interests.create({
+      from: username,
+      to: "Admin Control",
+      status: "interested",
+    });
+    return {
+      statusCode: 200,
+      success: true,
+      isExisting: false,
+      data: savedUser,
+    };
+  } catch (error) {
+    if (error.code === 11000) {
+      return {
+        statusCode: 409,
+        success: false,
+        isExisting: true,
+        message: "User already exists",
+      };
+    } else {
+      console.error("Validation error:", error);
+      return { success: false, error };
+    }
+  }
+};
+
+const findUser = async (username, password) => {
+  const User = await userModel.findOne({ username: username });
+  if (User) {
+    const correctPassword = await bcrypt.compare(password, User.password);
+    if (correctPassword) {
+      return {
+        statusCode: 200,
+        status: "success",
+        message: "Valid credentials",
+        user: {
+          id: User._id,
+          username: User.username,
+          phone: User.phone,
+          profileLink: User.profileLink,
+        },
+      };
+    } else {
+      return {
+        statusCode: 401,
+        status: "failed",
+        message: "Invalid credentials",
+      };
+    }
+  } else {
+    return {
+      statusCode: 401,
+      status: "failed",
+      message: "Invalid user",
+    };
+  }
+};
+export { validate, findUser };
