@@ -862,6 +862,11 @@ mainSection.addEventListener("scroll", () => {
     profilePic.style.boxShadow = "0 0 10px black";
     filters.style.display = 'none';
     header.style.background = "rgba(0, 0, 0, 0.03)";
+    // 1. Remove border radius completely (0dp) with a 300ms animation
+    if (window.AndroidInterface && window.AndroidInterface.updateBorderRadius) {
+        window.AndroidInterface.updateBorderRadius(false, 300);
+    }
+
     header.style.animation = "none";
     headerMenu.style.top = "100px";
     homeSearch.style.borderColor = "rgba(2, 235, 234, 0.57)";
@@ -902,6 +907,11 @@ function atTopsets (){
     header.style.backgroundSize = "cover";
     filters.style.display = 'flex'
     setAndroidHeaderColor('#276f35',0);
+    
+    // 2. Restore top border radius (24dp) with a 500ms animation
+    if (window.AndroidInterface && window.AndroidInterface.updateBorderRadius) {
+        window.AndroidInterface.updateBorderRadius(true, 500);
+    }
 }
 
 function commentHeaderClick(usernameDiv, commentBtn){
