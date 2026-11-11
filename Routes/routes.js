@@ -41,8 +41,7 @@ Router.get("/chats", authenticate, (req, res) => {
 });
 
 Router.get("/chats/contacts", authenticate, issueData);
-Router.get("/chats/main", authenticate, giveMainUser).post(authenticate,giveMainUser).delete(authenticate);
-
+Router.get("/chats/main", authenticate, giveMainUser);
 Router.get("/chatspage", authenticate, (req, res) => {
   res.render("chatspage", { user: req.user });
 });

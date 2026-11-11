@@ -1,0 +1,1 @@
+!Code is not to be directly written by Artificial intelligence though its help might be used, full code blocks from AI models are highly discouraged while working on this code.

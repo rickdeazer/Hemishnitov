@@ -9,7 +9,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     />
-    <link rel="stylesheet" href="/homepage.css" />
+    <link rel="stylesheet" href="/homepage.css"  />
     <link rel="stylesheet" href="/foreignUser.css" />
     <link rel="stylesheet" href="/userProfile.css" />
 
@@ -211,8 +211,8 @@
       <h3>Private <span id="Handle"></span></h3>
     </div>
   </body>
-  <script src="/dist/userProfile.js"></script>
-  <script>
+  <script src="/dist/userProfile.js" defer></script>
+  <script defer>
    function shareProfile(user) {
   const profileUrl = `https://moispace.onrender.com/modern/${user}`;
   const shareTitle = "Modern Minds Unifying Network";

@@ -31,6 +31,7 @@ import {
 } from "./middlewares/validations.js";
 import upload, { imagekit } from "./multer.js";
 import { Console } from "console";
+import distributeAnnouncementToAll from "./Controllers/notifications_pushers/notificationsDistributor.js";
 
 dotenv.config();
 const app = express();
@@ -934,7 +935,7 @@ app.post("/posts", upload.array("media[]"), authenticate, async (req, res) => {
 
     for (const file of req.files) {
       const fileBuffer = fs.readFileSync(file.path);
-
+      //WARNING
       const response = await imagekit.upload({
         file: fileBuffer,
         fileName: file.filename,
@@ -960,7 +961,7 @@ app.post("/posts", upload.array("media[]"), authenticate, async (req, res) => {
       likedBy: [],
       comments: [],
     });
-
+    distributeAnnouncementToAll(newPost);
     res.json(newPost);
   } catch (err) {
     console.error("ImageKit upload error:", err);
