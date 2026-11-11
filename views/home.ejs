@@ -590,19 +590,3 @@
     <script src="/dist/homepage.js"></script>
     <script src="/dist/updatesFacilitator.js"></script>
 </html>
-// 1. Remove border radius completely (0dp) with a 300ms animation
-if (window.AndroidInterface && window.AndroidInterface.updateBorderRadius) {
-    window.AndroidInterface.updateBorderRadius(false, 300);
-}
-
-// 2. Restore top border radius (24dp) with a 500ms animation
-if (window.AndroidInterface && window.AndroidInterface.updateBorderRadius) {
-    window.AndroidInterface.updateBorderRadius(true, 500);
-}
-
-// 3. Alternatively, set a specific radius in DP with custom timing
-if (window.AndroidInterface && window.AndroidInterface.setBorderRadius) {
-    window.AndroidInterface.setBorderRadius(0, 300);  // 0dp in 300ms
-    // OR
-    window.AndroidInterface.setBorderRadius(16, 400); // 16dp in 400ms
-}
